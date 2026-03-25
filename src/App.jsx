@@ -356,6 +356,33 @@ function CTASection() {
 }
 
 function ContactSection() {
+  const [contactForm, setContactForm] = useState({ name: "", email: "", company: "", phone: "", role: "", message: "" });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleContactSubmit = async () => {
+    if (!contactForm.name || !contactForm.email) return;
+    try {
+      await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "616091eb-05d1-4527-94ce-e52463d79f89",
+          subject: "New Coverage Review Request - " + contactForm.name,
+          from_name: "TheAIInsuranceGroup.com",
+          name: contactForm.name,
+          email: contactForm.email,
+          company: contactForm.company,
+          phone: contactForm.phone,
+          role: contactForm.role,
+          message: contactForm.message,
+        }),
+      });
+      setSubmitted(true);
+    } catch (e) {
+      console.error("Form error:", e);
+    }
+  };
+
   return (
     <Section bg={WHITE} id="contact">
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60 }}>
@@ -378,40 +405,46 @@ function ContactSection() {
           </div>
         </div>
         <div style={{ background: LIGHT, borderRadius: 16, padding: 36 }}>
-          <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 24px" }}>Request a Coverage Review</h3>
-          {["Full Name", "Business Email", "Company Name", "Phone Number"].map((placeholder, i) => (
-            <input key={i} type="text" placeholder={placeholder} style={{
-              width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB",
-              background: WHITE, fontSize: 15, marginBottom: 12, outline: "none", boxSizing: "border-box",
-              color: NAVY,
-            }} />
-          ))}
-          <select style={{
-            width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB",
-            background: WHITE, fontSize: 15, marginBottom: 12, color: GRAY, outline: "none", boxSizing: "border-box",
-          }}>
-            <option>I am a...</option>
-            <option>Business Owner / Executive</option>
-            <option>Attorney / Law Firm</option>
-            <option>Physician / Medical Practice</option>
-            <option>Wealth Manager / RIA / Broker-Dealer</option>
-            <option>Director / Board Member</option>
-            <option>Insurance Broker / Agent</option>
-            <option>Other</option>
-          </select>
-          <textarea placeholder="Tell us about your situation (optional)" rows={3} style={{
-            width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB",
-            background: WHITE, fontSize: 15, marginBottom: 16, outline: "none", resize: "vertical",
-            fontFamily: "inherit", boxSizing: "border-box", color: NAVY,
-          }} />
-          <button style={{
-            width: "100%", padding: "16px", borderRadius: 8, border: "none",
-            background: NAVY, color: WHITE, fontSize: 16, fontWeight: 700, cursor: "pointer",
-            boxSizing: "border-box",
-          }}>Submit Request →</button>
-          <p style={{ color: GRAY, fontSize: 12, marginTop: 8, textAlign: "center" }}>
-            Your information is confidential. We respond within 24 hours.
-          </p>
+          {submitted ? (
+            <div style={{ textAlign: "center", padding: "60px 20px" }}>
+              <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
+              <h3 style={{ color: NAVY, fontSize: 22, fontWeight: 700, margin: "0 0 12px" }}>Request Received</h3>
+              <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6 }}>Thank you. We'll review your information and respond within 24 hours.</p>
+            </div>
+          ) : (
+            <>
+              <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 24px" }}>Request a Coverage Review</h3>
+              {[
+                { key: "name", placeholder: "Full Name", type: "text" },
+                { key: "email", placeholder: "Business Email", type: "email" },
+                { key: "company", placeholder: "Company Name", type: "text" },
+                { key: "phone", placeholder: "Phone Number", type: "tel" },
+              ].map((f, i) => (
+                <input key={i} type={f.type} placeholder={f.placeholder} value={contactForm[f.key]}
+                  onChange={(e) => setContactForm({ ...contactForm, [f.key]: e.target.value })}
+                  style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, fontSize: 15, marginBottom: 12, outline: "none", boxSizing: "border-box", color: NAVY }} />
+              ))}
+              <select value={contactForm.role} onChange={(e) => setContactForm({ ...contactForm, role: e.target.value })}
+                style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, fontSize: 15, marginBottom: 12, color: contactForm.role ? NAVY : GRAY, outline: "none", boxSizing: "border-box" }}>
+                <option value="">I am a...</option>
+                <option>Business Owner / Executive</option>
+                <option>Attorney / Law Firm</option>
+                <option>Physician / Medical Practice</option>
+                <option>Wealth Manager / RIA / Broker-Dealer</option>
+                <option>Director / Board Member</option>
+                <option>Insurance Broker / Agent</option>
+                <option>Other</option>
+              </select>
+              <textarea placeholder="Tell us about your situation (optional)" rows={3} value={contactForm.message}
+                onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, fontSize: 15, marginBottom: 16, outline: "none", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", color: NAVY }} />
+              <button onClick={handleContactSubmit}
+                style={{ width: "100%", padding: "16px", borderRadius: 8, border: "none", background: NAVY, color: WHITE, fontSize: 16, fontWeight: 700, cursor: "pointer", boxSizing: "border-box" }}>
+                Submit Request →
+              </button>
+              <p style={{ color: GRAY, fontSize: 12, marginTop: 8, textAlign: "center" }}>Your information is confidential. We respond within 24 hours.</p>
+            </>
+          )}
         </div>
       </div>
     </Section>
