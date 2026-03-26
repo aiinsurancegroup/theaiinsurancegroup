@@ -511,7 +511,7 @@ function Footer() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-          <div style={{ color: "#B8972A", fontSize: 12, lineHeight: 1.6, maxWidth: 600 }}>
+          <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, lineHeight: 1.6, maxWidth: 600 }}>
           © 2026 The AI Insurance Group. All rights reserved. The AI Insurance Group is a marketing and informational platform. Insurance coverage is provided through licensed insurance brokers. All policies are written and serviced by a licensed insurance agency.
           </div>
           <div style={{ display: "flex", gap: 20 }}>
