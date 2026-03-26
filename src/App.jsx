@@ -511,8 +511,8 @@ function Footer() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-          <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, lineHeight: 1.6, maxWidth: 600 }}>
-            © 2026 The AI Insurance Group. All rights reserved. Insurance products placed through Alexander Capital Insurance. The AI Insurance Group is a marketing name and is not a licensed insurance entity.
+          <div style={{ color: "#B8972A", fontSize: 12, lineHeight: 1.6, maxWidth: 600 }}>
+          © 2026 The AI Insurance Group. All rights reserved. The AI Insurance Group is a marketing and informational platform. Insurance coverage is provided through licensed insurance brokers. All policies are written and serviced by a licensed insurance agency.
           </div>
           <div style={{ display: "flex", gap: 20 }}>
             {["Privacy Policy", "Terms of Service", "Disclosures"].map((l, i) => (
