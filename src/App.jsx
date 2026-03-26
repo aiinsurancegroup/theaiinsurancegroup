@@ -318,7 +318,7 @@ function Hero() {
 
         <div style={{ marginTop: 48, display: "flex", gap: 48, flexWrap: "wrap" }}>
           {[
-            { icon: "🛡️", label: "Lloyd's of London\nA+ Rated Capacity" },
+            { icon: "🛡️", label: "Specialty Market\nA+ Rated Capacity" },
             { icon: "📋", label: "Comprehensive\nAI Gap Audits" },
             { icon: "⚖️", label: "E&O, D&O, Cyber\n& GL Coverage" },
             { icon: "🏥", label: "Healthcare, Legal\n& Financial Verticals" },
