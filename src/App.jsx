@@ -298,7 +298,7 @@ function Hero() {
         </h1>
         <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.65, maxWidth: 600, margin: "0 0 40px" }}>
           As of January 2026, major carriers are excluding AI-related claims from standard commercial policies.
-          We audit your coverage, identify the gaps, and place the specialized protection your business needs.
+          We help businesses identify potential AI-related coverage gaps and connect them with licensed insurance professionals who specialize in this emerging risk.
         </p>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
           <a href="https://isyouraicovered.com?new=1" style={{
@@ -312,8 +312,11 @@ function Hero() {
             cursor: "pointer", textDecoration: "none", transition: "border-color 0.2s",
           }}>Our Services</a>
         </div>
+        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, marginTop: 16, maxWidth: 600 }}>
+          The AI Insurance Group is an informational platform. Insurance coverage is provided through licensed insurance professionals.
+        </p>
 
-        <div style={{ marginTop: 64, display: "flex", gap: 48, flexWrap: "wrap" }}>
+        <div style={{ marginTop: 48, display: "flex", gap: 48, flexWrap: "wrap" }}>
           {[
             { icon: "🛡️", label: "Lloyd's of London\nA+ Rated Capacity" },
             { icon: "📋", label: "Comprehensive\nAI Gap Audits" },
@@ -370,7 +373,7 @@ function ProblemSection() {
 function ServicesSection() {
   const services = [
     { icon: "🔍", title: "AI Coverage Gap Audit", desc: "We review your entire commercial insurance portfolio — GL, E&O, D&O, Cyber, EPLI, and Products liability — to identify AI-related exclusions, sublimits, and endorsements that may have been added at your last renewal.", details: ["Full AI usage inventory across your organization", "Policy-by-policy exclusion analysis with form numbers cited", "Risk scenario mapping for your specific industry", "Governance recommendations to improve your underwriting profile"] },
-    { icon: "📄", title: "AI Liability Placement", desc: "We access specialty markets that most brokers can't reach — including Lloyd's of London capacity and Munich Re-backed products — to place affirmative AI coverage that fills the gaps traditional policies now exclude.", details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"] },
+    { icon: "📄", title: "AI Liability Solutions", desc: "We connect you with specialty markets that most brokers can't access — including Lloyd's of London capacity and Munich Re-backed products — where licensed professionals can place affirmative AI coverage that fills the gaps traditional policies now exclude.", details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"] },
     { icon: "🤝", title: "Broker Partnership Program", desc: "We partner with P&C brokers who want to offer AI coverage audits to their existing clients without building the specialty expertise in-house. You keep the client relationship — we provide the AI-specific analysis and market access.", details: ["White-label AI gap audit reports", "Specialty placement through Lloyd's and Munich Re", "Co-branded client presentations", "CE-eligible training on AI insurance exclusions"] },
   ];
   return (
@@ -428,7 +431,7 @@ function ProcessSection() {
     { num: "01", title: "Free Assessment", desc: "Complete our 60-second online assessment to identify your AI exposure level and preliminary coverage gaps.", time: "60 seconds" },
     { num: "02", title: "Coverage Review", desc: "Our team reviews your actual policy documents — endorsements, exclusions, and definitions — across all commercial lines.", time: "48 hours" },
     { num: "03", title: "Gap Analysis Report", desc: "You receive a detailed report showing every AI-related exclusion in your portfolio, mapped to your specific risk scenarios, with severity ratings.", time: "Delivered with review" },
-    { num: "04", title: "Coverage Placement", desc: "We access specialty AI liability markets to fill identified gaps with affirmative coverage — backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
+    { num: "04", title: "Coverage Solutions", desc: "Licensed insurance professionals access specialty AI liability markets to fill identified gaps with affirmative coverage — backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
   ];
   return (
     <Section bg={WHITE} id="process">
@@ -582,6 +585,7 @@ function ContactSection() {
               <button onClick={handleContactSubmit}
                 style={{ width: "100%", padding: "16px", borderRadius: 8, border: "none", background: NAVY, color: WHITE, fontSize: 16, fontWeight: 700, cursor: "pointer", boxSizing: "border-box" }}>Submit Request →</button>
               <p style={{ color: GRAY, fontSize: 12, marginTop: 8, textAlign: "center" }}>Your information is confidential. We respond within 24 hours.</p>
+              <p style={{ color: GRAY, fontSize: 10, marginTop: 4, textAlign: "center", lineHeight: 1.5 }}>We do not sell or bind insurance. Coverage is provided through licensed insurance professionals.</p>
             </>
           )}
         </div>
