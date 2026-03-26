@@ -395,6 +395,28 @@ export default function App() {
     window.addEventListener("popstate", handlePop);
     return () => window.removeEventListener("popstate", handlePop);
   }, []);
+  useEffect(() => {
+    const resetOnReturn = () => {
+      if (document.visibilityState === "visible") {
+        setStageRaw("hero");
+        setCurrentQ(0);
+        setAnswers({});
+        setForm({});
+        setRiskScore(0);
+        setRiskLevel("moderate");
+      }
+    };
+    window.addEventListener("pageshow", () => {
+      setStageRaw("hero");
+      setCurrentQ(0);
+      setAnswers({});
+      setForm({});
+      setRiskScore(0);
+      setRiskLevel("moderate");
+    });
+    document.addEventListener("visibilitychange", resetOnReturn);
+    return () => document.removeEventListener("visibilitychange", resetOnReturn);
+  }, []);
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState({});
   const [form, setForm] = useState({});
