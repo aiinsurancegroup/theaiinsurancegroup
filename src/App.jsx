@@ -140,13 +140,13 @@ const riskProfiles = {
     label: "MODERATE RISK",
     icon: "\u{1F7E0}",
     headline: "You May Have Unrecognized AI Exposure",
-    body: "Your business has AI exposure that may fall into coverage gaps created by new industry-wide exclusions. Even if your AI usage seems limited, many software platforms now embed AI features without explicit disclosure \u2014 meaning your actual exposure may be higher than you realize. A professional review of your policy endorsements is recommended before your next renewal.",
+    body: "Your business has AI exposure that may fall into coverage gaps created by new industry-wide exclusions. Even if your AI usage seems limited, many software platforms now embed AI features without explicit disclosure — meaning your actual exposure may be higher than you realize. A professional review of your policy endorsements is recommended before your next renewal.",
   },
   low: {
     color: GREEN,
     label: "LOWER RISK",
     icon: "\u{1F7E2}",
-    headline: "Your AI Exposure Appears Manageable \u2014 But Don\u2019t Assume You\u2019re Covered",
+    headline: "Your AI Exposure Appears Manageable — But Don't Assume You're Covered",
     body: "Your current AI usage appears limited, but the insurance landscape is shifting rapidly. Carriers are adding AI exclusions at renewal regardless of your usage level. A brief policy review can confirm your coverage status and identify any emerging gaps before they become costly surprises.",
   },
 };
@@ -177,7 +177,7 @@ function HeroSection({ onStart }) {
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 24px 60px", textAlign: "center", maxWidth: 800, margin: "0 auto" }}>
         <div style={{ display: "inline-block", background: "rgba(184,151,42,0.15)", border: `1px solid ${GOLD}`, borderRadius: 20, padding: "6px 16px", color: GOLD, fontSize: 13, fontWeight: 600, letterSpacing: 1, marginBottom: 28 }}>
-          \u26A0 NEW 2026 EXCLUSIONS IN EFFECT
+         ⚠ NEW 2026 EXCLUSIONS IN EFFECT
         </div>
         <h1 style={{ color: WHITE, fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 800, lineHeight: 1.1, margin: "0 0 20px", letterSpacing: -1 }}>
           Your Insurance Quietly<br />
@@ -188,16 +188,16 @@ function HeroSection({ onStart }) {
           As of January 2026, major carriers are attaching new AI exclusions to standard General Liability, E&O, D&O, and Cyber policies. Most business owners have no idea.
         </p>
         <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 15, margin: "0 0 40px", maxWidth: 540 }}>
-          Take this free 60-second assessment to find out if your business has AI-related coverage gaps \u2014 before your next claim gets denied.
+          Take this free 60-second assessment to find out if your business has AI-related coverage gaps — before your next claim gets denied.
         </p>
         <button onClick={onStart} style={{ background: GOLD, color: WHITE, border: "none", borderRadius: 8, padding: "18px 48px", fontSize: 18, fontWeight: 700, cursor: "pointer", letterSpacing: 0.3, boxShadow: "0 4px 24px rgba(184,151,42,0.3)", transition: "transform 0.2s, box-shadow 0.2s" }}
           onMouseEnter={(e) => { e.target.style.transform = "translateY(-2px)"; e.target.style.boxShadow = "0 8px 32px rgba(184,151,42,0.4)"; }}
           onMouseLeave={(e) => { e.target.style.transform = "translateY(0)"; e.target.style.boxShadow = "0 4px 24px rgba(184,151,42,0.3)"; }}>
-          Check My Coverage \u2192
+          Check My Coverage →
         </button>
         <div style={{ marginTop: 48, display: "flex", gap: 40, flexWrap: "wrap", justifyContent: "center" }}>
           {[
-            { num: "978%", label: "Growth in AI litigation\n(2021\u20132025)" },
+            { num: "978%", label: "Growth in AI litigation\n(2021–2025)" },
             { num: "Jan 2026", label: "Verisk GenAI exclusions\ntook effect" },
             { num: "$4M", label: "Average AI-related\nclaim settlement" },
           ].map((stat, i) => (
@@ -249,12 +249,12 @@ function QuestionCard({ q, current, total, answer, onAnswer, onNext, onBack }) {
           <button onClick={onBack} style={{
             padding: "12px 24px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE,
             color: MID_GRAY, fontSize: 14, cursor: "pointer", opacity: current === 1 ? 0.3 : 1,
-          }} disabled={current === 1}>\u2190 Back</button>
+          }} disabled={current === 1}>← Back</button>
           <button onClick={onNext} disabled={!answer} style={{
             padding: "12px 32px", borderRadius: 8, border: "none",
             background: answer ? NAVY : "#D1D5DB", color: WHITE, fontSize: 14, fontWeight: 600,
             cursor: answer ? "pointer" : "default",
-          }}>{current === total ? "See My Results" : "Next \u2192"}</button>
+          }}>{current === total ? "See My Results" : "Next →"}</button>
         </div>
       </div>
     </div>
@@ -271,7 +271,7 @@ function LeadCapture({ onSubmit, riskLevel }) {
         <div style={{ color: profile.color, fontSize: 14, fontWeight: 800, letterSpacing: 2, marginBottom: 12 }}>YOUR AI COVERAGE RISK: {profile.label}</div>
         <h2 style={{ color: WHITE, fontSize: 28, fontWeight: 700, lineHeight: 1.3, margin: "0 0 16px" }}>{profile.headline}</h2>
         <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, lineHeight: 1.6, margin: "0 0 32px" }}>
-          Enter your details below to receive your personalized AI Coverage Gap Report \u2014 including specific policy lines at risk and recommended next steps for your business.
+          Enter your details below to receive your personalized AI Coverage Gap Report — including specific policy lines at risk and recommended next steps for your business.
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {[
@@ -289,7 +289,7 @@ function LeadCapture({ onSubmit, riskLevel }) {
             background: form.name && form.email ? GOLD : "rgba(255,255,255,0.1)",
             color: WHITE, fontSize: 16, fontWeight: 700, cursor: form.name && form.email ? "pointer" : "default",
             marginTop: 8, boxSizing: "border-box",
-          }}>Get My Free AI Coverage Gap Report \u2192</button>
+          }}>Get My Free AI Coverage Gap Report →</button>
           <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 11, margin: "4px 0 0" }}>
             Your information is confidential and will only be used to deliver your assessment. No spam, ever.
           </p>
@@ -304,7 +304,7 @@ function ResultsPage({ answers, form, riskLevel, riskScore }) {
   const gaps = [];
 
   if (answers.ai_marketing === "Yes" || answers.ai_marketing === "Not sure")
-    gaps.push({ policy: "General Liability (CGL)", risk: "AI-generated content \u2014 marketing, blogs, social media \u2014 may trigger defamation, copyright, or privacy claims now excluded under Verisk CG 40 48.", urgency: "HIGH" });
+    gaps.push({ policy: "General Liability (CGL)", risk: "AI-generated content — marketing, blogs, social media — may trigger defamation, copyright, or privacy claims now excluded under Verisk CG 40 48.", urgency: "HIGH" });
   if (answers.ai_hr === "Yes" || answers.ai_hr === "Not sure")
     gaps.push({ policy: "EPLI (Employment Practices)", risk: "AI in hiring and HR decisions creates discrimination exposure. Multiple states now require disclosure when AI aids employment decisions. EPLI sublimits for AI are appearing at renewal.", urgency: "HIGH" });
   if (answers.ai_decisions === "Yes" || answers.ai_decisions === "Sometimes")
@@ -314,9 +314,9 @@ function ResultsPage({ answers, form, riskLevel, riskScore }) {
   if (answers.ai_disclosure === "No")
     gaps.push({ policy: "Compliance / Regulatory", risk: "Failure to disclose AI usage to clients or patients may violate state disclosure requirements and create additional liability exposure that standard policies were not designed to cover.", urgency: "MODERATE" });
   if (answers.ai_policy !== "Yes")
-    gaps.push({ policy: "All Lines \u2014 Governance", risk: "No documented AI usage policy. Carriers are increasingly underwriting based on AI governance maturity. Lack of a formal policy may result in broader exclusions, sublimits, or higher premiums at renewal.", urgency: "MODERATE" });
+    gaps.push({ policy: "All Lines — Governance", risk: "No documented AI usage policy. Carriers are increasingly underwriting based on AI governance maturity. Lack of a formal policy may result in broader exclusions, sublimits, or higher premiums at renewal.", urgency: "MODERATE" });
   if (answers.insurance_review !== "Yes")
-    gaps.push({ policy: "All Lines \u2014 Policy Review", risk: "Your insurance has not been reviewed for AI exclusions since the January 2026 Verisk endorsements took effect. New forms (CG 40 47, CG 40 48, CG 35 08) may already be attached to your policies without your knowledge.", urgency: "HIGH" });
+    gaps.push({ policy: "All Lines — Policy Review", risk: "Your insurance has not been reviewed for AI exclusions since the January 2026 Verisk endorsements took effect. New forms (CG 40 47, CG 40 48, CG 35 08) may already be attached to your policies without your knowledge.", urgency: "HIGH" });
 
   return (
     <div style={{ minHeight: "100vh", background: LIGHT_GRAY, padding: "40px 24px" }}>
