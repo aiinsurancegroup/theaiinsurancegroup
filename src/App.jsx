@@ -166,6 +166,14 @@ function ProblemSection() {
         <SectionLabel text="The Problem" />
         <SectionTitle text="January 1, 2026 Changed Everything." />
         <BodyText text="Verisk — the organization that creates standard policy language for the U.S. insurance industry — released new endorsements that allow carriers to explicitly exclude generative AI-related claims from commercial general liability policies. Major carriers are attaching these exclusions at renewal. Most business owners have no idea." />
+       <div style={{ background: WHITE, borderRadius: 12, padding: 24, marginTop: 24, marginBottom: 16, border: "1px solid #E5E7EB" }}>
+          <div style={{ color: NAVY, fontSize: 15, fontWeight: 700, marginBottom: 12 }}>📄 Proof: Read the actual exclusion forms</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <a href="https://www.independentagent.com/vu_resource/verisk-to-roll-out-new-general-liability-exclusions-for-generative-ai-exposures/" target="_blank" rel="noopener noreferrer" style={{ color: GOLD, fontSize: 14, textDecoration: "none", fontWeight: 600 }}>→ Independent Agents: Verisk Rolls Out New AI Exclusions (January 2026)</a>
+            <a href="https://assets.alm.com/63/68/46ed4bf34a0e807c9695e15c9e19/cg-40-48-01-26-exclusion-generative-artificial-intelligence-coverage-b-only.pdf" target="_blank" rel="noopener noreferrer" style={{ color: GOLD, fontSize: 14, textDecoration: "none", fontWeight: 600 }}>→ Verisk Form CG 40 48 — AI Exclusion (Actual PDF)</a>
+            <a href="https://www.techlifefuture.com/ai-insurance-exclusions-sme/" target="_blank" rel="noopener noreferrer" style={{ color: GOLD, fontSize: 14, textDecoration: "none", fontWeight: 600 }}>→ The Silent AI Insurance Crisis: SME Coverage Gaps in 2026</a>
+          </div>
+        </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 24, marginTop: 40 }}>
           {[
             { stat: "978%", desc: "Growth in GenAI litigation from 2021 to 2025", source: "Gallagher Re, March 2026" },
