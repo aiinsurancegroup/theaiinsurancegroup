@@ -27,6 +27,178 @@ const BodyText = ({ text, color = DGRAY, align = "left", maxWidth }) => (
   <p style={{ color, fontSize: 17, lineHeight: 1.7, margin: "0 0 16px", textAlign: align, maxWidth }}>{text}</p>
 );
 
+function LegalPage({ title, onClose, children }) {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  return (
+    <div style={{ minHeight: "100vh", background: WHITE }}>
+      <div style={{ background: NAVY, padding: "20px 24px", position: "sticky", top: 0, zIndex: 999 }}>
+        <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <a href="#" onClick={(e) => { e.preventDefault(); onClose(); }} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+            <div style={{ width: 36, height: 36, borderRadius: 8, background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, color: WHITE, fontSize: 14 }}>AIG</div>
+            <div>
+              <span style={{ color: WHITE, fontWeight: 700, fontSize: 16 }}>The AI Insurance</span>
+              <span style={{ color: GOLD, fontWeight: 700, fontSize: 16 }}> Group</span>
+            </div>
+          </a>
+          <button onClick={onClose} style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.3)", color: WHITE, padding: "8px 20px", borderRadius: 6, fontSize: 14, cursor: "pointer" }}>← Back to Site</button>
+        </div>
+      </div>
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "60px 24px 80px" }}>
+        <h1 style={{ color: NAVY, fontSize: 36, fontWeight: 800, marginBottom: 8 }}>{title}</h1>
+        <p style={{ color: GRAY, fontSize: 14, marginBottom: 40 }}>Last updated: March 2026</p>
+        <div style={{ color: DGRAY, fontSize: 16, lineHeight: 1.8 }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function LegalH2({ children }) { return <h2 style={{ color: NAVY, fontSize: 22, fontWeight: 700, marginTop: 40, marginBottom: 12 }}>{children}</h2>; }
+function LegalP({ children }) { return <p style={{ marginBottom: 16 }}>{children}</p>; }
+function LegalUl({ children }) { return <ul style={{ marginBottom: 16, paddingLeft: 24 }}>{children}</ul>; }
+function LegalLi({ children }) { return <li style={{ marginBottom: 8, lineHeight: 1.7 }}>{children}</li>; }
+
+function PrivacyPolicy({ onClose }) {
+  return (
+    <LegalPage title="Privacy Policy" onClose={onClose}>
+      <LegalH2>Introduction</LegalH2>
+      <LegalP>The AI Insurance Group ("we," "us," or "our") operates theaiinsurancegroup.com and isyouraicovered.com (collectively, the "Sites"). This Privacy Policy describes how we collect, use, and protect your personal information when you visit our Sites or use our services.</LegalP>
+
+      <LegalH2>Information We Collect</LegalH2>
+      <LegalP>We collect information you voluntarily provide to us, including:</LegalP>
+      <LegalUl>
+        <LegalLi>Full name</LegalLi>
+        <LegalLi>Business email address</LegalLi>
+        <LegalLi>Company name</LegalLi>
+        <LegalLi>Phone number</LegalLi>
+        <LegalLi>Industry and company size</LegalLi>
+        <LegalLi>Responses to our AI Coverage Gap Assessment questionnaire</LegalLi>
+        <LegalLi>Any additional information you provide through our contact forms</LegalLi>
+      </LegalUl>
+      <LegalP>We may also automatically collect certain technical information, including your IP address, browser type, device information, and pages visited through analytics tools such as Google Analytics.</LegalP>
+
+      <LegalH2>How We Use Your Information</LegalH2>
+      <LegalP>We use the information we collect to:</LegalP>
+      <LegalUl>
+        <LegalLi>Deliver your AI Coverage Gap Assessment results</LegalLi>
+        <LegalLi>Contact you regarding your assessment results and potential coverage solutions</LegalLi>
+        <LegalLi>Connect you with licensed insurance professionals who can assist with your coverage needs</LegalLi>
+        <LegalLi>Improve our Sites and services</LegalLi>
+        <LegalLi>Send relevant educational content about AI insurance developments (you may opt out at any time)</LegalLi>
+      </LegalUl>
+
+      <LegalH2>Information Sharing</LegalH2>
+      <LegalP>We may share your information with licensed insurance brokers, agents, and agencies for the purpose of providing you with insurance coverage options. We will not sell your personal information to unrelated third parties for their own marketing purposes.</LegalP>
+      <LegalP>We may also share information with service providers who assist in operating our Sites (such as form processing and analytics), and as required by law or to protect our legal rights.</LegalP>
+
+      <LegalH2>Data Security</LegalH2>
+      <LegalP>We implement reasonable security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure. We cannot guarantee absolute security of your data.</LegalP>
+
+      <LegalH2>Cookies and Tracking</LegalH2>
+      <LegalP>Our Sites may use cookies and similar tracking technologies to improve your experience and analyze site usage. You can control cookie settings through your browser preferences.</LegalP>
+
+      <LegalH2>Your Rights</LegalH2>
+      <LegalP>Depending on your location, you may have rights regarding your personal information, including the right to access, correct, delete, or restrict processing of your data. To exercise these rights, contact us at sal@theaiinsurancegroup.com.</LegalP>
+
+      <LegalH2>California Residents</LegalH2>
+      <LegalP>If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA), including the right to know what personal information we collect and the right to request deletion. We do not sell personal information as defined by the CCPA.</LegalP>
+
+      <LegalH2>Changes to This Policy</LegalH2>
+      <LegalP>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date.</LegalP>
+
+      <LegalH2>Contact Us</LegalH2>
+      <LegalP>If you have questions about this Privacy Policy, contact us at:<br />The AI Insurance Group<br />Email: sal@theaiinsurancegroup.com</LegalP>
+    </LegalPage>
+  );
+}
+
+function TermsOfService({ onClose }) {
+  return (
+    <LegalPage title="Terms of Service" onClose={onClose}>
+      <LegalH2>Acceptance of Terms</LegalH2>
+      <LegalP>By accessing or using theaiinsurancegroup.com and isyouraicovered.com (the "Sites"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Sites.</LegalP>
+
+      <LegalH2>Description of Services</LegalH2>
+      <LegalP>The AI Insurance Group provides educational and informational content regarding AI-related insurance risks and coverage options. We also provide a free AI Coverage Gap Assessment tool designed to help businesses identify potential coverage gaps related to artificial intelligence usage.</LegalP>
+      <LegalP>The AI Insurance Group is a marketing and informational platform. We are not a licensed insurance agency. Insurance coverage is provided through licensed insurance brokers and agencies. All policies are written and serviced by licensed insurance entities.</LegalP>
+
+      <LegalH2>Not Insurance Advice</LegalH2>
+      <LegalP>The information provided on our Sites, including the AI Coverage Gap Assessment results, is for general informational and educational purposes only. It does not constitute insurance advice, legal advice, or a coverage determination. Assessment results are based on self-reported responses and are not a substitute for a professional review of your actual insurance policy documents by a licensed insurance professional.</LegalP>
+      <LegalP>Coverage determinations can only be made by reviewing your specific policy language, endorsements, and exclusions. You should consult with a licensed insurance broker or agent regarding your specific coverage needs.</LegalP>
+
+      <LegalH2>No Guarantee of Coverage</LegalH2>
+      <LegalP>We do not guarantee that any specific insurance coverage will be available, offered, or bound as a result of using our Sites or services. Insurance availability, terms, conditions, and pricing are determined by insurance carriers and are subject to underwriting approval.</LegalP>
+
+      <LegalH2>Accuracy of Information</LegalH2>
+      <LegalP>We make reasonable efforts to ensure the accuracy of information on our Sites, including references to insurance industry developments, carrier actions, and regulatory changes. However, the insurance industry is evolving rapidly, particularly regarding AI-related coverage. We do not warrant that all information is current, complete, or error-free. Users should verify information independently before making coverage decisions.</LegalP>
+
+      <LegalH2>User Responsibilities</LegalH2>
+      <LegalP>When using our AI Coverage Gap Assessment or contact forms, you agree to provide accurate and truthful information. You understand that inaccurate responses may result in an inaccurate assessment of your coverage situation.</LegalP>
+
+      <LegalH2>Intellectual Property</LegalH2>
+      <LegalP>All content on our Sites, including text, graphics, logos, design elements, and the AI Coverage Gap Assessment tool, is the property of The AI Insurance Group and is protected by applicable intellectual property laws. You may not reproduce, distribute, or create derivative works from our content without written permission.</LegalP>
+
+      <LegalH2>Limitation of Liability</LegalH2>
+      <LegalP>To the fullest extent permitted by law, The AI Insurance Group shall not be liable for any direct, indirect, incidental, consequential, or special damages arising from your use of our Sites or reliance on any information provided, including but not limited to assessment results, coverage recommendations, or educational content.</LegalP>
+
+      <LegalH2>Third-Party Links</LegalH2>
+      <LegalP>Our Sites may contain links to third-party websites, including insurance carrier websites, regulatory resources, and industry publications. We are not responsible for the content, accuracy, or practices of third-party sites.</LegalP>
+
+      <LegalH2>Modifications</LegalH2>
+      <LegalP>We reserve the right to modify these Terms of Service at any time. Continued use of the Sites following any changes constitutes acceptance of the revised terms.</LegalP>
+
+      <LegalH2>Governing Law</LegalH2>
+      <LegalP>These Terms of Service are governed by the laws of the State of New Jersey, without regard to conflict of law principles.</LegalP>
+
+      <LegalH2>Contact</LegalH2>
+      <LegalP>For questions about these Terms of Service, contact us at:<br />The AI Insurance Group<br />Email: sal@theaiinsurancegroup.com</LegalP>
+    </LegalPage>
+  );
+}
+
+function Disclosures({ onClose }) {
+  return (
+    <LegalPage title="Disclosures" onClose={onClose}>
+      <LegalH2>About The AI Insurance Group</LegalH2>
+      <LegalP>The AI Insurance Group is a marketing and informational platform focused on AI-related insurance risks and coverage solutions. We are not a licensed insurance agency, carrier, or underwriter. Insurance products referenced on our Sites are provided by licensed insurance entities.</LegalP>
+
+      <LegalH2>Insurance Products and Coverage</LegalH2>
+      <LegalP>Insurance coverage is provided through licensed insurance brokers, agents, and agencies. All policies are written, issued, and serviced by licensed insurance carriers. The availability of coverage, terms, conditions, limits, and pricing are determined by the issuing carrier and are subject to underwriting review and approval. Not all coverage options are available in all states.</LegalP>
+
+      <LegalH2>AI Coverage Gap Assessment</LegalH2>
+      <LegalP>The AI Coverage Gap Assessment tool available at isyouraicovered.com is designed for general informational and educational purposes only. The assessment:</LegalP>
+      <LegalUl>
+        <LegalLi>Is not a coverage determination or insurance audit</LegalLi>
+        <LegalLi>Is based solely on self-reported responses to general questions</LegalLi>
+        <LegalLi>Does not review your actual insurance policy documents, endorsements, or exclusions</LegalLi>
+        <LegalLi>Does not constitute a professional opinion on your coverage status</LegalLi>
+        <LegalLi>Should not be relied upon as a substitute for a professional insurance coverage review</LegalLi>
+      </LegalUl>
+      <LegalP>Risk scores and coverage gap identifications are estimates based on general industry trends and publicly available information about carrier endorsement practices. Your actual coverage status may differ from the assessment results.</LegalP>
+
+      <LegalH2>Industry Data and Statistics</LegalH2>
+      <LegalP>Statistics and data referenced on our Sites are sourced from publicly available industry reports, including but not limited to publications by Gallagher Re, Verisk, Willis Towers Watson (WTW), Testudo, Evercore ISI, and other insurance industry analysts. We attribute sources where practical. These figures represent industry-wide trends and may not reflect your specific situation.</LegalP>
+
+      <LegalH2>Carrier and Product References</LegalH2>
+      <LegalP>References to specific insurance carriers, products, endorsement forms (such as Verisk ISO forms CG 40 47, CG 40 48, and CG 35 08), and carrier actions are based on publicly available filings, industry publications, and press releases. These references are provided for educational purposes. Carrier practices, forms, and availability are subject to change. Mention of any carrier or product does not constitute an endorsement or guarantee of availability.</LegalP>
+
+      <LegalH2>Lloyd's of London and Munich Re References</LegalH2>
+      <LegalP>References to Lloyd's of London and Munich Re on our Sites refer to the capacity and products available through specialty insurance markets. These references indicate that coverage options exist through these markets via licensed intermediaries. They do not imply a direct relationship, endorsement, or appointment unless specifically stated.</LegalP>
+
+      <LegalH2>FINRA Licensing</LegalH2>
+      <LegalP>FINRA Series 7, 24, 55, 63, and 99 licenses referenced on our Sites are held by Sal Martorano individually and pertain to securities industry qualifications. These licenses are referenced to demonstrate financial services expertise and are separate from property and casualty insurance licensing.</LegalP>
+
+      <LegalH2>Lead Generation Disclosure</LegalH2>
+      <LegalP>Information submitted through our assessment tools and contact forms may be shared with licensed insurance professionals, including brokers, agents, and agencies, for the purpose of providing you with insurance coverage options and quotes. By submitting your information, you consent to being contacted by licensed insurance professionals regarding coverage solutions relevant to your assessment results.</LegalP>
+
+      <LegalH2>Compensation Disclosure</LegalH2>
+      <LegalP>The AI Insurance Group may receive compensation in the form of referral fees, commissions, or advertising revenue in connection with insurance products presented to users of our Sites. This compensation does not affect the information or assessment results provided to you.</LegalP>
+
+      <LegalH2>Contact</LegalH2>
+      <LegalP>For questions about these disclosures, contact us at:<br />The AI Insurance Group<br />Email: sal@theaiinsurancegroup.com</LegalP>
+    </LegalPage>
+  );
+}
+
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -70,7 +242,7 @@ function Nav() {
           {links.map(l => (
             <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500 }}>{l.label}</a>
           ))}
-          <a href="https://isyouraicovered.com" style={{
+          <a href="https://isyouraicovered.com?new=1" style={{
             background: GOLD, color: WHITE, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700,
             textDecoration: "none", letterSpacing: 0.3
           }}>Free Assessment →</a>
@@ -129,7 +301,7 @@ function Hero() {
           We audit your coverage, identify the gaps, and place the specialized protection your business needs.
         </p>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-          <a href="https://isyouraicovered.com" style={{
+          <a href="https://isyouraicovered.com?new=1" style={{
             background: GOLD, color: WHITE, border: "none", borderRadius: 8, padding: "18px 36px",
             fontSize: 17, fontWeight: 700, cursor: "pointer", textDecoration: "none",
             boxShadow: "0 4px 24px rgba(184,151,42,0.25)", transition: "transform 0.2s",
@@ -166,7 +338,7 @@ function ProblemSection() {
         <SectionLabel text="The Problem" />
         <SectionTitle text="January 1, 2026 Changed Everything." />
         <BodyText text="Verisk — the organization that creates standard policy language for the U.S. insurance industry — released new endorsements that allow carriers to explicitly exclude generative AI-related claims from commercial general liability policies. Major carriers are attaching these exclusions at renewal. Most business owners have no idea." />
-       <div style={{ background: WHITE, borderRadius: 12, padding: 24, marginTop: 24, marginBottom: 16, border: "1px solid #E5E7EB" }}>
+        <div style={{ background: WHITE, borderRadius: 12, padding: 24, marginTop: 24, marginBottom: 16, border: "1px solid #E5E7EB" }}>
           <div style={{ color: NAVY, fontSize: 15, fontWeight: 700, marginBottom: 12 }}>📄 Proof: Read the actual exclusion forms</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <a href="https://www.independentagent.com/vu_resource/verisk-to-roll-out-new-general-liability-exclusions-for-generative-ai-exposures/" target="_blank" rel="noopener noreferrer" style={{ color: GOLD, fontSize: 14, textDecoration: "none", fontWeight: 600 }}>→ Independent Agents: Verisk Rolls Out New AI Exclusions (January 2026)</a>
@@ -197,26 +369,10 @@ function ProblemSection() {
 
 function ServicesSection() {
   const services = [
-    {
-      icon: "🔍",
-      title: "AI Coverage Gap Audit",
-      desc: "We review your entire commercial insurance portfolio — GL, E&O, D&O, Cyber, EPLI, and Products liability — to identify AI-related exclusions, sublimits, and endorsements that may have been added at your last renewal.",
-      details: ["Full AI usage inventory across your organization", "Policy-by-policy exclusion analysis with form numbers cited", "Risk scenario mapping for your specific industry", "Governance recommendations to improve your underwriting profile"],
-    },
-    {
-      icon: "📄",
-      title: "AI Liability Placement",
-      desc: "We access specialty markets that most brokers can't reach — including Lloyd's of London capacity and Munich Re-backed products — to place affirmative AI coverage that fills the gaps traditional policies now exclude.",
-      details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"],
-    },
-    {
-      icon: "🤝",
-      title: "Broker Partnership Program",
-      desc: "We partner with P&C brokers who want to offer AI coverage audits to their existing clients without building the specialty expertise in-house. You keep the client relationship — we provide the AI-specific analysis and market access.",
-      details: ["White-label AI gap audit reports", "Specialty placement through Lloyd's and Munich Re", "Co-branded client presentations", "CE-eligible training on AI insurance exclusions"],
-    },
+    { icon: "🔍", title: "AI Coverage Gap Audit", desc: "We review your entire commercial insurance portfolio — GL, E&O, D&O, Cyber, EPLI, and Products liability — to identify AI-related exclusions, sublimits, and endorsements that may have been added at your last renewal.", details: ["Full AI usage inventory across your organization", "Policy-by-policy exclusion analysis with form numbers cited", "Risk scenario mapping for your specific industry", "Governance recommendations to improve your underwriting profile"] },
+    { icon: "📄", title: "AI Liability Placement", desc: "We access specialty markets that most brokers can't reach — including Lloyd's of London capacity and Munich Re-backed products — to place affirmative AI coverage that fills the gaps traditional policies now exclude.", details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"] },
+    { icon: "🤝", title: "Broker Partnership Program", desc: "We partner with P&C brokers who want to offer AI coverage audits to their existing clients without building the specialty expertise in-house. You keep the client relationship — we provide the AI-specific analysis and market access.", details: ["White-label AI gap audit reports", "Specialty placement through Lloyd's and Munich Re", "Co-branded client presentations", "CE-eligible training on AI insurance exclusions"] },
   ];
-
   return (
     <Section bg={WHITE} id="services">
       <SectionLabel text="Services" />
@@ -224,17 +380,12 @@ function ServicesSection() {
       <BodyText text="Whether you need a coverage review, specialty placement, or a partner for your brokerage, we have a solution built for the AI insurance gap." maxWidth={600} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28, marginTop: 40 }}>
         {services.map((s, i) => (
-          <div key={i} style={{
-            background: LIGHT, borderRadius: 16, padding: 32,
-            border: "1px solid #E5E7EB", transition: "box-shadow 0.3s",
-          }}>
+          <div key={i} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB" }}>
             <div style={{ fontSize: 36, marginBottom: 16 }}>{s.icon}</div>
             <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 12px" }}>{s.title}</h3>
             <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.6, margin: "0 0 20px" }}>{s.desc}</p>
             <ul style={{ margin: 0, padding: "0 0 0 18px" }}>
-              {s.details.map((d, j) => (
-                <li key={j} style={{ color: GRAY, fontSize: 14, lineHeight: 1.8 }}>{d}</li>
-              ))}
+              {s.details.map((d, j) => (<li key={j} style={{ color: GRAY, fontSize: 14, lineHeight: 1.8 }}>{d}</li>))}
             </ul>
           </div>
         ))}
@@ -252,7 +403,6 @@ function IndustriesSection() {
     { icon: "💻", name: "Technology & SaaS", risk: "AI-powered products and services. Products/Completed Operations exclusions (CG 35 08) remove coverage for AI product failures causing harm." },
     { icon: "📊", name: "Financial Services", risk: "AI in underwriting, credit decisions, trading, and compliance. Regulatory exposure from algorithmic discrimination and automated decision-making." },
   ];
-
   return (
     <Section bg={LIGHT} id="industries">
       <SectionLabel text="Industries We Serve" />
@@ -260,10 +410,7 @@ function IndustriesSection() {
       <BodyText text="Every profession faces different AI exposure. We tailor our audits and coverage recommendations to your industry's specific regulatory environment, liability profile, and AI adoption patterns." maxWidth={650} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 20, marginTop: 40 }}>
         {verticals.map((v, i) => (
-          <div key={i} style={{
-            background: WHITE, borderRadius: 12, padding: 28,
-            border: "1px solid #E5E7EB",
-          }}>
+          <div key={i} style={{ background: WHITE, borderRadius: 12, padding: 28, border: "1px solid #E5E7EB" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
               <div style={{ fontSize: 28 }}>{v.icon}</div>
               <h3 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: 0 }}>{v.name}</h3>
@@ -283,7 +430,6 @@ function ProcessSection() {
     { num: "03", title: "Gap Analysis Report", desc: "You receive a detailed report showing every AI-related exclusion in your portfolio, mapped to your specific risk scenarios, with severity ratings.", time: "Delivered with review" },
     { num: "04", title: "Coverage Placement", desc: "We access specialty AI liability markets to fill identified gaps with affirmative coverage — backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
   ];
-
   return (
     <Section bg={WHITE} id="process">
       <div style={{ maxWidth: 700, margin: "0 auto" }}>
@@ -291,15 +437,8 @@ function ProcessSection() {
         <SectionTitle text="From Assessment to Protection in 4 Steps" />
         <div style={{ marginTop: 40 }}>
           {steps.map((s, i) => (
-            <div key={i} style={{
-              display: "flex", gap: 24, padding: "28px 0",
-              borderBottom: i < steps.length - 1 ? "1px solid #E5E7EB" : "none",
-            }}>
-              <div style={{
-                width: 56, height: 56, borderRadius: 12, background: i === 0 ? GOLD : LGOLD,
-                display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-                color: i === 0 ? WHITE : NAVY, fontSize: 18, fontWeight: 800,
-              }}>{s.num}</div>
+            <div key={i} style={{ display: "flex", gap: 24, padding: "28px 0", borderBottom: i < steps.length - 1 ? "1px solid #E5E7EB" : "none" }}>
+              <div style={{ width: 56, height: 56, borderRadius: 12, background: i === 0 ? GOLD : LGOLD, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: i === 0 ? WHITE : NAVY, fontSize: 18, fontWeight: 800 }}>{s.num}</div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
                   <h3 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: 0 }}>{s.title}</h3>
@@ -338,20 +477,13 @@ function AboutSection() {
             ))}
           </div>
         </div>
-        <div style={{
-          background: `linear-gradient(135deg, ${NAVY}, ${DARK})`,
-          borderRadius: 20, padding: 48, position: "relative", overflow: "hidden",
-        }}>
+        <div style={{ background: `linear-gradient(135deg, ${NAVY}, ${DARK})`, borderRadius: 20, padding: 48, position: "relative", overflow: "hidden" }}>
           <div style={{ position: "absolute", top: -40, right: -40, width: 200, height: 200, borderRadius: "50%", background: "rgba(184,151,42,0.08)" }} />
           <div style={{ color: GOLD, fontSize: 14, fontWeight: 700, letterSpacing: 1.5, marginBottom: 20 }}>OUR APPROACH</div>
-          <div style={{ color: WHITE, fontSize: 22, fontWeight: 700, lineHeight: 1.4, marginBottom: 20 }}>
-            "Most agents sell line by line. We audit across your entire portfolio — because AI risk doesn't respect policy boundaries."
-          </div>
+          <div style={{ color: WHITE, fontSize: 22, fontWeight: 700, lineHeight: 1.4, marginBottom: 20 }}>"Most agents sell line by line. We audit across your entire portfolio — because AI risk doesn't respect policy boundaries."</div>
           <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 14 }}>— Sal Martorano, Founder</div>
           <div style={{ marginTop: 40, borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24 }}>
-            <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.7 }}>
-              This is not research. This is experience. We've spent years inside the institutions that create and transfer risk — and we apply that understanding to protect businesses navigating the AI coverage gap.
-            </div>
+            <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.7 }}>This is not research. This is experience. We've spent years inside the institutions that create and transfer risk — and we apply that understanding to protect businesses navigating the AI coverage gap.</div>
           </div>
         </div>
       </div>
@@ -361,27 +493,12 @@ function AboutSection() {
 
 function CTASection() {
   return (
-    <section style={{
-      background: `linear-gradient(135deg, ${DARK} 0%, ${NAVY} 100%)`,
-      padding: "80px 24px", textAlign: "center",
-    }}>
+    <section style={{ background: `linear-gradient(135deg, ${DARK} 0%, ${NAVY} 100%)`, padding: "80px 24px", textAlign: "center" }}>
       <div style={{ maxWidth: 600, margin: "0 auto" }}>
-        <h2 style={{ color: WHITE, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>
-          Don't Wait for a Denied Claim<br />to Find Out You're Exposed.
-        </h2>
-        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 0 36px" }}>
-          Take our free 60-second assessment. Find out if your business has AI-related coverage gaps — before your next renewal.
-        </p>
-        <a href="https://isyouraicovered.com" style={{
-          display: "inline-block", background: GOLD, color: WHITE, borderRadius: 8,
-          padding: "20px 48px", fontSize: 18, fontWeight: 700, textDecoration: "none",
-          boxShadow: "0 4px 24px rgba(184,151,42,0.3)", letterSpacing: 0.3,
-        }}>
-          Check My Coverage — Free →
-        </a>
-        <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginTop: 16 }}>
-          No obligation. No spam. Takes 60 seconds.
-        </p>
+        <h2 style={{ color: WHITE, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Don't Wait for a Denied Claim<br />to Find Out You're Exposed.</h2>
+        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 0 36px" }}>Take our free 60-second assessment. Find out if your business has AI-related coverage gaps — before your next renewal.</p>
+        <a href="https://isyouraicovered.com?new=1" style={{ display: "inline-block", background: GOLD, color: WHITE, borderRadius: 8, padding: "20px 48px", fontSize: 18, fontWeight: 700, textDecoration: "none", boxShadow: "0 4px 24px rgba(184,151,42,0.3)", letterSpacing: 0.3 }}>Check My Coverage — Free →</a>
+        <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginTop: 16 }}>No obligation. No spam. Takes 60 seconds.</p>
       </div>
     </section>
   );
@@ -390,7 +507,6 @@ function CTASection() {
 function ContactSection() {
   const [contactForm, setContactForm] = useState({ name: "", email: "", company: "", phone: "", role: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
-
   const handleContactSubmit = async () => {
     if (!contactForm.name || !contactForm.email) return;
     try {
@@ -401,20 +517,13 @@ function ContactSection() {
           access_key: "616091eb-05d1-4527-94ce-e52463d79f89",
           subject: "New Coverage Review Request - " + contactForm.name,
           from_name: "TheAIInsuranceGroup.com",
-          name: contactForm.name,
-          email: contactForm.email,
-          company: contactForm.company,
-          phone: contactForm.phone,
-          role: contactForm.role,
-          message: contactForm.message,
+          name: contactForm.name, email: contactForm.email, company: contactForm.company,
+          phone: contactForm.phone, role: contactForm.role, message: contactForm.message,
         }),
       });
       setSubmitted(true);
-    } catch (e) {
-      console.error("Form error:", e);
-    }
+    } catch (e) { console.error("Form error:", e); }
   };
-
   return (
     <Section bg={WHITE} id="contact">
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60 }}>
@@ -471,9 +580,7 @@ function ContactSection() {
                 onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                 style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, fontSize: 15, marginBottom: 16, outline: "none", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", color: NAVY }} />
               <button onClick={handleContactSubmit}
-                style={{ width: "100%", padding: "16px", borderRadius: 8, border: "none", background: NAVY, color: WHITE, fontSize: 16, fontWeight: 700, cursor: "pointer", boxSizing: "border-box" }}>
-                Submit Request →
-              </button>
+                style={{ width: "100%", padding: "16px", borderRadius: 8, border: "none", background: NAVY, color: WHITE, fontSize: 16, fontWeight: 700, cursor: "pointer", boxSizing: "border-box" }}>Submit Request →</button>
               <p style={{ color: GRAY, fontSize: 12, marginTop: 8, textAlign: "center" }}>Your information is confidential. We respond within 24 hours.</p>
             </>
           )}
@@ -483,7 +590,7 @@ function ContactSection() {
   );
 }
 
-function Footer() {
+function Footer({ onLegalPage }) {
   return (
     <footer style={{ background: DARK, padding: "48px 24px 32px" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
@@ -493,9 +600,7 @@ function Footer() {
               <div style={{ width: 32, height: 32, borderRadius: 6, background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, color: WHITE, fontSize: 12 }}>AIG</div>
               <span style={{ color: WHITE, fontWeight: 700, fontSize: 15 }}>The AI Insurance <span style={{ color: GOLD }}>Group</span></span>
             </div>
-            <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.6, maxWidth: 300 }}>
-              Specialized AI liability coverage and risk advisory. Helping businesses navigate the 2026 AI insurance exclusion landscape.
-            </p>
+            <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.6, maxWidth: 300 }}>Specialized AI liability coverage and risk advisory. Helping businesses navigate the 2026 AI insurance exclusion landscape.</p>
           </div>
           <div>
             <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>RESOURCES</div>
@@ -512,11 +617,15 @@ function Footer() {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
           <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, lineHeight: 1.6, maxWidth: 600 }}>
-          © 2026 The AI Insurance Group. All rights reserved. The AI Insurance Group is a marketing and informational platform. Insurance coverage is provided through licensed insurance brokers. All policies are written and serviced by a licensed insurance agency.
+            © 2026 The AI Insurance Group. All rights reserved. The AI Insurance Group is a marketing and informational platform. Insurance coverage is provided through licensed insurance brokers. All policies are written and serviced by a licensed insurance agency.
           </div>
           <div style={{ display: "flex", gap: 20 }}>
-            {["Privacy Policy", "Terms of Service", "Disclosures"].map((l, i) => (
-              <span key={i} style={{ color: "rgba(255,255,255,0.3)", fontSize: 12, cursor: "pointer" }}>{l}</span>
+            {[
+              { label: "Privacy Policy", page: "privacy" },
+              { label: "Terms of Service", page: "terms" },
+              { label: "Disclosures", page: "disclosures" },
+            ].map((l, i) => (
+              <span key={i} onClick={() => onLegalPage(l.page)} style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, cursor: "pointer", textDecoration: "underline" }}>{l.label}</span>
             ))}
           </div>
         </div>
@@ -526,6 +635,12 @@ function Footer() {
 }
 
 export default function App() {
+  const [legalPage, setLegalPage] = useState(null);
+
+  if (legalPage === "privacy") return <PrivacyPolicy onClose={() => setLegalPage(null)} />;
+  if (legalPage === "terms") return <TermsOfService onClose={() => setLegalPage(null)} />;
+  if (legalPage === "disclosures") return <Disclosures onClose={() => setLegalPage(null)} />;
+
   return (
     <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", margin: 0, padding: 0 }}>
       <Nav />
@@ -537,7 +652,7 @@ export default function App() {
       <AboutSection />
       <CTASection />
       <ContactSection />
-      <Footer />
+      <Footer onLegalPage={setLegalPage} />
     </div>
   );
 }
