@@ -29,6 +29,7 @@ const BodyText = ({ text, color = DGRAY, align = "left", maxWidth }) => (
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", h);
@@ -46,31 +47,54 @@ function Nav() {
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 999,
-      background: scrolled ? "rgba(15,25,35,0.97)" : "transparent",
-      backdropFilter: scrolled ? "blur(12px)" : "none",
+      background: scrolled || menuOpen ? "rgba(15,25,35,0.97)" : "transparent",
+      backdropFilter: scrolled || menuOpen ? "blur(12px)" : "none",
       borderBottom: scrolled ? "1px solid rgba(184,151,42,0.15)" : "none",
       transition: "all 0.3s ease",
-      padding: scrolled ? "12px 32px" : "20px 32px",
+      padding: scrolled ? "12px 24px" : "20px 24px",
     }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-       <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); setMenuOpen(false); }} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
           <div style={{ width: 36, height: 36, borderRadius: 8, background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, color: WHITE, fontSize: 14, fontFamily: "Arial, sans-serif" }}>AIG</div>
           <div>
             <span style={{ color: WHITE, fontWeight: 700, fontSize: 16, letterSpacing: -0.3 }}>The AI Insurance</span>
             <span style={{ color: GOLD, fontWeight: 700, fontSize: 16 }}> Group</span>
           </div>
-      </a>
-        <div style={{ display: "flex", gap: 28, alignItems: "center", flexWrap: "wrap" }}>
+        </a>
+        <div onClick={() => setMenuOpen(!menuOpen)} style={{ display: "none", cursor: "pointer", flexDirection: "column", gap: 5 }} className="mobile-menu-btn">
+          <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
+          <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
+          <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
+        </div>
+        <div className="nav-links" style={{ display: "flex", gap: 28, alignItems: "center" }}>
           {links.map(l => (
-            <a key={l.label} href={l.href} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500, transition: "color 0.2s" }}
-              onMouseEnter={e => e.target.style.color = GOLD} onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.75)"}>{l.label}</a>
+            <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500 }}>{l.label}</a>
           ))}
           <a href="https://isyouraicovered.com" target="_blank" rel="noopener noreferrer" style={{
             background: GOLD, color: WHITE, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700,
-            textDecoration: "none", letterSpacing: 0.3, transition: "opacity 0.2s"
+            textDecoration: "none", letterSpacing: 0.3
           }}>Free Assessment →</a>
         </div>
       </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .mobile-menu-btn { display: flex !important; }
+          .nav-links {
+            ${menuOpen ? `
+              display: flex !important;
+              flex-direction: column;
+              position: absolute;
+              top: 100%;
+              left: 0;
+              right: 0;
+              background: rgba(15,25,35,0.98);
+              padding: 20px 24px;
+              gap: 20px;
+              border-top: 1px solid rgba(184,151,42,0.15);
+            ` : `display: none !important;`}
+          }
+        }
+      `}</style>
     </nav>
   );
 }
