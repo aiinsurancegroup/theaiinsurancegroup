@@ -468,6 +468,10 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           access_key: "616091eb-05d1-4527-94ce-e52463d79f89",
+          replyto: formData.email,
+          autoresponse_subject: "Your AI Coverage Gap Assessment Results - Risk Level: " + riskLevel.toUpperCase(),
+          autoresponse_message: "Dear " + formData.name + ",\n\nThank you for completing the AI Coverage Gap Assessment at IsYourAICovered.com.\n\nYour Results:\n- Risk Level: " + riskLevel.toUpperCase() + "\n- Risk Score: " + riskScore + "/100\n- Industry: " + (answers.industry || "Not specified") + "\n\nBased on your responses, our team will prepare a personalized AI Coverage Gap Analysis for your business. This includes a review of your current policy endorsements for AI-related exclusions and recommendations for affirmative coverage options.\n\nWhat happens next:\n1. A specialist reviews your assessment within 24 hours\n2. We identify specific exclusion forms in your current policies\n3. You receive a detailed Gap Analysis report at no cost\n\nIn the meantime, here are two things you can do right now:\n- Search your current policies for these keywords: Artificial Intelligence, Algorithm, Machine Learning, Automated Decision, Generative AI\n- Review any endorsements added at your most recent renewal\n\nIf you have questions or would like to schedule a call sooner, reply to this email or contact us at sal@theaiinsurancegroup.com.\n\nSal Martorano\nFounder, The AI Insurance Group\ntheaiinsurancegroup.com\nIsYourAICovered.com",
+          autoresponse_from: "The AI Insurance Group <sal@theaiinsurancegroup.com>",
           subject: "New AI Coverage Assessment Lead - " + formData.name,
           from_name: "IsYourAICovered.com",
           name: formData.name,
