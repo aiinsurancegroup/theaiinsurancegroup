@@ -406,13 +406,10 @@ export default function App() {
         setRiskLevel("moderate");
       }
     };
-    window.addEventListener("pageshow", () => {
-      setStageRaw("hero");
-      setCurrentQ(0);
-      setAnswers({});
-      setForm({});
-      setRiskScore(0);
-      setRiskLevel("moderate");
+   window.addEventListener("pageshow", (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
     });
     document.addEventListener("visibilitychange", resetOnReturn);
     return () => document.removeEventListener("visibilitychange", resetOnReturn);
