@@ -70,7 +70,7 @@ function Nav() {
           {links.map(l => (
             <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500 }}>{l.label}</a>
           ))}
-          <a href="https://isyouraicovered.com" target="_blank" rel="noopener noreferrer" style={{
+          <a href="https://isyouraicovered.com" style={{
             background: GOLD, color: WHITE, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700,
             textDecoration: "none", letterSpacing: 0.3
           }}>Free Assessment →</a>
@@ -129,7 +129,7 @@ function Hero() {
           We audit your coverage, identify the gaps, and place the specialized protection your business needs.
         </p>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-          <a href="https://isyouraicovered.com" target="_blank" rel="noopener noreferrer" style={{
+          <a href="https://isyouraicovered.com" style={{
             background: GOLD, color: WHITE, border: "none", borderRadius: 8, padding: "18px 36px",
             fontSize: 17, fontWeight: 700, cursor: "pointer", textDecoration: "none",
             boxShadow: "0 4px 24px rgba(184,151,42,0.25)", transition: "transform 0.2s",
@@ -364,7 +364,7 @@ function CTASection() {
         <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 0 36px" }}>
           Take our free 60-second assessment. Find out if your business has AI-related coverage gaps — before your next renewal.
         </p>
-        <a href="https://isyouraicovered.com" target="_blank" rel="noopener noreferrer" style={{
+        <a href="https://isyouraicovered.com" style={{
           display: "inline-block", background: GOLD, color: WHITE, borderRadius: 8,
           padding: "20px 48px", fontSize: 18, fontWeight: 700, textDecoration: "none",
           boxShadow: "0 4px 24px rgba(184,151,42,0.3)", letterSpacing: 0.3,
