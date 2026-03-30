@@ -246,6 +246,7 @@ function Nav() {
             background: GOLD, color: WHITE, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700,
             textDecoration: "none", letterSpacing: 0.3
           }}>Free Assessment →</a>
+          <a href="https://audit.theaiinsurancegroup.com" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: GOLD, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700, textDecoration: "none", letterSpacing: 0.3, border: "1px solid #B8972A" }}>Audit Portal</a>
         </div>
       </div>
       <style>{`
