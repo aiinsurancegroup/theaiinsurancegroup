@@ -213,6 +213,7 @@ function Nav() {
     { label: "Industries", href: "#industries" },
     { label: "The Problem", href: "#problem" },
     { label: "About", href: "#about" },
+    { label: "Research", href: "#research" },
     { label: "Contact", href: "#contact" },
   ];
 
@@ -319,10 +320,14 @@ function Hero() {
 
         <div style={{ marginTop: 48, display: "flex", gap: 48, flexWrap: "wrap" }}>
           {[
-            { icon: "🛡️", label: "Specialty Market\nA+ Rated Capacity" },
-            { icon: "📋", label: "Comprehensive\nAI Gap Audits" },
-            { icon: "⚖️", label: "E&O, D&O, Cyber\n& GL Coverage" },
-            { icon: "🏥", label: "Healthcare, Legal\n& Financial Verticals" },
+            { icon: "🛡️", label: "Specialty Market
+A+ Rated Capacity" },
+            { icon: "📋", label: "Comprehensive
+AI Gap Audits" },
+            { icon: "⚖️", label: "E&O, D&O, Cyber
+& GL Coverage" },
+            { icon: "🏥", label: "Healthcare, Legal
+& Financial Verticals" },
           ].map((item, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ fontSize: 28 }}>{item.icon}</div>
@@ -495,6 +500,121 @@ function AboutSection() {
   );
 }
 
+function ResearchSection() {
+  const [expanded, setExpanded] = useState(null);
+  const categories = [
+    {
+      title: "The January 2026 Exclusion Trigger",
+      articles: [
+        { title: "Verisk to Roll Out New General Liability Exclusions for Generative AI Exposures", source: "Independent Agent", date: "Oct 2025", url: "https://www.independentagent.com/vu_resource/verisk-to-roll-out-new-general-liability-exclusions-for-generative-ai-exposures/", summary: "Verisk's ISO Core Lines team developed new general liability endorsements — CG 40 47, CG 40 48, and CG 35 08 — effective January 2026, giving carriers the ability to exclude generative AI exposures from commercial general liability policies. Verisk reported strong carrier interest and expects rapid adoption." },
+        { title: "New Generative AI Insurance Exclusions: What Businesses Need to Know in 2026", source: "PHL Firm", date: "Feb 2026", url: "https://phl-firm.com/generative-ai-insurance-exclusions-2026/", summary: "ISO forms underpin approximately 82% of U.S. Property & Casualty policies, meaning the new AI exclusions have the potential for rapid, widespread adoption. CG 40 47 broadly excludes both bodily injury/property damage and personal/advertising injury claims tied to generative AI. Small to mid-sized firms may be hit hardest." },
+        { title: "Insurers, Brokers Adjust as AI Exclusions Emerge", source: "Business Insurance", date: "Apr 2026", url: "https://www.businessinsurance.com/insurers-brokers-adjust-as-ai-exclusions-emerge/", summary: "Industry leaders confirm carriers are beginning to adopt the January 2026 ISO exclusions. Gallagher's cyber practice notes the industry is in its earliest stages of determining where AI exposure should be covered. Multiple carriers are evaluating endorsements and policy language changes." },
+        { title: "AI Update: The Growing Trend of AI-Related Insurance Policy Exclusions", source: "Zelle Law", date: "Oct 2025", url: "https://www.zellelaw.com/AI_Update_The_Growing_Trend_of_AI-Related_Insurance_Policy_Exclusions", summary: "Berkley introduced one of the broadest AI exclusions to date — an absolute exclusion eliminating coverage for any claim arising from the use, deployment, or development of AI across D&O, E&O, and Fiduciary Liability policies. Hamilton Insurance Group similarly excludes all claims involving generative AI from professional liability." },
+        { title: "Insurers Draw Battle Lines on AI: New Policies Cover Hallucinations While Others Exclude AI", source: "AI:PRODUCTIVITY", date: "Mar 2026", url: "https://aiproductivity.ai/news/ai-liability-insurance-coverage-exclusions-2026/", summary: "The AI insurance market is splitting into two tracks: specialty carriers offering affirmative AI coverage, and traditional carriers using Verisk's new exclusions to remove AI risk entirely. Companies ignoring this shift will face a surprise when a claim gets denied under a newly-adopted exclusion." },
+      ],
+    },
+    {
+      title: "The Coverage Gap Problem",
+      articles: [
+        { title: "Smart Systems, Blind Spots: Rethinking Insurance for the AI Era", source: "Gallagher Re / MIT / Testudo", date: "Mar 2026", url: "https://riskandinsurance.com/traditional-insurance-leaves-enterprises-exposed-as-ai-liability-claims-surge/", summary: "Generative AI-related lawsuits in the U.S. grew 978% from 2021 to 2025, with over 700 cumulative filings. Cyber, tech E&O, product liability, and CGL policies each leave significant gaps. The report also flags accumulation risk: a single flaw in a widely-used model could trigger claims across thousands of policyholders." },
+        { title: "AI Insurance Liability: New CGL Exclusions, Silent AI Coverage, and What Every Enterprise Should Know", source: "Swept AI", date: "Apr 2026", url: "https://www.swept.ai/post/ai-insurance-liability-cgl-exclusions-coverage-gaps", summary: "The transition from ambiguous AI coverage to explicit AI underwriting is underway. AIG, W.R. Berkley, and Great American have sought regulatory clearance for AI-specific exclusions. E&O carriers are scrutinizing AI-assisted professional services. Enterprises deploying third-party AI bear legal responsibility but vendor contracts limit indemnities." },
+        { title: "Silent AI Insurance Crisis: SME Coverage Gaps in 2026", source: "TechLife Future", date: "Dec 2025", url: "https://www.techlifefuture.com/ai-insurance-exclusions-sme/", summary: "Small and medium enterprises face a critical inflection point as insurers move from silent AI coverage to explicit exclusions. Most SME owners assume their existing GL or BOP covers AI-related mishaps — but that assumption likely won't survive a 2026 renewal." },
+        { title: "When Insurance Won't Cover AI: Why AI Governance Is Now Essential", source: "Lexology / Galkin Law", date: "Jan 2026", url: "https://www.lexology.com/library/detail.aspx?g=b76e0dba-d9a8-44f1-9f5d-6fbd0a22f6b6", summary: "Policies may now deny coverage for harm from flawed chatbot advice, generative AI content, decision-automation errors, or hallucinations. Where coverage isn't excluded, insurers are raising premiums, increasing deductibles, or capping AI-related limits." },
+      ],
+    },
+    {
+      title: "Market Size & Opportunity",
+      articles: [
+        { title: "AI Insurance Could Be a $4.8B Market by 2032", source: "Deloitte", date: "Aug 2025", url: "https://www.deloitte.com/us/en/insights/multimedia/videos/ai-insurance-market-potential.html", summary: "Deloitte projects AI-specific insurance premiums will grow at approximately 80% CAGR, reaching about $4.8 billion in annual global premiums by 2032. As AI becomes embedded in everyday life, liability and risk management questions are moving to center stage." },
+        { title: "HSB Introduces AI Liability Insurance for Small Businesses", source: "Munich Re / HSB", date: "Mar 2026", url: "https://www.munichre.com/hsb/en/press-and-publications/press-releases/2026/2026-03-18-introducing-ai-liability-insurance-for-small-businesses.html", summary: "HSB launched a new AI liability product for small and medium-sized companies, filling gaps that some GL policies now exclude. An HSB survey of 1,000 businesses found that 91% plan to use AI, underscoring the urgency of the coverage gap." },
+        { title: "How Insurance Policies Are Adapting To AI Risk", source: "Hunton Andrews Kurth", date: "2025", url: "https://www.hunton.com/insights/publications/how-insurance-policies-are-adapting-to-ai-risk", summary: "Approximately 72% of S&P 500 companies now discuss AI risks in annual securities filings. Munich Re's aiSure, Armilla AI, and Testudo have introduced standalone AI insurance products. The article recommends businesses conduct thorough audits to identify AI risks in the context of specific policy language." },
+      ],
+    },
+    {
+      title: "Where AI Insurance Is Headed",
+      articles: [
+        { title: "April 2026: Insurance AI Trends & Highlights", source: "Roots Automation", date: "Apr 2026", url: "https://www.roots.ai/blog/april-2026-insurance-ai-trends-highlights", summary: "An industry executive predicts a dedicated AI insurance sector could emerge within five to ten years — complete with its own MGAs, claims professionals, and policy forms — mirroring the trajectory of cyber insurance from a niche exposure in the 1990s to a major standalone line." },
+        { title: "AI Roll-Out Is Outpacing Risk Controls, Gallagher Warns", source: "Insurance Business", date: "Apr 2026", url: "https://www.insurancebusinessmag.com/us/news/technology/ai-rollout-is-outpacing-risk-controls-gallagher-warns-569745.aspx", summary: "43% of firms lack formal AI risk frameworks and fewer than half conduct AI impact assessments, even as 47% now offer AI training and 40% have created AI-focused roles. The governance gap is feeding into more complex E&O, cyber, D&O, and employment practices exposures." },
+        { title: "Gallagher Re Identifies Systemic Risk from AI Model Failures", source: "Insurance Business / Reinsurance", date: "Mar 2026", url: "https://www.insurancebusinessmag.com/reinsurance/news/breaking-news/gallagher-re-identifies-systemic-risk-from-ai-model-failures-569775.aspx", summary: "A critical flaw in one widely adopted AI model could trigger simultaneous claims across thousands of unrelated policyholders. Unlike traditional catastrophe events with geographic boundaries, AI failures propagate instantly across industries and borders." },
+      ],
+    },
+  ];
+
+  return (
+    <Section bg={WHITE} id="research">
+      <SectionLabel text="Industry Research" />
+      <SectionTitle text="The Evidence Is Overwhelming." />
+      <BodyText text="We've compiled the most important research, reports, and analysis from leading industry sources documenting the AI coverage crisis. Every claim we make is backed by data." maxWidth={650} />
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginTop: 32, marginBottom: 48 }}>
+        {[
+          { stat: "978%", label: "Growth in AI lawsuits (2021–2025)" },
+          { stat: "82%", label: "Of U.S. P&C policies use ISO forms" },
+          { stat: "$4.8B", label: "Projected AI premiums by 2032" },
+          { stat: "91%", label: "Of businesses plan to use AI" },
+        ].map((s, i) => (
+          <div key={i} style={{ background: LIGHT, borderRadius: 12, padding: 24, textAlign: "center", border: "1px solid #E5E7EB" }}>
+            <div style={{ color: NAVY, fontSize: 32, fontWeight: 800, letterSpacing: -1 }}>{s.stat}</div>
+            <div style={{ color: GRAY, fontSize: 12, lineHeight: 1.4, marginTop: 6 }}>{s.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {categories.map((cat, catIdx) => (
+        <div key={catIdx} style={{ marginBottom: 32 }}>
+          <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 16px", paddingBottom: 12, borderBottom: `2px solid ${LGOLD}` }}>{cat.title}</h3>
+          {cat.articles.map((article, artIdx) => {
+            const key = `${catIdx}-${artIdx}`;
+            const isOpen = expanded === key;
+            return (
+              <div key={artIdx} style={{ borderBottom: "1px solid #E5E7EB" }}>
+                <button onClick={() => setExpanded(isOpen ? null : key)} style={{
+                  width: "100%", textAlign: "left", padding: "20px 0", background: "none", border: "none",
+                  cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, fontFamily: "inherit",
+                }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ color: NAVY, fontSize: 16, fontWeight: 600, lineHeight: 1.4, marginBottom: 6 }}>{article.title}</div>
+                    <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+                      <span style={{ color: GOLD, fontSize: 13, fontWeight: 600 }}>{article.source}</span>
+                      <span style={{ color: GRAY, fontSize: 12 }}>{article.date}</span>
+                    </div>
+                  </div>
+                  <div style={{
+                    width: 28, height: 28, borderRadius: "50%", border: "1px solid #E5E7EB",
+                    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 4,
+                    transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  }}>
+                    <span style={{ fontSize: 12, color: GRAY }}>▼</span>
+                  </div>
+                </button>
+                {isOpen && (
+                  <div style={{ paddingBottom: 20 }}>
+                    <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.8, margin: "0 0 16px", paddingLeft: 16, borderLeft: `3px solid ${GOLD}` }}>{article.summary}</p>
+                    <a href={article.url} target="_blank" rel="noopener noreferrer" style={{
+                      display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600,
+                      color: GOLD, textDecoration: "none", padding: "8px 16px", border: `1px solid ${GOLD}`, borderRadius: 6,
+                    }}>Read Original Source →</a>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ))}
+
+      <div style={{ marginTop: 40, borderTop: "1px solid #E5E7EB", paddingTop: 24 }}>
+        <div style={{ color: GRAY, fontSize: 12, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>Sources & Citations</div>
+        <ol style={{ margin: 0, padding: "0 0 0 20px", fontSize: 12, lineHeight: 2.2, color: GRAY }}>
+          {categories.flatMap(c => c.articles).map((a, i) => (
+            <li key={i}>"{a.title}" — <em>{a.source}</em>, {a.date}. <a href={a.url} target="_blank" rel="noopener noreferrer" style={{ color: GOLD, textDecoration: "none" }}>{a.url.length > 70 ? a.url.substring(0, 67) + "..." : a.url}</a></li>
+          ))}
+        </ol>
+        <p style={{ color: GRAY, fontSize: 11, marginTop: 16, fontStyle: "italic" }}>All summaries written by The AI Insurance Group based on publicly available sources. We encourage readers to review the original publications for complete context. Last updated: April 2026.</p>
+      </div>
+    </Section>
+  );
+}
+
 function CTASection() {
   return (
     <section style={{ background: `linear-gradient(135deg, ${DARK} 0%, ${NAVY} 100%)`, padding: "80px 24px", textAlign: "center" }}>
@@ -609,8 +729,8 @@ function Footer({ onLegalPage }) {
           </div>
           <div>
             <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>RESOURCES</div>
-            {["Free AI Coverage Assessment", "AI Exclusion Knowledge Base", "Healthcare AI Risk", "Wealth Management AI Risk", "Broker Partnership Program"].map((l, i) => (
-              <div key={i} style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, marginBottom: 8, cursor: "pointer" }}>{l}</div>
+            {["Free AI Coverage Assessment", "Industry Research", "AI Exclusion Knowledge Base", "Healthcare AI Risk", "Wealth Management AI Risk", "Broker Partnership Program"].map((l, i) => (
+              <div key={i} style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, marginBottom: 8, cursor: "pointer" }}>{l === "Industry Research" ? <a href="#research" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>{l}</a> : l}</div>
             ))}
           </div>
           <div>
@@ -655,6 +775,7 @@ export default function App() {
       <IndustriesSection />
       <ProcessSection />
       <AboutSection />
+      <ResearchSection />
       <CTASection />
       <ContactSection />
       <Footer onLegalPage={setLegalPage} />
