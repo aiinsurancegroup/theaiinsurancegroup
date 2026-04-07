@@ -320,14 +320,10 @@ function Hero() {
 
         <div style={{ marginTop: 48, display: "flex", gap: 48, flexWrap: "wrap" }}>
           {[
-            { icon: "🛡️", label: "Specialty Market
-A+ Rated Capacity" },
-            { icon: "📋", label: "Comprehensive
-AI Gap Audits" },
-            { icon: "⚖️", label: "E&O, D&O, Cyber
-& GL Coverage" },
-            { icon: "🏥", label: "Healthcare, Legal
-& Financial Verticals" },
+            { icon: "🛡️", label: "Specialty Market\nA+ Rated Capacity" },
+            { icon: "📋", label: "Comprehensive\nAI Gap Audits" },
+            { icon: "⚖️", label: "E&O, D&O, Cyber\n& GL Coverage" },
+            { icon: "🏥", label: "Healthcare, Legal\n& Financial Verticals" },
           ].map((item, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ fontSize: 28 }}>{item.icon}</div>
