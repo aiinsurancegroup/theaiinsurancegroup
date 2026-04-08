@@ -579,37 +579,16 @@ function ResearchSection() {
 
 function BlogSection() {
   const [expandedPost, setExpandedPost] = useState(null);
-  const posts = [
-    {
-      id: 1,
-      title: "We Built This in 90 Days. Here\u2019s Why That Matters.",
-      date: "April 2026",
-      readTime: "5 min read",
-      preview: "On January 1, 2026, major carriers began attaching AI exclusions to standard commercial policies. Most businesses don\u2019t know. Most brokers aren\u2019t equipped to help. We built a platform to close that gap \u2014 before the industry catches up.",
-      content: [
-        { heading: null, text: "On January 1, 2026, something happened that most business owners still don\u2019t know about. Major insurance carriers quietly began attaching AI exclusions to standard General Liability, E&O, D&O, and Cyber policies. Practically overnight, businesses using AI \u2014 and at this point, that\u2019s most of them \u2014 had gaps in their coverage that didn\u2019t exist the day before." },
-        { heading: null, text: "The logic was simple. Verisk, the organization that writes the standard policy language used in roughly 82% of U.S. P&C policies, released new endorsements \u2014 CG 40 47, CG 40 48, and CG 35 08 \u2014 that allow carriers to explicitly exclude generative AI claims. Carriers started attaching them at renewal. And most policyholders had no idea." },
-        { heading: null, text: "When I saw that happening, one thing was immediately clear: most independent brokers don\u2019t have the tools or the specialty knowledge to audit a client\u2019s portfolio for AI-specific exclusions. And the big carriers aren\u2019t going to help \u2014 they\u2019re the ones writing the exclusions. Someone needed to build a bridge between businesses that are exposed and the specialty markets that can actually protect them." },
-        { heading: null, text: "So I built The AI Insurance Group." },
-        { heading: "What We Are Today", text: "We\u2019re early. I won\u2019t pretend otherwise. But in roughly 90 days, we stood up three properties that work together as a single system." },
-        { heading: null, text: "TheAIInsuranceGroup.com is our main brand site. It\u2019s where we explain the problem, introduce our services, and point people toward the right resources. We serve lawyers, physicians, wealth managers, corporate directors \u2014 professionals whose AI exposure is real and whose existing brokers often don\u2019t have the specialty knowledge to address it." },
-        { heading: null, text: "IsYourAICovered.com is a consumer-facing lead generation site. It offers a free 60-second assessment that helps business owners figure out whether they have AI-related coverage gaps. No jargon, no hard sell. Just a quick set of questions and an honest risk rating." },
-        { heading: null, text: "Audit.TheAIInsuranceGroup.com is our AI Policy Audit Tool \u2014 a deeper diagnostic that reviews actual policy documents across GL, E&O, D&O, Cyber, EPLI, and Products Liability to identify AI-related exclusions, sublimits, and endorsements that may have been quietly added at renewal." },
-        { heading: null, text: "Three sites. One funnel. Educate, assess, diagnose." },
-        { heading: "Why This Business Exists", text: "The insurance industry hasn\u2019t caught up to AI. Most brokers aren\u2019t equipped to audit for AI-specific exclusions. Most carriers are still figuring out how to price the risk. And in the meantime, businesses are exposed." },
-        { heading: null, text: "The AI insurance market is projected to reach roughly $4.8 billion in annual premiums by 2032. Right now, we\u2019re in the earliest innings of that growth. A handful of specialty insurers \u2014 Munich Re\u2019s aiSure, Armilla, Testudo \u2014 have launched AI-specific products, but the vast majority of businesses are still relying on legacy policies that were never designed for algorithmic risk." },
-        { heading: null, text: "That gap is our opportunity. We\u2019re offering a service that most independent brokers and large carriers don\u2019t have yet \u2014 but will." },
-        { heading: "Where This Goes", text: "We\u2019re a marketing and informational platform today. But what we\u2019re really building is a bridge \u2014 between businesses that don\u2019t know they\u2019re exposed and the specialty markets that can actually protect them." },
-        { heading: null, text: "Deeper content and thought leadership. The knowledge base on our site will grow into a go-to resource for AI risk education. We\u2019re tracking regulatory developments, carrier exclusion language, and real-world claim scenarios so our audience doesn\u2019t have to." },
-        { heading: null, text: "Broker partnerships at scale. We work with P&C brokers who want to offer AI coverage audits to their existing clients without building specialty expertise in-house. That channel has enormous potential. You keep the client. We bring the knowledge." },
-        { heading: null, text: "Smarter assessment tools. Our audit tool analyzes actual policy language \u2014 not just self-reported answers \u2014 to deliver truly personalized gap analysis. It will keep getting better." },
-        { heading: null, text: "Industry-specific verticals. AI risk looks different for a law firm than it does for a healthcare provider or a fintech startup. We\u2019re building the expertise to serve each of these verticals with tailored guidance and coverage recommendations." },
-        { heading: "The Bottom Line", text: "The foundation is right. The timing is right. And the problem we\u2019re solving isn\u2019t going away \u2014 it\u2019s accelerating." },
-        { heading: null, text: "If you\u2019re a business owner using AI in any capacity, the question isn\u2019t whether you need to think about this. It\u2019s whether you can afford not to." },
-        { heading: null, text: "If you\u2019re a broker looking for a specialty partner in a space that\u2019s about to explode, let\u2019s talk." },
-      ],
-    },
-  ];
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetch("https://dtgsegabaivtgyccrcxi.supabase.co/rest/v1/blog_posts?published=eq.true&order=sort_order.desc,created_at.desc", {
+      headers: { apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Z3NlZ2FiYWl2dGd5Y2NyY3hpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjEwNjMsImV4cCI6MjA5MDQzNzA2M30.1iuiE5T0bqYlkxfoNTyi0NRbDMOZpSORSrtmbdomrNQ" },
+    }).then(r => r.json()).then(data => { setPosts(data || []); setLoading(false); }).catch(() => setLoading(false));
+  }, []);
+
+  if (loading) return null;
+  if (posts.length === 0) return null;
 
   return (
     <Section bg={LIGHT} id="blog">
@@ -619,6 +598,7 @@ function BlogSection() {
       <div style={{ marginTop: 40 }}>
         {posts.map((post) => {
           const isOpen = expandedPost === post.id;
+          const content = typeof post.content === "string" ? JSON.parse(post.content) : post.content;
           return (
             <div key={post.id} style={{ background: WHITE, borderRadius: 16, border: "1px solid #E5E7EB", overflow: "hidden", marginBottom: 20 }}>
               <button onClick={() => setExpandedPost(isOpen ? null : post.id)} style={{
@@ -627,7 +607,7 @@ function BlogSection() {
               }}>
                 <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
                   <span style={{ color: GOLD, fontSize: 13, fontWeight: 600 }}>{post.date}</span>
-                  <span style={{ color: GRAY, fontSize: 13 }}>{post.readTime}</span>
+                  <span style={{ color: GRAY, fontSize: 13 }}>{post.read_time}</span>
                 </div>
                 <h3 style={{ color: NAVY, fontSize: 22, fontWeight: 700, lineHeight: 1.3, margin: "0 0 12px" }}>{post.title}</h3>
                 <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.7, margin: 0 }}>{post.preview}</p>
@@ -635,14 +615,14 @@ function BlogSection() {
               </button>
               {isOpen && (
                 <div style={{ padding: "0 32px 32px", borderTop: "1px solid #E5E7EB" }}>
-                  {post.content.map((block, i) => (
+                  {content.map((block, i) => (
                     <div key={i}>
                       {block.heading && <h4 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: "28px 0 12px" }}>{block.heading}</h4>}
                       <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.8, margin: block.heading ? "0 0 16px" : "16px 0" }}>{block.text}</p>
                     </div>
                   ))}
                   <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid #E5E7EB" }}>
-                    <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>Sal Martorano is the founder of The AI Insurance Group, a marketing and informational platform focused on AI liability coverage and risk advisory. He is licensed for Property & Casualty insurance in New Jersey and Florida.</p>
+                    <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || "Sal Martorano is the founder of The AI Insurance Group."}</p>
                   </div>
                 </div>
               )}
