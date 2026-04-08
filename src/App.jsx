@@ -577,48 +577,125 @@ function ResearchSection() {
   );
 }
 
+const SUPABASE_URL = "https://dtgsegabaivtgyccrcxi.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Z3NlZ2FiYWl2dGd5Y2NyY3hpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjEwNjMsImV4cCI6MjA5MDQzNzA2M30.1iuiE5T0bqYlkxfoNTyi0NRbDMOZpSORSrtmbdomrNQ";
+const BLOG_PASSWORD = "BlogAdmin2026!";
+const sbHeaders = { apikey: SUPABASE_KEY, "Content-Type": "application/json", Authorization: "Bearer " + SUPABASE_KEY };
+
+function BlogEditor({ post, onSave, onCancel }) {
+  const [title, setTitle] = useState(post ? post.title : "");
+  const [date, setDate] = useState(post ? post.date : new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" }));
+  const [readTime, setReadTime] = useState(post ? post.read_time : "5 min read");
+  const [preview, setPreview] = useState(post ? post.preview : "");
+  const [blocks, setBlocks] = useState(post ? (typeof post.content === "string" ? JSON.parse(post.content) : post.content) : [{ heading: null, text: "" }]);
+  const [saving, setSaving] = useState(false);
+
+  const updateBlock = (i, field, val) => { const b = [...blocks]; b[i] = { ...b[i], [field]: val || null }; setBlocks(b); };
+  const addBlock = () => setBlocks([...blocks, { heading: null, text: "" }]);
+  const removeBlock = (i) => { if (blocks.length > 1) setBlocks(blocks.filter((_, j) => j !== i)); };
+  const moveBlock = (i, dir) => { const b = [...blocks]; const t = b[i]; b[i] = b[i + dir]; b[i + dir] = t; setBlocks(b); };
+
+  const handleSave = async () => {
+    if (!title || !preview || blocks.some(b => !b.text)) return;
+    setSaving(true);
+    const payload = { title, date, read_time: readTime, preview, content: blocks, published: true, updated_at: new Date().toISOString() };
+    try {
+      if (post && post.id) {
+        await fetch(SUPABASE_URL + "/rest/v1/blog_posts?id=eq." + post.id, { method: "PATCH", headers: sbHeaders, body: JSON.stringify(payload) });
+      } else {
+        await fetch(SUPABASE_URL + "/rest/v1/blog_posts", { method: "POST", headers: { ...sbHeaders, Prefer: "return=representation" }, body: JSON.stringify(payload) });
+      }
+      onSave();
+    } catch (e) { console.error(e); }
+    setSaving(false);
+  };
+
+  const inputStyle = { width: "100%", padding: "12px 14px", borderRadius: 8, border: "1px solid #E5E7EB", fontSize: 15, color: NAVY, outline: "none", boxSizing: "border-box", fontFamily: "inherit" };
+  const textareaStyle = { ...inputStyle, resize: "vertical", lineHeight: 1.7 };
+
+  return (
+    <div style={{ background: WHITE, borderRadius: 16, border: "2px solid " + GOLD, padding: 32, marginBottom: 20 }}>
+      <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 24px" }}>{post ? "Edit Post" : "New Post"}</h3>
+      <input placeholder="Article Title" value={title} onChange={e => setTitle(e.target.value)} style={{ ...inputStyle, fontSize: 18, fontWeight: 700, marginBottom: 12 }} />
+      <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
+        <input placeholder="Date (e.g. April 2026)" value={date} onChange={e => setDate(e.target.value)} style={{ ...inputStyle, flex: 1 }} />
+        <input placeholder="Read time" value={readTime} onChange={e => setReadTime(e.target.value)} style={{ ...inputStyle, flex: 1 }} />
+      </div>
+      <textarea placeholder="Preview text (shows before reader clicks Read More)" rows={3} value={preview} onChange={e => setPreview(e.target.value)} style={{ ...textareaStyle, marginBottom: 20 }} />
+      <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>ARTICLE CONTENT</div>
+      {blocks.map((block, i) => (
+        <div key={i} style={{ background: LIGHT, borderRadius: 10, padding: 16, marginBottom: 12, border: "1px solid #E5E7EB" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+            <span style={{ color: GRAY, fontSize: 12, fontWeight: 600 }}>Section {i + 1}</span>
+            <div style={{ display: "flex", gap: 6 }}>
+              {i > 0 && <button onClick={() => moveBlock(i, -1)} style={{ background: "none", border: "1px solid #E5E7EB", borderRadius: 4, padding: "2px 8px", cursor: "pointer", fontSize: 12, color: GRAY }}>{"\u2191"}</button>}
+              {i < blocks.length - 1 && <button onClick={() => moveBlock(i, 1)} style={{ background: "none", border: "1px solid #E5E7EB", borderRadius: 4, padding: "2px 8px", cursor: "pointer", fontSize: 12, color: GRAY }}>{"\u2193"}</button>}
+              <button onClick={() => removeBlock(i)} style={{ background: "none", border: "1px solid #E5E7EB", borderRadius: 4, padding: "2px 8px", cursor: "pointer", fontSize: 12, color: RED }}>{"\u2715"}</button>
+            </div>
+          </div>
+          <input placeholder="Section heading (leave blank for no heading)" value={block.heading || ""} onChange={e => updateBlock(i, "heading", e.target.value)} style={{ ...inputStyle, marginBottom: 8, fontSize: 14 }} />
+          <textarea placeholder="Paragraph text..." rows={4} value={block.text} onChange={e => updateBlock(i, "text", e.target.value)} style={{ ...textareaStyle, fontSize: 14 }} />
+        </div>
+      ))}
+      <button onClick={addBlock} style={{ background: LIGHT, border: "1px dashed #D1D5DB", borderRadius: 8, padding: "10px 20px", fontSize: 13, color: GRAY, cursor: "pointer", width: "100%", marginBottom: 20 }}>+ Add Section</button>
+      <div style={{ display: "flex", gap: 12 }}>
+        <button onClick={handleSave} disabled={saving} style={{ flex: 1, padding: "14px", borderRadius: 8, border: "none", background: NAVY, color: WHITE, fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{saving ? "Saving..." : post ? "Save Changes" : "Publish Post"}</button>
+        <button onClick={onCancel} style={{ padding: "14px 24px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, color: GRAY, fontSize: 15, cursor: "pointer" }}>Cancel</button>
+      </div>
+    </div>
+  );
+}
+
 function BlogSection() {
   const [expandedPost, setExpandedPost] = useState(null);
-  const posts = [
-    {
-      id: 1,
-      title: "We Built This in 90 Days. Here\u2019s Why That Matters.",
-      date: "April 2026",
-      readTime: "5 min read",
-      preview: "On January 1, 2026, major carriers began attaching AI exclusions to standard commercial policies. Most businesses don\u2019t know. Most brokers aren\u2019t equipped to help. We built a platform to close that gap \u2014 before the industry catches up.",
-      content: [
-        { heading: null, text: "On January 1, 2026, something happened that most business owners still don\u2019t know about. Major insurance carriers quietly began attaching AI exclusions to standard General Liability, E&O, D&O, and Cyber policies. Practically overnight, businesses using AI \u2014 and at this point, that\u2019s most of them \u2014 had gaps in their coverage that didn\u2019t exist the day before." },
-        { heading: null, text: "The logic was simple. Verisk, the organization that writes the standard policy language used in roughly 82% of U.S. P&C policies, released new endorsements \u2014 CG 40 47, CG 40 48, and CG 35 08 \u2014 that allow carriers to explicitly exclude generative AI claims. Carriers started attaching them at renewal. And most policyholders had no idea." },
-        { heading: null, text: "When I saw that happening, one thing was immediately clear: most independent brokers don\u2019t have the tools or the specialty knowledge to audit a client\u2019s portfolio for AI-specific exclusions. And the big carriers aren\u2019t going to help \u2014 they\u2019re the ones writing the exclusions. Someone needed to build a bridge between businesses that are exposed and the specialty markets that can actually protect them." },
-        { heading: null, text: "So I built The AI Insurance Group." },
-        { heading: "What We Are Today", text: "We\u2019re early. I won\u2019t pretend otherwise. But in roughly 90 days, we stood up three properties that work together as a single system." },
-        { heading: null, text: "TheAIInsuranceGroup.com is our main brand site. It\u2019s where we explain the problem, introduce our services, and point people toward the right resources. We serve lawyers, physicians, wealth managers, corporate directors \u2014 professionals whose AI exposure is real and whose existing brokers often don\u2019t have the specialty knowledge to address it." },
-        { heading: null, text: "IsYourAICovered.com is a consumer-facing lead generation site. It offers a free 60-second assessment that helps business owners figure out whether they have AI-related coverage gaps. No jargon, no hard sell. Just a quick set of questions and an honest risk rating." },
-        { heading: null, text: "Audit.TheAIInsuranceGroup.com is our AI Policy Audit Tool \u2014 a deeper diagnostic that reviews actual policy documents across GL, E&O, D&O, Cyber, EPLI, and Products Liability to identify AI-related exclusions, sublimits, and endorsements that may have been quietly added at renewal." },
-        { heading: null, text: "Three sites. One funnel. Educate, assess, diagnose." },
-        { heading: "Why This Business Exists", text: "The insurance industry hasn\u2019t caught up to AI. Most brokers aren\u2019t equipped to audit for AI-specific exclusions. Most carriers are still figuring out how to price the risk. And in the meantime, businesses are exposed." },
-        { heading: null, text: "The AI insurance market is projected to reach roughly $4.8 billion in annual premiums by 2032. Right now, we\u2019re in the earliest innings of that growth. A handful of specialty insurers \u2014 Munich Re\u2019s aiSure, Armilla, Testudo \u2014 have launched AI-specific products, but the vast majority of businesses are still relying on legacy policies that were never designed for algorithmic risk." },
-        { heading: null, text: "That gap is our opportunity. We\u2019re offering a service that most independent brokers and large carriers don\u2019t have yet \u2014 but will." },
-        { heading: "Where This Goes", text: "We\u2019re a marketing and informational platform today. But what we\u2019re really building is a bridge \u2014 between businesses that don\u2019t know they\u2019re exposed and the specialty markets that can actually protect them." },
-        { heading: null, text: "Deeper content and thought leadership. The knowledge base on our site will grow into a go-to resource for AI risk education. We\u2019re tracking regulatory developments, carrier exclusion language, and real-world claim scenarios so our audience doesn\u2019t have to." },
-        { heading: null, text: "Broker partnerships at scale. We work with P&C brokers who want to offer AI coverage audits to their existing clients without building specialty expertise in-house. That channel has enormous potential. You keep the client. We bring the knowledge." },
-        { heading: null, text: "Smarter assessment tools. Our audit tool analyzes actual policy language \u2014 not just self-reported answers \u2014 to deliver truly personalized gap analysis. It will keep getting better." },
-        { heading: null, text: "Industry-specific verticals. AI risk looks different for a law firm than it does for a healthcare provider or a fintech startup. We\u2019re building the expertise to serve each of these verticals with tailored guidance and coverage recommendations." },
-        { heading: "The Bottom Line", text: "The foundation is right. The timing is right. And the problem we\u2019re solving isn\u2019t going away \u2014 it\u2019s accelerating." },
-        { heading: null, text: "If you\u2019re a business owner using AI in any capacity, the question isn\u2019t whether you need to think about this. It\u2019s whether you can afford not to." },
-        { heading: null, text: "If you\u2019re a broker looking for a specialty partner in a space that\u2019s about to explode, let\u2019s talk." },
-      ],
-    },
-  ];
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [editing, setEditing] = useState(null);
+  const [creating, setCreating] = useState(false);
+
+  const fetchPosts = () => {
+    fetch(SUPABASE_URL + "/rest/v1/blog_posts?published=eq.true&order=sort_order.desc,created_at.desc", { headers: { apikey: SUPABASE_KEY } })
+      .then(r => r.json()).then(data => { setPosts(data || []); setLoading(false); }).catch(() => setLoading(false));
+  };
+  useEffect(() => { fetchPosts(); }, []);
+
+  const handleAdminToggle = () => {
+    if (isAdmin) { setIsAdmin(false); setEditing(null); setCreating(false); return; }
+    const pw = prompt("Enter admin password:");
+    if (pw === BLOG_PASSWORD) setIsAdmin(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm("Delete this post?")) return;
+    await fetch(SUPABASE_URL + "/rest/v1/blog_posts?id=eq." + id, { method: "DELETE", headers: sbHeaders });
+    fetchPosts();
+  };
+
+  const handleSaved = () => { setEditing(null); setCreating(false); fetchPosts(); };
+
+  if (loading) return null;
+  if (posts.length === 0 && !isAdmin) return null;
 
   return (
     <Section bg={LIGHT} id="blog">
-      <SectionLabel text="Blog" />
-      <SectionTitle text="From the Founder" />
-      <BodyText text="Thoughts on building an AI insurance business from the ground up \u2014 the market, the timing, and why this matters." maxWidth={600} />
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div>
+          <SectionLabel text="Blog" />
+          <SectionTitle text="From the Founder" />
+          <BodyText text={"Thoughts on building an AI insurance business from the ground up \u2014 the market, the timing, and why this matters."} maxWidth={600} />
+        </div>
+        <button onClick={handleAdminToggle} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 18, opacity: isAdmin ? 1 : 0.2, padding: 8, marginTop: 8 }} title={isAdmin ? "Exit admin mode" : "Admin login"}>{isAdmin ? "\uD83D\uDD13" : "\uD83D\uDD12"}</button>
+      </div>
       <div style={{ marginTop: 40 }}>
+        {isAdmin && !creating && !editing && (
+          <button onClick={() => setCreating(true)} style={{ width: "100%", padding: "16px", borderRadius: 12, border: "2px dashed " + GOLD, background: "rgba(184,151,42,0.04)", color: GOLD, fontSize: 16, fontWeight: 700, cursor: "pointer", marginBottom: 20 }}>+ New Blog Post</button>
+        )}
+        {creating && <BlogEditor post={null} onSave={handleSaved} onCancel={() => setCreating(false)} />}
         {posts.map((post) => {
           const isOpen = expandedPost === post.id;
+          const content = typeof post.content === "string" ? JSON.parse(post.content) : post.content;
+          if (editing === post.id) return <BlogEditor key={post.id} post={post} onSave={handleSaved} onCancel={() => setEditing(null)} />;
           return (
             <div key={post.id} style={{ background: WHITE, borderRadius: 16, border: "1px solid #E5E7EB", overflow: "hidden", marginBottom: 20 }}>
               <button onClick={() => setExpandedPost(isOpen ? null : post.id)} style={{
@@ -627,7 +704,7 @@ function BlogSection() {
               }}>
                 <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
                   <span style={{ color: GOLD, fontSize: 13, fontWeight: 600 }}>{post.date}</span>
-                  <span style={{ color: GRAY, fontSize: 13 }}>{post.readTime}</span>
+                  <span style={{ color: GRAY, fontSize: 13 }}>{post.read_time}</span>
                 </div>
                 <h3 style={{ color: NAVY, fontSize: 22, fontWeight: 700, lineHeight: 1.3, margin: "0 0 12px" }}>{post.title}</h3>
                 <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.7, margin: 0 }}>{post.preview}</p>
@@ -635,15 +712,21 @@ function BlogSection() {
               </button>
               {isOpen && (
                 <div style={{ padding: "0 32px 32px", borderTop: "1px solid #E5E7EB" }}>
-                  {post.content.map((block, i) => (
+                  {content.map((block, i) => (
                     <div key={i}>
                       {block.heading && <h4 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: "28px 0 12px" }}>{block.heading}</h4>}
                       <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.8, margin: block.heading ? "0 0 16px" : "16px 0" }}>{block.text}</p>
                     </div>
                   ))}
                   <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid #E5E7EB" }}>
-                    <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>Sal Martorano is the founder of The AI Insurance Group, a marketing and informational platform focused on AI liability coverage and risk advisory. He is licensed for Property & Casualty insurance in New Jersey and Florida.</p>
+                    <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || "Sal Martorano is the founder of The AI Insurance Group, a marketing and informational platform focused on AI liability coverage and risk advisory. He is licensed for Property & Casualty insurance in New Jersey and Florida."}</p>
                   </div>
+                  {isAdmin && (
+                    <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
+                      <button onClick={(e) => { e.stopPropagation(); setEditing(post.id); }} style={{ padding: "8px 20px", borderRadius: 6, border: "1px solid " + NAVY, background: "none", color: NAVY, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Edit Post</button>
+                      <button onClick={(e) => { e.stopPropagation(); handleDelete(post.id); }} style={{ padding: "8px 20px", borderRadius: 6, border: "1px solid " + RED, background: "none", color: RED, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Delete</button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
