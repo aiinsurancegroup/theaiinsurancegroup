@@ -8,6 +8,7 @@ const LIGHT = "#F7F8FA";
 const LGOLD = "#F5EFE0";
 const GRAY = "#6B7280";
 const DGRAY = "#374151";
+const RED = "#DC2626";
 
 const Section = ({ children, bg = WHITE, id }) => (
   <section id={id} style={{ background: bg, padding: "80px 24px" }}>
