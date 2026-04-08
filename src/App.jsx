@@ -212,7 +212,6 @@ function Nav() {
     { label: "Services", href: "#services" },
     { label: "Industries", href: "#industries" },
     { label: "The Problem", href: "#problem" },
-    { label: "About", href: "#about" },
     { label: "Research", href: "#research" },
     { label: "Contact", href: "#contact" },
   ];
@@ -459,43 +458,6 @@ function ProcessSection() {
   );
 }
 
-function AboutSection() {
-  return (
-    <Section bg={LIGHT} id="about">
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
-        <div>
-          <SectionLabel text="About" />
-          <SectionTitle text="Wall Street Insight. Insurance Expertise. AI Fluency." />
-          <BodyText text="The AI Insurance Group was founded by Sal Martorano, a strategy and business operations executive with deep roots in financial services and institutional risk management." />
-          <BodyText text="With FINRA Series 7, 24, 55, 63, and 99 licenses and years of experience in quantitative analytics and institutional trading, Sal brings a rare combination of financial sophistication and insurance expertise to a market that desperately needs both." />
-          <BodyText text="We don't just sell policies. We understand systemic risk, correlated exposures, and how one triggering event can cascade across an entire insurance portfolio — because we've seen it happen before." />
-          <div style={{ marginTop: 28, display: "flex", gap: 24, flexWrap: "wrap" }}>
-            {[
-              { label: "FINRA Licensed", detail: "Series 7, 24, 55, 63, 99" },
-              { label: "Specialty Markets", detail: "Lloyd's, Munich Re, Admitted" },
-              { label: "Based in", detail: "New Jersey, serving nationwide" },
-            ].map((c, i) => (
-              <div key={i}>
-                <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 4 }}>{c.label}</div>
-                <div style={{ color: NAVY, fontSize: 14, fontWeight: 600 }}>{c.detail}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div style={{ background: `linear-gradient(135deg, ${NAVY}, ${DARK})`, borderRadius: 20, padding: 48, position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: -40, right: -40, width: 200, height: 200, borderRadius: "50%", background: "rgba(184,151,42,0.08)" }} />
-          <div style={{ color: GOLD, fontSize: 14, fontWeight: 700, letterSpacing: 1.5, marginBottom: 20 }}>OUR APPROACH</div>
-          <div style={{ color: WHITE, fontSize: 22, fontWeight: 700, lineHeight: 1.4, marginBottom: 20 }}>"Most agents sell line by line. We audit across your entire portfolio — because AI risk doesn't respect policy boundaries."</div>
-          <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 14 }}>— Sal Martorano, Founder</div>
-          <div style={{ marginTop: 40, borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24 }}>
-            <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.7 }}>This is not research. This is experience. We've spent years inside the institutions that create and transfer risk — and we apply that understanding to protect businesses navigating the AI coverage gap.</div>
-          </div>
-        </div>
-      </div>
-    </Section>
-  );
-}
-
 function ResearchSection() {
   const [expanded, setExpanded] = useState(null);
   const categories = [
@@ -544,7 +506,7 @@ function ResearchSection() {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginTop: 32, marginBottom: 48 }}>
         {[
-          { stat: "978%", label: "Growth in AI lawsuits (2021\u20132025)" },
+          { stat: "978%", label: "Growth in AI lawsuits (2021–2025)" },
           { stat: "82%", label: "Of U.S. P&C policies use ISO forms" },
           { stat: "$4.8B", label: "Projected AI premiums by 2032" },
           { stat: "91%", label: "Of businesses plan to use AI" },
@@ -575,7 +537,7 @@ function ResearchSection() {
                       <span style={{ color: GRAY, fontSize: 12 }}>{article.date}</span>
                     </div>
                     <div style={{ background: LGOLD, borderRadius: 8, padding: "12px 16px", borderLeft: `3px solid ${GOLD}` }}>
-                      <div style={{ color: NAVY, fontSize: 14, fontWeight: 600, lineHeight: 1.55, fontStyle: "italic" }}>{"\u201C"}{article.quote}{"\u201D"}</div>
+                      <div style={{ color: NAVY, fontSize: 14, fontWeight: 600, lineHeight: 1.55, fontStyle: "italic" }}>{"“"}{article.quote}{"”"}</div>
                     </div>
                   </div>
                   <div style={{
@@ -583,7 +545,7 @@ function ResearchSection() {
                     display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 4,
                     transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                   }}>
-                    <span style={{ fontSize: 12, color: GRAY }}>{"\u25BC"}</span>
+                    <span style={{ fontSize: 12, color: GRAY }}>{"▼"}</span>
                   </div>
                 </button>
                 {isOpen && (
@@ -592,7 +554,7 @@ function ResearchSection() {
                     <a href={article.url} target="_blank" rel="noopener noreferrer" style={{
                       display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600,
                       color: GOLD, textDecoration: "none", padding: "8px 16px", border: `1px solid ${GOLD}`, borderRadius: 6,
-                    }}>Read Original Source {"\u2192"}</a>
+                    }}>Read Original Source {"→"}</a>
                   </div>
                 )}
               </div>
@@ -605,7 +567,7 @@ function ResearchSection() {
         <div style={{ color: GRAY, fontSize: 12, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>Sources & Citations</div>
         <ol style={{ margin: 0, padding: "0 0 0 20px", fontSize: 12, lineHeight: 2.2, color: GRAY }}>
           {categories.flatMap(c => c.articles).map((a, i) => (
-            <li key={i}>{"\u201C"}{a.title}{"\u201D"} {"\u2014"} <em>{a.source}</em>, {a.date}. <a href={a.url} target="_blank" rel="noopener noreferrer" style={{ color: GOLD, textDecoration: "none" }}>{a.url.length > 70 ? a.url.substring(0, 67) + "..." : a.url}</a></li>
+            <li key={i}>{"“"}{a.title}{"”"} {"—"} <em>{a.source}</em>, {a.date}. <a href={a.url} target="_blank" rel="noopener noreferrer" style={{ color: GOLD, textDecoration: "none" }}>{a.url.length > 70 ? a.url.substring(0, 67) + "..." : a.url}</a></li>
           ))}
         </ol>
         <p style={{ color: GRAY, fontSize: 11, marginTop: 16, fontStyle: "italic" }}>All summaries written by The AI Insurance Group based on publicly available sources. We encourage readers to review the original publications for complete context. Last updated: April 2026.</p>
@@ -773,7 +735,6 @@ export default function App() {
       <ServicesSection />
       <IndustriesSection />
       <ProcessSection />
-      <AboutSection />
       <ResearchSection />
       <CTASection />
       <ContactSection />
