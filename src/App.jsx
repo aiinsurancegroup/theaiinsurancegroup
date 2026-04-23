@@ -227,19 +227,28 @@ function Nav() {
       transition: "all 0.3s ease",
       padding: scrolled ? "12px 24px" : "20px 24px",
     }}>
-      <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); setMenuOpen(false); }} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); setMenuOpen(false); }} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}>
           <div style={{ width: 36, height: 36, borderRadius: 8, background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, color: WHITE, fontSize: 14, fontFamily: "Arial, sans-serif" }}>AIG</div>
-          <div>
+          <div className="nav-brand-text">
             <span style={{ color: WHITE, fontWeight: 700, fontSize: 16, letterSpacing: -0.3 }}>The AI Insurance</span>
             <span style={{ color: GOLD, fontWeight: 700, fontSize: 16 }}> Group</span>
           </div>
         </a>
-        <div onClick={() => setMenuOpen(!menuOpen)} style={{ display: "none", cursor: "pointer", flexDirection: "column", gap: 5 }} className="mobile-menu-btn">
-          <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
-          <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
-          <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
+
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          <a href="https://isyouraicovered.com?new=1" className="nav-cta-mobile" style={{
+            display: "none",
+            background: GOLD, color: WHITE, padding: "9px 14px", borderRadius: 6, fontSize: 12, fontWeight: 700,
+            textDecoration: "none", letterSpacing: 0.2, whiteSpace: "nowrap",
+          }}>Check Coverage</a>
+          <div onClick={() => setMenuOpen(!menuOpen)} style={{ display: "none", cursor: "pointer", flexDirection: "column", gap: 5, padding: 8 }} className="mobile-menu-btn">
+            <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
+            <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
+            <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
+          </div>
         </div>
+
         <div className="nav-links" style={{ display: "flex", gap: 28, alignItems: "center" }}>
           {links.map(l => (
             <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500 }}>{l.label}</a>
@@ -254,6 +263,8 @@ function Nav() {
       <style>{`
         @media (max-width: 768px) {
           .mobile-menu-btn { display: flex !important; }
+          .nav-cta-mobile { display: inline-block !important; }
+          .nav-brand-text { display: none; }
           .nav-links {
             ${menuOpen ? `
               display: flex !important;
@@ -403,35 +414,37 @@ function ServicesSection() {
 const industryDetails = {
   "Law Firms": {
     headline: "Your malpractice policy may not cover what ChatGPT writes for you.",
-    setup: "In April 2026, Sullivan & Cromwell — the firm that advises OpenAI on safe AI deployment — filed a federal court brief with fabricated citations. They had written AI policies, training, and manual review. None of it caught the hallucinations. Legal academic Damien Charlotin's catalog of AI-hallucination court filings just crossed 1,000 cases, spanning solo practitioners to the Am Law 100.",
+    setup: "Legal academic Damien Charlotin's database of AI hallucinations in court filings crossed 1,334 documented cases this month — up from 719 in January. In March 2026, the Sixth Circuit sanctioned two Tennessee attorneys $15,000 each plus opposing counsel's fees for fabricated citations. In April, Sullivan & Cromwell — the firm that advises OpenAI — filed a federal bankruptcy motion with hallucinated cases despite having written AI policies, training, and manual review. If their safeguards failed, the assumption that \"our protocols will catch it\" is no longer a defensible underwriting position.",
     exposure: [
       "AI-assisted brief writing, legal research, and citation work",
       "Contract review and analysis with AI tools",
       "Client intake chatbots and automated legal advice",
       "Due diligence and document review at scale",
       "AI-powered discovery and e-discovery platforms",
+      "Any workflow where you cannot explain exactly how the AI reached its conclusion",
     ],
     excluded: [
       "Standard malpractice policies increasingly include AI-specific exclusions at renewal",
       "W.R. Berkley introduced an 'absolute' AI exclusion across professional liability lines",
-      "Policies without explicit AI exclusions may still deny under 'knowing failure to supervise' if AI use was undisclosed",
+      "Policies without explicit AI exclusions may still deny under 'knowing failure to supervise' if AI use was undisclosed to the carrier",
     ],
     howWeHelp: [
       "Review your current PLI, Cyber, and ancillary policies for AI-related endorsements",
-      "Document your firm's AI governance and review workflow for underwriting",
+      "Document your firm's AI governance and citation verification workflow for underwriting",
       "Connect you with specialty carriers offering affirmative AI coverage for legal work",
       "Monitor the exclusion language as it evolves across carriers",
     ],
   },
   "Healthcare & Medical": {
-    headline: "If an AI tool helps you diagnose, you might not be covered when it's wrong.",
-    setup: "AI is now embedded across radiology, pathology, clinical decision support, patient triage chatbots, and administrative workflows. When those tools influence a diagnosis or treatment decision that turns out wrong, the liability question gets complicated fast: who's responsible, and does any policy actually respond?",
+    headline: "AI hallucinations in medicine don't get caught by opposing counsel. They get caught by the patient.",
+    setup: "A peer-reviewed 2024 study in the Journal of Medical Internet Research found GPT-4 hallucinating medical literature references at a 28.6% rate. A separate analysis published in Nature's Schizophrenia journal examined 115 AI-generated medical article references and found 47% were completely fabricated and another 46% were authentic but misrepresented — leaving only 7% accurate. When a physician acts on AI output that turns out to be hallucinated — a wrong drug interaction, a misread imaging finding, a confidently wrong diagnostic recommendation — the liability question doesn't disappear because the mistake came from software.",
     exposure: [
       "AI-powered diagnostic imaging and pattern recognition",
       "Clinical decision support and treatment planning systems",
       "Patient-facing AI chatbots for triage or symptom checking",
       "AI-assisted drug interaction and prescription checking",
       "Administrative AI in prior authorization or patient communication",
+      "Any workflow where you cannot explain exactly how the AI reached its conclusion",
     ],
     excluded: [
       "Med-Mal carriers are starting to carve out AI-influenced diagnoses at renewal",
