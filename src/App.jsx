@@ -580,10 +580,19 @@ function ResearchSection() {
 
 const SUPABASE_URL = "https://dtgsegabaivtgyccrcxi.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Z3NlZ2FiYWl2dGd5Y2NyY3hpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjEwNjMsImV4cCI6MjA5MDQzNzA2M30.1iuiE5T0bqYlkxfoNTyi0NRbDMOZpSORSrtmbdomrNQ";
-const BLOG_PASSWORD = "BlogAdmin2026!";
-const sbHeaders = { apikey: SUPABASE_KEY, "Content-Type": "application/json", Authorization: "Bearer " + SUPABASE_KEY };
 
-function BlogEditor({ post, onSave, onCancel }) {
+// All blog admin writes go through /api/admin/blog with an x-admin-password header.
+// The password and service role key live in Vercel env vars, not in this bundle.
+async function adminApi(password, payload) {
+  const r = await fetch("/api/admin/blog", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-admin-password": password },
+    body: JSON.stringify(payload),
+  });
+  return r;
+}
+
+function BlogEditor({ post, onSave, onCancel, adminPassword }) {
   const [title, setTitle] = useState(post ? post.title : "");
   const [date, setDate] = useState(post ? post.date : new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" }));
   const [readTime, setReadTime] = useState(post ? post.read_time : "5 min read");
@@ -591,6 +600,7 @@ function BlogEditor({ post, onSave, onCancel }) {
   const [priority, setPriority] = useState(post && typeof post.priority === "number" ? post.priority : 0);
   const [blocks, setBlocks] = useState(post ? (typeof post.content === "string" ? JSON.parse(post.content) : post.content) : [{ heading: null, text: "" }]);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   const updateBlock = (i, field, val) => { const b = [...blocks]; b[i] = { ...b[i], [field]: val || null }; setBlocks(b); };
   const addBlock = () => setBlocks([...blocks, { heading: null, text: "" }]);
@@ -600,15 +610,23 @@ function BlogEditor({ post, onSave, onCancel }) {
   const handleSave = async () => {
     if (!title || !preview || blocks.some(b => !b.text)) return;
     setSaving(true);
+    setSaveError("");
     const payload = { title, date, read_time: readTime, preview, content: blocks, priority, published: true, updated_at: new Date().toISOString() };
     try {
-      if (post && post.id) {
-        await fetch(SUPABASE_URL + "/rest/v1/blog_posts?id=eq." + post.id, { method: "PATCH", headers: sbHeaders, body: JSON.stringify(payload) });
-      } else {
-        await fetch(SUPABASE_URL + "/rest/v1/blog_posts", { method: "POST", headers: { ...sbHeaders, Prefer: "return=representation" }, body: JSON.stringify(payload) });
+      const body = (post && post.id)
+        ? { action: "update", id: post.id, payload }
+        : { action: "create", payload };
+      const r = await adminApi(adminPassword, body);
+      if (!r.ok) {
+        const txt = await r.text();
+        setSaveError("Save failed: " + (r.status === 401 ? "session expired, click the lock again" : txt.slice(0, 200)));
+        setSaving(false);
+        return;
       }
       onSave();
-    } catch (e) { console.error(e); }
+    } catch (e) {
+      setSaveError("Network error: " + e.message);
+    }
     setSaving(false);
   };
 
@@ -648,6 +666,9 @@ function BlogEditor({ post, onSave, onCancel }) {
         </div>
       ))}
       <button onClick={addBlock} style={{ background: LIGHT, border: "1px dashed #D1D5DB", borderRadius: 8, padding: "10px 20px", fontSize: 13, color: GRAY, cursor: "pointer", width: "100%", marginBottom: 20 }}>+ Add Section</button>
+      {saveError && (
+        <div style={{ background: "rgba(220,38,38,0.08)", border: "1px solid rgba(220,38,38,0.3)", color: RED, padding: "10px 14px", borderRadius: 8, fontSize: 13, marginBottom: 12 }}>{saveError}</div>
+      )}
       <div style={{ display: "flex", gap: 12 }}>
         <button onClick={handleSave} disabled={saving} style={{ flex: 1, padding: "14px", borderRadius: 8, border: "none", background: NAVY, color: WHITE, fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{saving ? "Saving..." : post ? "Save Changes" : "Publish Post"}</button>
         <button onClick={onCancel} style={{ padding: "14px 24px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, color: GRAY, fontSize: 15, cursor: "pointer" }}>Cancel</button>
@@ -731,6 +752,7 @@ function BlogSection() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState("");
   const [editing, setEditing] = useState(null);
   const [creating, setCreating] = useState(false);
 
@@ -740,15 +762,26 @@ function BlogSection() {
   };
   useEffect(() => { fetchPosts(); }, []);
 
-  const handleAdminToggle = () => {
-    if (isAdmin) { setIsAdmin(false); setEditing(null); setCreating(false); return; }
+  const handleAdminToggle = async () => {
+    if (isAdmin) { setIsAdmin(false); setAdminPassword(""); setEditing(null); setCreating(false); return; }
     const pw = prompt("Enter admin password:");
-    if (pw === BLOG_PASSWORD) setIsAdmin(true);
+    if (!pw) return;
+    try {
+      const r = await adminApi(pw, { action: "verify" });
+      if (r.ok) { setAdminPassword(pw); setIsAdmin(true); }
+      else { alert("Incorrect password."); }
+    } catch (e) {
+      alert("Could not reach the server. Try again.");
+    }
   };
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this post?")) return;
-    await fetch(SUPABASE_URL + "/rest/v1/blog_posts?id=eq." + id, { method: "DELETE", headers: sbHeaders });
+    const r = await adminApi(adminPassword, { action: "delete", id });
+    if (!r.ok) {
+      alert("Delete failed. You may need to log in again.");
+      return;
+    }
     fetchPosts();
   };
 
@@ -771,11 +804,11 @@ function BlogSection() {
         {isAdmin && !creating && !editing && (
           <button onClick={() => setCreating(true)} style={{ width: "100%", padding: "16px", borderRadius: 12, border: "2px dashed " + GOLD, background: "rgba(184,151,42,0.04)", color: GOLD, fontSize: 16, fontWeight: 700, cursor: "pointer", marginBottom: 20 }}>+ New Blog Post</button>
         )}
-        {creating && <BlogEditor post={null} onSave={handleSaved} onCancel={() => setCreating(false)} />}
+        {creating && <BlogEditor post={null} onSave={handleSaved} onCancel={() => setCreating(false)} adminPassword={adminPassword} />}
         {posts.map((post) => {
           const isOpen = expandedPost === post.id;
           const content = typeof post.content === "string" ? JSON.parse(post.content) : post.content;
-          if (editing === post.id) return <BlogEditor key={post.id} post={post} onSave={handleSaved} onCancel={() => setEditing(null)} />;
+          if (editing === post.id) return <BlogEditor key={post.id} post={post} onSave={handleSaved} onCancel={() => setEditing(null)} adminPassword={adminPassword} />;
           return (
             <div key={post.id} style={{ background: WHITE, borderRadius: 16, border: "1px solid #E5E7EB", overflow: "hidden", marginBottom: 20 }}>
               <button onClick={() => setExpandedPost(isOpen ? null : post.id)} style={{
