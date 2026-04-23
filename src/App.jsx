@@ -536,7 +536,10 @@ const industryDetails = {
 };
 
 function IndustryModal({ industry, onClose }) {
+  const isOpen = !!industry && !!industryDetails[industry?.name];
+
   useEffect(() => {
+    if (!isOpen) return;
     document.body.style.overflow = "hidden";
     const onEsc = (e) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", onEsc);
@@ -544,11 +547,11 @@ function IndustryModal({ industry, onClose }) {
       document.body.style.overflow = "";
       document.removeEventListener("keydown", onEsc);
     };
-  }, [onClose]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
-  if (!industry) return null;
+  if (!isOpen) return null;
   const details = industryDetails[industry.name];
-  if (!details) return null;
 
   return (
     <>
