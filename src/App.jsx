@@ -578,7 +578,7 @@ function IndustryModal({ industry, onClose }) {
             <button onClick={onClose} aria-label="Close" style={{ background: LIGHT, border: "1px solid #E5E7EB", borderRadius: 8, cursor: "pointer", color: GRAY, fontSize: 20, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", padding: 0, lineHeight: 1, flexShrink: 0 }}>×</button>
           </div>
 
-          <div style={{ padding: "26px 24px", overflow: "auto", flex: 1, WebkitOverflowScrolling: "touch" }}>
+          <div style={{ padding: "26px 24px", overflow: "auto", flex: 1, minHeight: 0, WebkitOverflowScrolling: "touch" }}>
             <h3 style={{ color: NAVY, fontSize: 22, fontWeight: 800, lineHeight: 1.25, margin: "0 0 14px", letterSpacing: -0.3 }}>{details.headline}</h3>
             <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.7, margin: "0 0 26px" }}>{details.setup}</p>
 
