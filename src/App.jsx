@@ -214,6 +214,7 @@ function Nav() {
     { label: "Industries", href: "#industries" },
     { label: "The Problem", href: "#problem" },
     { label: "Research", href: "#research" },
+    { label: "FAQ", href: "#faq" },
     { label: "Blog", href: "#blog" },
     { label: "Contact", href: "#contact" },
   ];
@@ -696,6 +697,104 @@ function ProcessSection() {
             </div>
           ))}
         </div>
+      </div>
+    </Section>
+  );
+}
+
+function FAQSection() {
+  const [open, setOpen] = useState(null);
+
+  const faqs = [
+    {
+      q: "My firm uses ChatGPT. Is that covered?",
+      a: "Probably not affirmatively, and increasingly not at all. If you have AI-related endorsements on your current malpractice, E&O, or professional liability policy, review the exact language. If you don't see AI mentioned anywhere, that silence isn't coverage — it's ambiguity, and ambiguity favors the carrier at claim time. Verisk's 2026 endorsements (CG 40 47, CG 40 48, CG 35 08) are being attached at renewal across roughly 82% of U.S. carriers.",
+    },
+    {
+      q: "What's an \"AI endorsement\" and why do I need one?",
+      a: "An AI endorsement is a policy add-on that explicitly names AI-assisted work as covered work. It does three things a standard policy increasingly doesn't: names AI-generated output as inside the policy rather than contested on the boundary, clarifies which tools and use cases are in-scope, and tells you upfront what's covered and what isn't. Without one, you're relying on the carrier's interpretation of silence. That's not a coverage strategy.",
+    },
+    {
+      q: "When will my carrier exclude AI from my policy?",
+      a: "Likely at your next renewal, without prominent notice. The Verisk endorsements became available January 1, 2026. Carriers adopt at their own pace, but the pattern is consistent: AI exclusions attach quietly as part of a renewal package. The time to check is before you sign the renewal, not after a claim.",
+    },
+    {
+      q: "If an AI tool fabricates a case citation or medical reference, am I liable?",
+      a: "Yes — and that's exactly the gap. Damien Charlotin's database of AI hallucinations in court filings crossed 1,334 documented cases this month. In March 2026, the Sixth Circuit sanctioned two Tennessee attorneys $15,000 each plus fees for fabricated citations. In healthcare, peer-reviewed research found GPT-4 hallucinating medical references at rates as high as 47%. The human using the tool is legally responsible for the output. Whether your carrier is — read your policy.",
+    },
+    {
+      q: "I use AI to generate images, voice, or content that \"looks like\" something else. Am I exposed?",
+      a: "Yes, increasingly. Tennessee's 2024 ELVIS Act extended publicity rights to AI-generated voice clones. Disney and Universal filed suit against Midjourney in June 2025 for AI-generated images reproducing their characters. In late 2025, Warner Music Group and Universal Music Group settled with AI company Suno over unlicensed use of their catalogs. If your business uses AI to generate content resembling real people, brands, or copyrighted works, the liability landscape is real, active, and expanding. General liability and media liability policies are starting to carve this out.",
+    },
+    {
+      q: "I'm a doctor using AI diagnostic tools. What happens if the AI is wrong?",
+      a: "The traditional med-mal question gets harder to answer. Your liability doesn't disappear because the mistake came from software — you're the one who acted on the recommendation. Whether your policy responds depends on whether AI-influenced diagnoses are covered, excluded, or ambiguously addressed. Many med-mal carriers are adding AI-specific language at renewal. If your practice uses AI for imaging, clinical decision support, or patient triage, this needs to be explicitly covered, not assumed.",
+    },
+    {
+      q: "I'm a wealth manager using AI for client analysis. What's the exposure?",
+      a: "Two angles. First, the SEC has active enforcement priorities around \"AI washing\" — claiming AI capabilities a firm doesn't actually have. Second, if AI-driven portfolio analysis or client communications produce an adverse outcome, your E&O and D&O coverage may not respond. Investment adviser E&O is adopting AI exclusions and sub-limits. Fiduciary exposure for algorithmic decisions is a moving target.",
+    },
+    {
+      q: "Does the new \"absolute AI exclusion\" really remove all D&O coverage?",
+      a: "If your D&O policy has it — yes. W.R. Berkley introduced an absolute AI exclusion that removes coverage for any claim arising from the use, deployment, or development of artificial intelligence across D&O, E&O, and fiduciary liability. Not narrowed — absolute. Board-level AI governance decisions, disclosures to shareholders about AI, and approval of AI-adjacent products all sit outside coverage. Read the exact language before your next renewal.",
+    },
+    {
+      q: "I use AI to screen resumes or assess candidates. Is that covered?",
+      a: "Probably not, and this is a fast-moving area. In March 2026, a federal judge allowed Mobley v. Workday to proceed as a nationwide class action — holding that AI hiring vendors can themselves be treated as \"agents\" liable under Title VII, alongside their employer customers. The EEOC settled its first AI discrimination case against iTutorGroup for $365,000, over software that auto-rejected women over 55 and men over 60. More recent filings include Sirius XM (Title VII class action, August 2025), Eightfold AI (FCRA violations, January 2026), and an ongoing Amazon complaint over AI used to deny disability accommodations. Five states now have active AI employment regulations — California, Illinois, New Jersey, Colorado, and New York City. EPLI and D&O policies are starting to carve AI-driven hiring decisions out at renewal.",
+    },
+    {
+      q: "My business uses AI chatbots to help customers. What if the AI says something wrong and someone gets hurt?",
+      a: "Courts have started treating AI chatbots as \"products\" for strict liability purposes. In May 2025, a federal court in Florida (Garcia v. Character Technologies) ruled that an AI chatbot IS a product under product liability law and allowed a wrongful death case to proceed — not only against the app's developer, but against Google as a \"component part manufacturer\" for contributing its AI technology to the design. Raine v. OpenAI, filed August 2025, applies the same theory to ChatGPT directly. The federal AI LEAD Act (proposed September 2025) would classify AI systems as products with design-defect and failure-to-warn liability. The EU's updated Product Liability Directive explicitly covers AI and must be transposed by member states by December 2026. And Verisk's CG 35 08 (effective January 2026) carves AI out of Products/Completed Operations coverage — so if your chatbot gives bad advice that causes harm, the GL or product liability policy that would have covered the old-style claim may no longer respond.",
+    },
+  ];
+
+  return (
+    <Section bg={LIGHT} id="faq">
+      <SectionLabel text="04.5 / Real questions, real answers" />
+      <SectionTitle text="Insurance questions are usually boring. These aren't." />
+      <BodyText text="The questions below come from the actual conversations happening around AI liability right now — in law firms, hospitals, advisory boards. If you've been wondering any of this quietly, you're not alone." maxWidth={680} />
+
+      <div style={{ marginTop: 40, maxWidth: 820 }}>
+        {faqs.map((item, i) => {
+          const isOpen = open === i;
+          return (
+            <div key={i} style={{ background: WHITE, borderRadius: 12, border: "1px solid #E5E7EB", marginBottom: 12, overflow: "hidden" }}>
+              <button
+                onClick={() => setOpen(isOpen ? null : i)}
+                style={{
+                  width: "100%", textAlign: "left", padding: "20px 24px", background: "none",
+                  border: "none", cursor: "pointer", fontFamily: "inherit",
+                  display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16,
+                }}
+              >
+                <span style={{ color: NAVY, fontSize: 16, fontWeight: 600, lineHeight: 1.4, flex: 1 }}>{item.q}</span>
+                <span style={{
+                  flexShrink: 0, width: 28, height: 28, borderRadius: "50%", border: "1px solid #E5E7EB",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  transition: "transform 0.2s, background 0.2s, border-color 0.2s",
+                  transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  background: isOpen ? GOLD : WHITE,
+                  borderColor: isOpen ? GOLD : "#E5E7EB",
+                  color: isOpen ? WHITE : GRAY,
+                  fontSize: 12,
+                }}>▼</span>
+              </button>
+              {isOpen && (
+                <div style={{ padding: "0 24px 24px" }}>
+                  <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.75, margin: 0, paddingLeft: 16, borderLeft: "3px solid " + GOLD }}>{item.a}</p>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{ marginTop: 40, textAlign: "center" }}>
+        <a href="https://isyouraicovered.com?new=1" style={{
+          display: "inline-block", background: GOLD, color: WHITE, borderRadius: 8,
+          padding: "16px 36px", fontSize: 16, fontWeight: 700, textDecoration: "none",
+          boxShadow: "0 4px 20px rgba(184,151,42,0.25)", letterSpacing: 0.2,
+        }}>Check my coverage — 60 seconds →</a>
       </div>
     </Section>
   );
@@ -1257,6 +1356,7 @@ export default function App() {
       <ServicesSection />
       <IndustriesSection />
       <ProcessSection />
+      <FAQSection />
       <ResearchSection />
       <BlogSection />
       <CTASection />
