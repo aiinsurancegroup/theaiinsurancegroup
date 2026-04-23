@@ -341,9 +341,9 @@ function ProblemSection() {
   return (
     <Section bg={LIGHT} id="problem">
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
-        <SectionLabel text="The Problem" />
-        <SectionTitle text="January 1, 2026 Changed Everything." />
-        <BodyText text="Verisk — the organization that creates standard policy language for the U.S. insurance industry — released new endorsements that allow carriers to explicitly exclude generative AI-related claims from commercial general liability policies. Major carriers are attaching these exclusions at renewal. Most business owners have no idea." />
+        <SectionLabel text="01 / What changed" />
+        <SectionTitle text="Your broker probably didn't tell you this happened." />
+        <BodyText text="On January 1, 2026, Verisk quietly released three endorsements — CG 40 47, CG 40 48, and CG 35 08 — that let carriers carve AI claims out of general liability. Major carriers are attaching them at renewal. Most brokers haven't read the forms. Most policyholders don't know the forms are already on their policies." />
         <div style={{ background: WHITE, borderRadius: 12, padding: 24, marginTop: 24, marginBottom: 16, border: "1px solid #E5E7EB" }}>
           <div style={{ color: NAVY, fontSize: 15, fontWeight: 700, marginBottom: 12 }}>📄 Proof: Read the actual exclusion forms</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -381,9 +381,9 @@ function ServicesSection() {
   ];
   return (
     <Section bg={WHITE} id="services">
-      <SectionLabel text="Services" />
-      <SectionTitle text="Three Ways We Protect Your Business" />
-      <BodyText text="Whether you need a coverage review, specialty placement, or a partner for your brokerage, we have a solution built for the AI insurance gap." maxWidth={600} />
+      <SectionLabel text="02 / Where we start" />
+      <SectionTitle text="Before you buy coverage, you need to know what you've already lost." />
+      <BodyText text="Most people come to us wanting a quote. We start somewhere else — showing you what's already been taken off the table. Once you can see the gap, the question of how to fill it gets much easier." maxWidth={650} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28, marginTop: 40 }}>
         {services.map((s, i) => (
           <div key={i} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB" }}>
@@ -411,9 +411,9 @@ function IndustriesSection() {
   ];
   return (
     <Section bg={LIGHT} id="industries">
-      <SectionLabel text="Industries We Serve" />
-      <SectionTitle text="AI Risk Is Industry-Specific. Our Expertise Is Too." />
-      <BodyText text="Every profession faces different AI exposure. We tailor our audits and coverage recommendations to your industry's specific regulatory environment, liability profile, and AI adoption patterns." maxWidth={650} />
+      <SectionLabel text="03 / Why this is about you" />
+      <SectionTitle text="Every profession thinks its AI exposure is someone else's problem." />
+      <BodyText text="A lawyer, a doctor, a wealth manager, and a corporate director face different AI liability — and each one usually assumes someone in another seat is more exposed. Each of them is wrong, just in different ways." maxWidth={680} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 20, marginTop: 40 }}>
         {verticals.map((v, i) => (
           <div key={i} style={{ background: WHITE, borderRadius: 12, padding: 28, border: "1px solid #E5E7EB" }}>
@@ -439,8 +439,9 @@ function ProcessSection() {
   return (
     <Section bg={WHITE} id="process">
       <div style={{ maxWidth: 700, margin: "0 auto" }}>
-        <SectionLabel text="How It Works" />
-        <SectionTitle text="From Assessment to Protection in 4 Steps" />
+        <SectionLabel text="04 / How we figure this out" />
+        <SectionTitle text="60 seconds will tell you more about your coverage than your last renewal call." />
+        <BodyText text="Four steps. Most take less time than you think." />
         <div style={{ marginTop: 40 }}>
           {steps.map((s, i) => (
             <div key={i} style={{ display: "flex", gap: 24, padding: "28px 0", borderBottom: i < steps.length - 1 ? "1px solid #E5E7EB" : "none" }}>
@@ -502,9 +503,9 @@ function ResearchSection() {
 
   return (
     <Section bg={WHITE} id="research">
-      <SectionLabel text="Industry Research" />
-      <SectionTitle text="The Evidence Is Overwhelming." />
-      <BodyText text="We've compiled the most important research, reports, and analysis from leading industry sources documenting the AI coverage crisis. Every claim we make is backed by data." maxWidth={650} />
+      <SectionLabel text="05 / What the industry is saying" />
+      <SectionTitle text="Your current cyber insurance probably doesn't cover AI." />
+      <BodyText text="Don't take our word for it. Gallagher Re, Deloitte, Munich Re, and Verisk themselves have documented the same shift — cyber, E&O, and GL policies are carving AI out. The links below go to the original reports." maxWidth={680} />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginTop: 32, marginBottom: 48 }}>
         {[
@@ -794,9 +795,9 @@ function BlogSection() {
     <Section bg={LIGHT} id="blog">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div>
-          <SectionLabel text="Blog" />
-          <SectionTitle text="From the Founder" />
-          <BodyText text={"Thoughts on building an AI insurance business from the ground up \u2014 the market, the timing, and why this matters."} maxWidth={600} />
+          <SectionLabel text="06 / Recent dispatches" />
+          <SectionTitle text="Notes from inside the market." />
+          <BodyText text={"What I'm watching, reading, and reacting to as the AI insurance market reshapes itself in real time."} maxWidth={600} />
         </div>
         <button onClick={handleAdminToggle} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 18, opacity: isAdmin ? 1 : 0.2, padding: 8, marginTop: 8 }} title={isAdmin ? "Exit admin mode" : "Admin login"}>{isAdmin ? "\uD83D\uDD13" : "\uD83D\uDD12"}</button>
       </div>
@@ -861,7 +862,7 @@ function CTASection() {
     <section style={{ background: `linear-gradient(135deg, ${DARK} 0%, ${NAVY} 100%)`, padding: "80px 24px", textAlign: "center" }}>
       <div style={{ maxWidth: 600, margin: "0 auto" }}>
         <h2 style={{ color: WHITE, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Don't Wait for a Denied Claim<br />to Find Out You're Exposed.</h2>
-        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 0 36px" }}>Take our free 60-second assessment. Find out if your business has AI-related coverage gaps — before your next renewal.</p>
+        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 0 36px" }}>Your next renewal will answer this question. Find out the answer now.</p>
         <a href="https://isyouraicovered.com?new=1" style={{ display: "inline-block", background: GOLD, color: WHITE, borderRadius: 8, padding: "20px 48px", fontSize: 18, fontWeight: 700, textDecoration: "none", boxShadow: "0 4px 24px rgba(184,151,42,0.3)", letterSpacing: 0.3 }}>Check My Coverage — Free →</a>
         <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginTop: 16 }}>No obligation. No spam. Takes 60 seconds.</p>
       </div>
