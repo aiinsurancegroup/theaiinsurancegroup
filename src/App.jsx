@@ -564,7 +564,7 @@ function IndustryModal({ industry, onClose }) {
       }}>
         <div onClick={(e) => e.stopPropagation()} style={{
           background: WHITE, borderRadius: 16, width: "100%", maxWidth: 720,
-          maxHeight: "calc(100vh - 40px)", display: "flex", flexDirection: "column",
+          height: "min(85vh, 780px)", display: "flex", flexDirection: "column",
           overflow: "hidden", animation: "mContent 250ms ease-out",
         }}>
           <div style={{ padding: "22px 24px", borderBottom: "1px solid #E5E7EB", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
