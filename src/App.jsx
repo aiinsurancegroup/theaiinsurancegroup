@@ -400,7 +400,222 @@ function ServicesSection() {
   );
 }
 
+const industryDetails = {
+  "Law Firms": {
+    headline: "Your malpractice policy may not cover what ChatGPT writes for you.",
+    setup: "In April 2026, Sullivan & Cromwell — the firm that advises OpenAI on safe AI deployment — filed a federal court brief with fabricated citations. They had written AI policies, training, and manual review. None of it caught the hallucinations. Legal academic Damien Charlotin's catalog of AI-hallucination court filings just crossed 1,000 cases, spanning solo practitioners to the Am Law 100.",
+    exposure: [
+      "AI-assisted brief writing, legal research, and citation work",
+      "Contract review and analysis with AI tools",
+      "Client intake chatbots and automated legal advice",
+      "Due diligence and document review at scale",
+      "AI-powered discovery and e-discovery platforms",
+    ],
+    excluded: [
+      "Standard malpractice policies increasingly include AI-specific exclusions at renewal",
+      "W.R. Berkley introduced an 'absolute' AI exclusion across professional liability lines",
+      "Policies without explicit AI exclusions may still deny under 'knowing failure to supervise' if AI use was undisclosed",
+    ],
+    howWeHelp: [
+      "Review your current PLI, Cyber, and ancillary policies for AI-related endorsements",
+      "Document your firm's AI governance and review workflow for underwriting",
+      "Connect you with specialty carriers offering affirmative AI coverage for legal work",
+      "Monitor the exclusion language as it evolves across carriers",
+    ],
+  },
+  "Healthcare & Medical": {
+    headline: "If an AI tool helps you diagnose, you might not be covered when it's wrong.",
+    setup: "AI is now embedded across radiology, pathology, clinical decision support, patient triage chatbots, and administrative workflows. When those tools influence a diagnosis or treatment decision that turns out wrong, the liability question gets complicated fast: who's responsible, and does any policy actually respond?",
+    exposure: [
+      "AI-powered diagnostic imaging and pattern recognition",
+      "Clinical decision support and treatment planning systems",
+      "Patient-facing AI chatbots for triage or symptom checking",
+      "AI-assisted drug interaction and prescription checking",
+      "Administrative AI in prior authorization or patient communication",
+    ],
+    excluded: [
+      "Med-Mal carriers are starting to carve out AI-influenced diagnoses at renewal",
+      "Cyber policies typically don't cover bodily injury, even when the failure originates in a technology system",
+      "Technology E&O (for health-tech vendors) usually excludes physical harm to patients",
+    ],
+    howWeHelp: [
+      "Audit current Med-Mal, Cyber, and Technology E&O for AI-related language",
+      "Identify which AI tools in your workflow create coverage gaps",
+      "Connect you with specialty markets offering affirmative AI medical liability coverage",
+      "Review vendor contracts for AI indemnification and shifting liability",
+    ],
+  },
+  "Wealth Management & RIAs": {
+    headline: "The SEC is calling it 'AI washing.' Your E&O may already exclude it.",
+    setup: "SEC enforcement priorities now include 'AI washing' — claiming AI-driven capabilities a firm doesn't actually have. At the same time, RIAs are using AI for portfolio analysis, client communications, compliance monitoring, and fiduciary decision support. When those tools misfire, the questions get expensive fast: who made the decision, was it disclosed, does your E&O cover it?",
+    exposure: [
+      "AI-driven portfolio construction or rebalancing",
+      "AI-generated client communications and financial plans",
+      "Automated compliance monitoring and trade surveillance",
+      "AI-assisted fiduciary analysis or investment recommendations",
+      "AI used in marketing or performance representations",
+    ],
+    excluded: [
+      "Investment adviser E&O is adopting AI exclusions and sub-limits at renewal",
+      "D&O policies may deny coverage for AI-governance failures at the board level",
+      "Cyber policies don't cover regulatory enforcement or fiduciary breach claims",
+    ],
+    howWeHelp: [
+      "Review your E&O, D&O, and Cyber policies for AI-related endorsements",
+      "Assess your firm's AI governance disclosures and compliance documentation",
+      "Connect you with carriers offering affirmative AI coverage for advisory work",
+      "Monitor evolving SEC guidance and how carriers are responding",
+    ],
+  },
+  "Directors & Officers": {
+    headline: "Your D&O policy may have a new 'absolute AI' exclusion. Most boards haven't been told.",
+    setup: "W.R. Berkley and other carriers introduced 'absolute' AI exclusions across D&O, E&O, and Fiduciary Liability — removing coverage for any claim arising from the use, deployment, or development of artificial intelligence. These exclusions are showing up on renewal without conspicuous notice. Board members making AI-adjacent decisions can now be personally exposed.",
+    exposure: [
+      "Board-level AI governance decisions and policies",
+      "Disclosures to shareholders about AI capabilities or risks (72% of S&P 500 companies now disclose AI risk)",
+      "Approval of AI-powered products or services",
+      "Oversight of algorithmic bias, discrimination, or regulatory compliance",
+      "M&A decisions involving AI-adjacent acquisition targets",
+    ],
+    excluded: [
+      "Berkley-style 'absolute' AI exclusions remove all coverage related to AI",
+      "Side-A coverage (personal asset protection) may become unavailable for AI-adjacent claims",
+      "Derivative suits based on AI disclosure failures increasingly fall outside standard D&O",
+    ],
+    howWeHelp: [
+      "Read the exact AI exclusion language on your D&O policy",
+      "Document board-level AI governance for underwriting and future claim defense",
+      "Connect directors with specialty carriers offering affirmative AI D&O coverage",
+      "Provide ongoing updates as carrier practices evolve",
+    ],
+  },
+  "Technology & SaaS": {
+    headline: "Your product liability policy may not cover harm caused by your AI product.",
+    setup: "Verisk's CG 35 08 endorsement — effective January 1, 2026 — excludes AI-related claims from Products/Completed Operations coverage. If your AI product or AI-powered feature causes harm to a customer or third party, the general liability and product liability policies you've been buying may not respond. For technology companies embedding AI, the gap is immediate.",
+    exposure: [
+      "AI-powered SaaS products and features",
+      "AI models delivered as APIs or components",
+      "Automated decision-making tools used by customers",
+      "Customer-facing AI (chatbots, agents, copilots)",
+      "AI used in your operations that affects customer outcomes",
+    ],
+    excluded: [
+      "Verisk's CG 35 08 carves AI out of Products/Completed Operations coverage",
+      "Tech E&O policies increasingly add AI exclusions at renewal",
+      "General Liability carriers use CG 40 47 and CG 40 48 to exclude AI broadly",
+    ],
+    howWeHelp: [
+      "Review GL, Tech E&O, Products Liability, and Cyber for AI endorsement language",
+      "Identify whether your AI creates named-insured risk vs. vendor-chain risk",
+      "Connect you with specialty carriers offering affirmative AI products liability coverage",
+      "Review customer contracts for AI indemnification and liability allocation",
+    ],
+  },
+  "Financial Services": {
+    headline: "If AI makes a credit decision for you, the bias lawsuit lands on your desk.",
+    setup: "AI is now deployed in underwriting, credit decisioning, trading algorithms, fraud detection, and compliance monitoring across banks, credit unions, lenders, and fintechs. When those systems produce discriminatory or erroneous outcomes, the financial institution — not the vendor — is the named defendant. And the insurance that would traditionally respond is now carving AI out.",
+    exposure: [
+      "AI in credit underwriting and loan decisions",
+      "Algorithmic trading and automated portfolio management",
+      "AI-driven fraud detection that produces false positives",
+      "Automated compliance and AML monitoring",
+      "AI-powered customer-facing tools (chatbots, advisors)",
+    ],
+    excluded: [
+      "Bankers' Professional Liability is adding AI exclusions at renewal",
+      "E&O and D&O coverage for algorithmic discrimination is narrowing",
+      "Cyber policies don't cover regulatory enforcement or fair-lending claims",
+    ],
+    howWeHelp: [
+      "Audit your BPL, E&O, D&O, and Cyber for AI-related endorsements",
+      "Document your AI governance, fair-lending testing, and model risk management",
+      "Connect you with specialty carriers offering affirmative AI financial-services coverage",
+      "Monitor CFPB, OCC, and state regulator AI enforcement and how carriers are responding",
+    ],
+  },
+};
+
+function IndustryModal({ industry, onClose }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const onEsc = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onEsc);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onEsc);
+    };
+  }, [onClose]);
+
+  if (!industry) return null;
+  const details = industryDetails[industry.name];
+  if (!details) return null;
+
+  return (
+    <>
+      <style>{`
+        @keyframes mBackdrop { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes mContent { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+      `}</style>
+      <div onClick={onClose} style={{
+        position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+        background: "rgba(15,25,35,0.85)",
+        zIndex: 2000, display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "20px", animation: "mBackdrop 200ms ease-out",
+      }}>
+        <div onClick={(e) => e.stopPropagation()} style={{
+          background: WHITE, borderRadius: 16, width: "100%", maxWidth: 720,
+          maxHeight: "calc(100vh - 40px)", display: "flex", flexDirection: "column",
+          overflow: "hidden", animation: "mContent 250ms ease-out",
+        }}>
+          <div style={{ padding: "22px 24px", borderBottom: "1px solid #E5E7EB", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 28, flexShrink: 0 }}>{industry.icon}</div>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ color: GOLD, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 2 }}>Industry Brief</div>
+                <div style={{ color: NAVY, fontSize: 18, fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{industry.name}</div>
+              </div>
+            </div>
+            <button onClick={onClose} aria-label="Close" style={{ background: LIGHT, border: "1px solid #E5E7EB", borderRadius: 8, cursor: "pointer", color: GRAY, fontSize: 20, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", padding: 0, lineHeight: 1, flexShrink: 0 }}>×</button>
+          </div>
+
+          <div style={{ padding: "26px 24px", overflow: "auto", flex: 1, WebkitOverflowScrolling: "touch" }}>
+            <h3 style={{ color: NAVY, fontSize: 22, fontWeight: 800, lineHeight: 1.25, margin: "0 0 14px", letterSpacing: -0.3 }}>{details.headline}</h3>
+            <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.7, margin: "0 0 26px" }}>{details.setup}</p>
+
+            <div style={{ marginBottom: 22 }}>
+              <div style={{ color: GOLD, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Where your exposure is</div>
+              <ul style={{ margin: 0, padding: "0 0 0 20px" }}>
+                {details.exposure.map((item, i) => (<li key={i} style={{ color: DGRAY, fontSize: 14.5, lineHeight: 1.7, marginBottom: 6 }}>{item}</li>))}
+              </ul>
+            </div>
+
+            <div style={{ marginBottom: 22 }}>
+              <div style={{ color: GOLD, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>What's being excluded</div>
+              <ul style={{ margin: 0, padding: "0 0 0 20px" }}>
+                {details.excluded.map((item, i) => (<li key={i} style={{ color: DGRAY, fontSize: 14.5, lineHeight: 1.7, marginBottom: 6 }}>{item}</li>))}
+              </ul>
+            </div>
+
+            <div>
+              <div style={{ color: GOLD, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>What we do</div>
+              <ul style={{ margin: 0, padding: "0 0 0 20px" }}>
+                {details.howWeHelp.map((item, i) => (<li key={i} style={{ color: DGRAY, fontSize: 14.5, lineHeight: 1.7, marginBottom: 6 }}>{item}</li>))}
+              </ul>
+            </div>
+          </div>
+
+          <div style={{ padding: "18px 24px", borderTop: "1px solid #E5E7EB", background: LIGHT, display: "flex", gap: 10 }}>
+            <a href="https://isyouraicovered.com?new=1" style={{ flex: 1, textAlign: "center", background: GOLD, color: WHITE, padding: "14px 20px", borderRadius: 8, fontSize: 15, fontWeight: 700, textDecoration: "none", letterSpacing: 0.2 }}>Check my coverage →</a>
+            <button onClick={onClose} style={{ background: WHITE, color: GRAY, padding: "14px 20px", borderRadius: 8, fontSize: 14, fontWeight: 600, border: "1px solid #E5E7EB", cursor: "pointer", fontFamily: "inherit" }}>Close</button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 function IndustriesSection() {
+  const [active, setActive] = useState(null);
   const verticals = [
     { icon: "⚖️", name: "Law Firms", risk: "AI-generated briefs with hallucinated citations. AI contract review errors. Malpractice policies may exclude AI-related professional liability claims." },
     { icon: "🏥", name: "Healthcare & Medical", risk: "AI diagnostic tools, clinical decision support, patient chatbots. Misdiagnosis influenced by AI creates med-mal exposure that may no longer be covered." },
@@ -411,20 +626,29 @@ function IndustriesSection() {
   ];
   return (
     <Section bg={LIGHT} id="industries">
-      <SectionLabel text="05 / Why this is about you" />
+      <SectionLabel text="03 / Why this is about you" />
       <SectionTitle text="Every profession thinks its AI exposure is someone else's problem." />
-      <BodyText text="A lawyer, a doctor, a wealth manager, and a corporate director face different AI liability — and each one usually assumes someone in another seat is more exposed. Each of them is wrong, just in different ways." maxWidth={680} />
+      <BodyText text="A lawyer, a doctor, a wealth manager, and a corporate director face different AI liability — and each one usually assumes someone in another seat is more exposed. Each of them is wrong, just in different ways. Tap any industry below to see how it plays out for you specifically." maxWidth={680} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 20, marginTop: 40 }}>
         {verticals.map((v, i) => (
-          <div key={i} style={{ background: WHITE, borderRadius: 12, padding: 28, border: "1px solid #E5E7EB" }}>
+          <button key={i} onClick={() => setActive(v)}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = GOLD; e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#E5E7EB"; e.currentTarget.style.transform = "translateY(0)"; }}
+            style={{
+              background: WHITE, borderRadius: 12, padding: 28, border: "1px solid #E5E7EB",
+              textAlign: "left", cursor: "pointer", fontFamily: "inherit",
+              transition: "border-color 0.2s, transform 0.15s", width: "100%",
+            }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
               <div style={{ fontSize: 28 }}>{v.icon}</div>
               <h3 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: 0 }}>{v.name}</h3>
             </div>
-            <p style={{ color: GRAY, fontSize: 14, lineHeight: 1.65, margin: 0 }}>{v.risk}</p>
-          </div>
+            <p style={{ color: GRAY, fontSize: 14, lineHeight: 1.65, margin: "0 0 16px" }}>{v.risk}</p>
+            <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 0.3 }}>Read industry brief →</div>
+          </button>
         ))}
       </div>
+      <IndustryModal industry={active} onClose={() => setActive(null)} />
     </Section>
   );
 }
@@ -503,7 +727,7 @@ function ResearchSection() {
 
   return (
     <Section bg={WHITE} id="research">
-      <SectionLabel text="03 / What the industry is saying" />
+      <SectionLabel text="05 / What the industry is saying" />
       <SectionTitle text="Your current cyber insurance probably doesn't cover AI." />
       <BodyText text="Don't take our word for it. Gallagher Re, Deloitte, Munich Re, and Verisk themselves have documented the same shift — cyber, E&O, and GL policies are carving AI out. The links below go to the original reports." maxWidth={680} />
 
@@ -1015,9 +1239,9 @@ export default function App() {
       <Hero />
       <ProblemSection />
       <ServicesSection />
-      <ResearchSection />
-      <ProcessSection />
       <IndustriesSection />
+      <ProcessSection />
+      <ResearchSection />
       <BlogSection />
       <CTASection />
       <ContactSection />
