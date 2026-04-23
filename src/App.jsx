@@ -220,7 +220,7 @@ function Nav() {
 
   return (
     <nav style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 999,
+      position: "fixed", top: "var(--banner-h, 0px)", left: 0, right: 0, zIndex: 999,
       background: scrolled || menuOpen ? "rgba(15,25,35,0.97)" : "transparent",
       backdropFilter: scrolled || menuOpen ? "blur(12px)" : "none",
       borderBottom: scrolled ? "1px solid rgba(184,151,42,0.15)" : "none",
@@ -278,57 +278,57 @@ function Hero() {
   return (
     <section style={{
       background: `linear-gradient(135deg, ${DARK} 0%, ${NAVY} 50%, #1e3a5f 100%)`,
-      minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center",
+      minHeight: "calc(100vh - var(--banner-h, 0px))", display: "flex", flexDirection: "column", justifyContent: "center",
       padding: "120px 24px 80px", position: "relative", overflow: "hidden",
     }}>
       <div style={{
         position: "absolute", top: "10%", right: "-5%", width: 500, height: 500,
-        borderRadius: "50%", background: `radial-gradient(circle, rgba(184,151,42,0.06) 0%, transparent 70%)`,
+        borderRadius: "50%", background: `radial-gradient(circle, rgba(220,38,38,0.08) 0%, transparent 70%)`,
       }} />
       <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div style={{
-          display: "inline-block", background: "rgba(184,151,42,0.12)", border: `1px solid rgba(184,151,42,0.3)`,
-          borderRadius: 20, padding: "6px 16px", color: GOLD, fontSize: 12, fontWeight: 600, letterSpacing: 1.2, marginBottom: 32,
+          display: "inline-block", background: "rgba(220,38,38,0.12)", border: `1px solid rgba(220,38,38,0.35)`,
+          borderRadius: 20, padding: "6px 16px", color: "#F87171", fontSize: 12, fontWeight: 700, letterSpacing: 1.2, marginBottom: 32,
         }}>
-          SPECIALIZED AI LIABILITY COVERAGE & RISK ADVISORY
+          ● EFFECTIVE JANUARY 1, 2026 — YOUR COVERAGE CHANGED
         </div>
         <h1 style={{
           color: WHITE, fontSize: "clamp(36px, 5.5vw, 60px)", fontWeight: 800,
-          lineHeight: 1.08, margin: "0 0 24px", letterSpacing: -1.5, maxWidth: 800,
+          lineHeight: 1.08, margin: "0 0 24px", letterSpacing: -1.5, maxWidth: 900,
         }}>
-          Your Insurance Changed.<br />
-          <span style={{ color: GOLD }}>We Help You Catch Up.</span>
+          Your insurance probably stopped<br />
+          covering AI on January 1.<br />
+          <span style={{ color: GOLD }}>Most policyholders don't know.</span>
         </h1>
-        <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.65, maxWidth: 600, margin: "0 0 40px" }}>
-          As of January 2026, major carriers are excluding AI-related claims from standard commercial policies.
-          We help businesses identify potential AI-related coverage gaps and connect them with licensed insurance professionals who specialize in this emerging risk.
+        <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.6, maxWidth: 680, margin: "0 0 40px" }}>
+          On January 1, 2026, Verisk's new endorsements — attached to policies across roughly 82% of U.S. carriers — began carving AI claims out of General Liability, E&O, D&O, and Cyber coverage. No notice required. The exclusion shows up quietly at your next renewal.
         </p>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
           <a href="https://isyouraicovered.com?new=1" style={{
-            background: GOLD, color: WHITE, border: "none", borderRadius: 8, padding: "18px 36px",
-            fontSize: 17, fontWeight: 700, cursor: "pointer", textDecoration: "none",
-            boxShadow: "0 4px 24px rgba(184,151,42,0.25)", transition: "transform 0.2s",
-          }}>Check Your Coverage →</a>
-          <a href="#services" style={{
+            background: GOLD, color: WHITE, border: "none", borderRadius: 8, padding: "20px 40px",
+            fontSize: 18, fontWeight: 700, cursor: "pointer", textDecoration: "none",
+            boxShadow: "0 4px 28px rgba(184,151,42,0.35)", letterSpacing: 0.2,
+          }}>Check my coverage — 60 seconds →</a>
+          <a href="#blog" style={{
             background: "transparent", color: WHITE, border: `1px solid rgba(255,255,255,0.25)`,
-            borderRadius: 8, padding: "18px 36px", fontSize: 17, fontWeight: 600,
-            cursor: "pointer", textDecoration: "none", transition: "border-color 0.2s",
-          }}>Our Services</a>
+            borderRadius: 8, padding: "20px 32px", fontSize: 16, fontWeight: 600,
+            cursor: "pointer", textDecoration: "none",
+          }}>See how this is playing out →</a>
         </div>
         <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, marginTop: 16, maxWidth: 600 }}>
-          The AI Insurance Group is an informational platform. Insurance coverage is provided through licensed insurance professionals.
+          Free. 60 seconds. No contact info required to get your risk rating.
         </p>
 
-        <div style={{ marginTop: 48, display: "flex", gap: 48, flexWrap: "wrap" }}>
+        <div style={{ marginTop: 64, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 24, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
           {[
-            { icon: "🛡️", label: "Specialty Market\nA+ Rated Capacity" },
-            { icon: "📋", label: "Comprehensive\nAI Gap Audits" },
-            { icon: "⚖️", label: "E&O, D&O, Cyber\n& GL Coverage" },
-            { icon: "🏥", label: "Healthcare, Legal\n& Financial Verticals" },
-          ].map((item, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ fontSize: 28 }}>{item.icon}</div>
-              <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 13, lineHeight: 1.4, whiteSpace: "pre-line" }}>{item.label}</div>
+            { big: "Jan 1, 2026", small: "Industry-wide AI exclusions activated" },
+            { big: "82%", small: "U.S. P&C policies using the amended forms" },
+            { big: "1,000+", small: "Documented AI hallucinations in court filings" },
+            { big: "Your next renewal", small: "When your coverage quietly changes" },
+          ].map((stat, i) => (
+            <div key={i}>
+              <div style={{ color: GOLD, fontSize: 24, fontWeight: 800, lineHeight: 1.1, letterSpacing: -0.5, marginBottom: 8 }}>{stat.big}</div>
+              <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 1.5 }}>{stat.small}</div>
             </div>
           ))}
         </div>
@@ -656,6 +656,76 @@ function BlogEditor({ post, onSave, onCancel }) {
   );
 }
 
+function BreakingBanner() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch(SUPABASE_URL + "/rest/v1/blog_posts?published=eq.true&priority=eq.2&order=sort_order.desc,created_at.desc&select=id,title",
+      { headers: { apikey: SUPABASE_KEY } })
+      .then(r => r.json())
+      .then(data => setItems(Array.isArray(data) ? data : []))
+      .catch(() => setItems([]));
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--banner-h", items.length > 0 ? "40px" : "0px");
+    return () => document.documentElement.style.setProperty("--banner-h", "0px");
+  }, [items.length]);
+
+  if (items.length === 0) return null;
+
+  const scrollToBlog = (e) => {
+    e.preventDefault();
+    const el = document.getElementById("blog");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const doubled = [...items, ...items];
+  const durationSec = Math.max(25, items.length * 14);
+
+  return (
+    <>
+      <style>{`
+        @keyframes tickerScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .ticker-track { animation: tickerScroll ${durationSec}s linear infinite; }
+        .ticker-track:hover { animation-play-state: paused; }
+      `}</style>
+      <div style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
+        height: 40, display: "flex", alignItems: "center",
+        background: DARK, borderBottom: "1px solid rgba(220,38,38,0.4)",
+        overflow: "hidden", fontFamily: "'Inter', sans-serif",
+      }}>
+        <div style={{
+          flexShrink: 0, background: RED, color: WHITE,
+          padding: "0 14px", height: "100%", display: "flex", alignItems: "center", gap: 8,
+          fontSize: 11, fontWeight: 800, letterSpacing: 1.2, textTransform: "uppercase",
+        }}>
+          <span style={{ width: 7, height: 7, borderRadius: "50%", background: WHITE, display: "inline-block" }} />
+          Breaking
+        </div>
+        <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
+          <div className="ticker-track" style={{ display: "inline-flex", whiteSpace: "nowrap", willChange: "transform" }}>
+            {doubled.map((item, i) => (
+              <a key={i} href="#blog" onClick={scrollToBlog} style={{
+                color: WHITE, fontSize: 13, fontWeight: 500,
+                padding: "0 28px", textDecoration: "none",
+                display: "inline-flex", alignItems: "center", gap: 16, flexShrink: 0,
+              }}>
+                <span style={{ color: RED, fontSize: 10 }}>●</span>
+                <span>{item.title}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 function BlogSection() {
   const [expandedPost, setExpandedPost] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -905,7 +975,8 @@ export default function App() {
   if (legalPage === "disclosures") return <Disclosures onClose={() => setLegalPage(null)} />;
 
   return (
-    <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", margin: 0, padding: 0 }}>
+    <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", margin: 0, paddingTop: "var(--banner-h, 0px)" }}>
+      <BreakingBanner />
       <Nav />
       <Hero />
       <ProblemSection />
