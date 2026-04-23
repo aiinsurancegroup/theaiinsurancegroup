@@ -237,12 +237,18 @@ function Nav() {
           </div>
         </a>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
           <a href="https://isyouraicovered.com?new=1" className="nav-cta-mobile" style={{
             display: "none",
             background: GOLD, color: WHITE, padding: "9px 14px", borderRadius: 6, fontSize: 12, fontWeight: 700,
             textDecoration: "none", letterSpacing: 0.2, whiteSpace: "nowrap",
           }}>Check Coverage</a>
+          <a href="#faq" className="nav-faq-mobile" style={{
+            display: "none",
+            color: GOLD, fontSize: 12, fontWeight: 700, textDecoration: "none",
+            padding: "9px 10px", borderRadius: 6, border: "1px solid " + GOLD,
+            letterSpacing: 0.3, whiteSpace: "nowrap",
+          }}>FAQ</a>
           <div onClick={() => setMenuOpen(!menuOpen)} style={{ display: "none", cursor: "pointer", flexDirection: "column", gap: 5, padding: 8 }} className="mobile-menu-btn">
             <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
             <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
@@ -264,7 +270,8 @@ function Nav() {
       <style>{`
         @media (max-width: 768px) {
           .mobile-menu-btn { display: flex !important; }
-          .nav-cta-mobile { display: inline-block !important; }
+          .nav-cta-mobile { display: inline-block !important; padding: 9px 12px !important; font-size: 12px !important; }
+          .nav-faq-mobile { display: inline-block !important; }
           .nav-brand-text { display: none; }
           .nav-links {
             ${menuOpen ? `
