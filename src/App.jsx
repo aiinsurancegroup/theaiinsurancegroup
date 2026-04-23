@@ -411,7 +411,7 @@ function IndustriesSection() {
   ];
   return (
     <Section bg={LIGHT} id="industries">
-      <SectionLabel text="03 / Why this is about you" />
+      <SectionLabel text="05 / Why this is about you" />
       <SectionTitle text="Every profession thinks its AI exposure is someone else's problem." />
       <BodyText text="A lawyer, a doctor, a wealth manager, and a corporate director face different AI liability — and each one usually assumes someone in another seat is more exposed. Each of them is wrong, just in different ways." maxWidth={680} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 20, marginTop: 40 }}>
@@ -503,7 +503,7 @@ function ResearchSection() {
 
   return (
     <Section bg={WHITE} id="research">
-      <SectionLabel text="05 / What the industry is saying" />
+      <SectionLabel text="03 / What the industry is saying" />
       <SectionTitle text="Your current cyber insurance probably doesn't cover AI." />
       <BodyText text="Don't take our word for it. Gallagher Re, Deloitte, Munich Re, and Verisk themselves have documented the same shift — cyber, E&O, and GL policies are carving AI out. The links below go to the original reports." maxWidth={680} />
 
@@ -1015,9 +1015,9 @@ export default function App() {
       <Hero />
       <ProblemSection />
       <ServicesSection />
-      <IndustriesSection />
-      <ProcessSection />
       <ResearchSection />
+      <ProcessSection />
+      <IndustriesSection />
       <BlogSection />
       <CTASection />
       <ContactSection />
