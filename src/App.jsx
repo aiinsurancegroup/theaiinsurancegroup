@@ -588,6 +588,7 @@ function BlogEditor({ post, onSave, onCancel }) {
   const [date, setDate] = useState(post ? post.date : new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" }));
   const [readTime, setReadTime] = useState(post ? post.read_time : "5 min read");
   const [preview, setPreview] = useState(post ? post.preview : "");
+  const [priority, setPriority] = useState(post && typeof post.priority === "number" ? post.priority : 0);
   const [blocks, setBlocks] = useState(post ? (typeof post.content === "string" ? JSON.parse(post.content) : post.content) : [{ heading: null, text: "" }]);
   const [saving, setSaving] = useState(false);
 
@@ -599,7 +600,7 @@ function BlogEditor({ post, onSave, onCancel }) {
   const handleSave = async () => {
     if (!title || !preview || blocks.some(b => !b.text)) return;
     setSaving(true);
-    const payload = { title, date, read_time: readTime, preview, content: blocks, published: true, updated_at: new Date().toISOString() };
+    const payload = { title, date, read_time: readTime, preview, content: blocks, priority, published: true, updated_at: new Date().toISOString() };
     try {
       if (post && post.id) {
         await fetch(SUPABASE_URL + "/rest/v1/blog_posts?id=eq." + post.id, { method: "PATCH", headers: sbHeaders, body: JSON.stringify(payload) });
@@ -621,6 +622,14 @@ function BlogEditor({ post, onSave, onCancel }) {
       <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
         <input placeholder="Date (e.g. April 2026)" value={date} onChange={e => setDate(e.target.value)} style={{ ...inputStyle, flex: 1 }} />
         <input placeholder="Read time" value={readTime} onChange={e => setReadTime(e.target.value)} style={{ ...inputStyle, flex: 1 }} />
+      </div>
+      <div style={{ marginBottom: 16 }}>
+        <div style={{ color: GRAY, fontSize: 12, fontWeight: 600, letterSpacing: 0.5, marginBottom: 6 }}>PRIORITY</div>
+        <div style={{ display: "flex", gap: 6 }}>
+          {[{ val: 0, label: "Normal" }, { val: 1, label: "Featured" }, { val: 2, label: "Breaking" }].map(opt => (
+            <button key={opt.val} type="button" onClick={() => setPriority(opt.val)} style={{ flex: 1, padding: "10px 14px", borderRadius: 8, border: "1px solid " + (priority === opt.val ? NAVY : "#E5E7EB"), background: priority === opt.val ? NAVY : WHITE, color: priority === opt.val ? WHITE : GRAY, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>{opt.label}</button>
+          ))}
+        </div>
       </div>
       <textarea placeholder="Preview text (shows before reader clicks Read More)" rows={3} value={preview} onChange={e => setPreview(e.target.value)} style={{ ...textareaStyle, marginBottom: 20 }} />
       <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>ARTICLE CONTENT</div>
@@ -656,7 +665,7 @@ function BlogSection() {
   const [creating, setCreating] = useState(false);
 
   const fetchPosts = () => {
-    fetch(SUPABASE_URL + "/rest/v1/blog_posts?published=eq.true&order=sort_order.desc,created_at.desc", { headers: { apikey: SUPABASE_KEY } })
+    fetch(SUPABASE_URL + "/rest/v1/blog_posts?published=eq.true&order=priority.desc,sort_order.desc,created_at.desc", { headers: { apikey: SUPABASE_KEY } })
       .then(r => r.json()).then(data => { setPosts(data || []); setLoading(false); }).catch(() => setLoading(false));
   };
   useEffect(() => { fetchPosts(); }, []);
@@ -703,7 +712,13 @@ function BlogSection() {
                 width: "100%", textAlign: "left", padding: "32px", background: "none", border: "none",
                 cursor: "pointer", fontFamily: "inherit",
               }}>
-                <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
+                <div style={{ display: "flex", gap: 12, marginBottom: 12, alignItems: "center" }}>
+                  {post.priority === 2 && (
+                    <span style={{ display: "inline-block", padding: "3px 10px", borderRadius: 4, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase", background: RED, color: WHITE }}>Breaking</span>
+                  )}
+                  {post.priority === 1 && (
+                    <span style={{ display: "inline-block", padding: "3px 10px", borderRadius: 4, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase", background: GOLD, color: WHITE }}>Featured</span>
+                  )}
                   <span style={{ color: GOLD, fontSize: 13, fontWeight: 600 }}>{post.date}</span>
                   <span style={{ color: GRAY, fontSize: 13 }}>{post.read_time}</span>
                 </div>
