@@ -120,7 +120,7 @@ function TermsOfService({ onClose }) {
 
       <LegalH2>Description of Services</LegalH2>
       <LegalP>The AI Insurance Group provides educational and informational content regarding AI-related insurance risks and coverage options. We also provide a free AI Coverage Gap Assessment tool designed to help businesses identify potential coverage gaps related to artificial intelligence usage.</LegalP>
-      <LegalP>The AI Insurance Group is a marketing and informational platform. We are not a licensed insurance agency. Insurance coverage is provided through licensed insurance brokers and agencies. All policies are written and serviced by licensed insurance entities.</LegalP>
+      <LegalP>The AI Insurance Group is an informational and marketing platform. Insurance products referenced on our Sites are sold through Alexander Capital Insurance, a licensed insurance agency. Coverage availability, terms, and pricing are determined by the issuing insurance carriers and are subject to underwriting approval.</LegalP>
 
       <LegalH2>Not Insurance Advice</LegalH2>
       <LegalP>The information provided on our Sites, including the AI Coverage Gap Assessment results, is for general informational and educational purposes only. It does not constitute insurance advice, legal advice, or a coverage determination. Assessment results are based on self-reported responses and are not a substitute for a professional review of your actual insurance policy documents by a licensed insurance professional.</LegalP>
@@ -160,10 +160,14 @@ function Disclosures({ onClose }) {
   return (
     <LegalPage title="Disclosures" onClose={onClose}>
       <LegalH2>About The AI Insurance Group</LegalH2>
-      <LegalP>The AI Insurance Group is a marketing and informational platform focused on AI-related insurance risks and coverage solutions. We are not a licensed insurance agency, carrier, or underwriter. Insurance products referenced on our Sites are provided by licensed insurance entities.</LegalP>
+      <LegalP>The AI Insurance Group is an informational and marketing platform focused on AI-related insurance risks and coverage solutions. The AI Insurance Group educates the market on AI liability exposures, identifies potential coverage gaps in existing policies, and connects users with licensed insurance professionals.</LegalP>
+
+      <LegalH2>Insurance Sales and Licensed Agency</LegalH2>
+      <LegalP>All insurance products referenced on theaiinsurancegroup.com and isyouraicovered.com are sold through Alexander Capital Insurance, a licensed insurance agency. Sal Martorano is a licensed Property & Casualty insurance producer in New Jersey and Florida and produces insurance business through Alexander Capital Insurance.</LegalP>
+      <LegalP>Coverage availability, terms, conditions, limits, and pricing are determined by the issuing insurance carriers and are subject to underwriting review and approval. Not all coverage options are available in all states.</LegalP>
 
       <LegalH2>Insurance Products and Coverage</LegalH2>
-      <LegalP>Insurance coverage is provided through licensed insurance brokers, agents, and agencies. All policies are written, issued, and serviced by licensed insurance carriers. The availability of coverage, terms, conditions, limits, and pricing are determined by the issuing carrier and are subject to underwriting review and approval. Not all coverage options are available in all states.</LegalP>
+      <LegalP>All policies are written, issued, and serviced by licensed insurance carriers through Alexander Capital Insurance. The AI Insurance Group itself does not bind, issue, or service insurance policies.</LegalP>
 
       <LegalH2>AI Coverage Gap Assessment</LegalH2>
       <LegalP>The AI Coverage Gap Assessment tool available at isyouraicovered.com is designed for general informational and educational purposes only. The assessment:</LegalP>
@@ -1185,7 +1189,7 @@ function BlogSection() {
                     </div>
                   ))}
                   <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid #E5E7EB" }}>
-                    <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || "Sal Martorano is the founder of The AI Insurance Group, a marketing and informational platform focused on AI liability coverage and risk advisory. He is licensed for Property & Casualty insurance in New Jersey and Florida."}</p>
+                    <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || "Sal Martorano is the founder of The AI Insurance Group, an informational platform focused on AI liability coverage and risk advisory. He is licensed for Property & Casualty insurance in New Jersey and Florida and produces insurance business through Alexander Capital Insurance."}</p>
                   </div>
                   {isAdmin && (
                     <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
@@ -1294,7 +1298,7 @@ function ContactSection() {
               <button onClick={handleContactSubmit}
                 style={{ width: "100%", padding: "16px", borderRadius: 8, border: "none", background: NAVY, color: WHITE, fontSize: 16, fontWeight: 700, cursor: "pointer", boxSizing: "border-box" }}>Submit Request →</button>
               <p style={{ color: GRAY, fontSize: 12, marginTop: 8, textAlign: "center" }}>Your information is confidential. We respond within 24 hours.</p>
-              <p style={{ color: GRAY, fontSize: 10, marginTop: 4, textAlign: "center", lineHeight: 1.5 }}>We do not sell or bind insurance. Coverage is provided through licensed insurance professionals.</p>
+              <p style={{ color: GRAY, fontSize: 10, marginTop: 4, textAlign: "center", lineHeight: 1.5 }}>Insurance products sold through Alexander Capital Insurance, a licensed insurance agency.</p>
             </>
           )}
         </div>
@@ -1330,7 +1334,7 @@ function Footer({ onLegalPage }) {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
           <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, lineHeight: 1.6, maxWidth: 600 }}>
-            © 2026 The AI Insurance Group. All rights reserved. The AI Insurance Group is a marketing and informational platform. Insurance coverage is provided through licensed insurance brokers. All policies are written and serviced by a licensed insurance agency.
+            © 2026 The AI Insurance Group. All rights reserved. The AI Insurance Group is an informational and marketing platform. Insurance products are sold through Alexander Capital Insurance, a licensed insurance agency.
           </div>
           <div style={{ display: "flex", gap: 20 }}>
             {[
