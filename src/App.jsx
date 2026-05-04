@@ -1156,53 +1156,81 @@ function BlogSection() {
           <button onClick={() => setCreating(true)} style={{ width: "100%", padding: "16px", borderRadius: 12, border: "2px dashed " + GOLD, background: "rgba(184,151,42,0.04)", color: GOLD, fontSize: 16, fontWeight: 700, cursor: "pointer", marginBottom: 20 }}>+ New Blog Post</button>
         )}
         {creating && <BlogEditor post={null} onSave={handleSaved} onCancel={() => setCreating(false)} adminPassword={adminPassword} />}
-        {posts.map((post) => {
-          const isOpen = expandedPost === post.id;
-          const content = typeof post.content === "string" ? JSON.parse(post.content) : post.content;
-          if (editing === post.id) return <BlogEditor key={post.id} post={post} onSave={handleSaved} onCancel={() => setEditing(null)} adminPassword={adminPassword} />;
-          return (
-            <div key={post.id} style={{ background: WHITE, borderRadius: 16, border: "1px solid #E5E7EB", overflow: "hidden", marginBottom: 20 }}>
-              <button onClick={() => setExpandedPost(isOpen ? null : post.id)} style={{
-                width: "100%", textAlign: "left", padding: "32px", background: "none", border: "none",
-                cursor: "pointer", fontFamily: "inherit",
-              }}>
-                <div style={{ display: "flex", gap: 12, marginBottom: 12, alignItems: "center" }}>
-                  {post.priority === 2 && (
-                    <span style={{ display: "inline-block", padding: "3px 10px", borderRadius: 4, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase", background: RED, color: WHITE }}>Breaking</span>
-                  )}
-                  {post.priority === 1 && (
-                    <span style={{ display: "inline-block", padding: "3px 10px", borderRadius: 4, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase", background: GOLD, color: WHITE }}>Featured</span>
-                  )}
-                  <span style={{ color: GOLD, fontSize: 13, fontWeight: 600 }}>{post.date}</span>
-                  <span style={{ color: GRAY, fontSize: 13 }}>{post.read_time}</span>
-                </div>
-                <h3 style={{ color: NAVY, fontSize: 22, fontWeight: 700, lineHeight: 1.3, margin: "0 0 12px" }}>{post.title}</h3>
-                <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.7, margin: 0 }}>{post.preview}</p>
-                <div style={{ color: GOLD, fontSize: 14, fontWeight: 600, marginTop: 16 }}>{isOpen ? "Close \u2191" : "Read More \u2193"}</div>
-              </button>
-              {isOpen && (
-                <div style={{ padding: "0 32px 32px", borderTop: "1px solid #E5E7EB" }}>
-                  {content.map((block, i) => (
-                    <div key={i}>
-                      {block.heading && <h4 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: "28px 0 12px" }}>{block.heading}</h4>}
-                      <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.8, margin: block.heading ? "0 0 16px" : "16px 0" }}>{block.text}</p>
-                    </div>
-                  ))}
-                  <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid #E5E7EB" }}>
-                    <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || "Sal Martorano is the founder of The AI Insurance Group, an informational platform focused on AI liability coverage and risk advisory. He is licensed for Property & Casualty insurance in New Jersey and Florida and produces insurance business through Alexander Capital Insurance Agency."}</p>
+        {(() => {
+          const breakingPosts = posts.filter(p => p.priority === 2);
+          const otherPosts = posts.filter(p => p.priority !== 2);
+          const renderPost = (post) => {
+            const isOpen = expandedPost === post.id;
+            const content = typeof post.content === "string" ? JSON.parse(post.content) : post.content;
+            if (editing === post.id) return <BlogEditor key={post.id} post={post} onSave={handleSaved} onCancel={() => setEditing(null)} adminPassword={adminPassword} />;
+            return (
+              <div key={post.id} style={{ background: WHITE, borderRadius: 16, border: "1px solid #E5E7EB", overflow: "hidden", marginBottom: 20 }}>
+                <button onClick={() => setExpandedPost(isOpen ? null : post.id)} style={{
+                  width: "100%", textAlign: "left", padding: "32px", background: "none", border: "none",
+                  cursor: "pointer", fontFamily: "inherit",
+                }}>
+                  <div style={{ display: "flex", gap: 12, marginBottom: 12, alignItems: "center", flexWrap: "wrap" }}>
+                    {post.priority === 2 && (
+                      <span style={{ display: "inline-block", padding: "3px 10px", borderRadius: 4, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase", background: RED, color: WHITE }}>Breaking</span>
+                    )}
+                    {post.priority === 1 && (
+                      <span style={{ display: "inline-block", padding: "3px 10px", borderRadius: 4, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase", background: GOLD, color: WHITE }}>Featured</span>
+                    )}
+                    <span style={{ color: GOLD, fontSize: 13, fontWeight: 600 }}>{post.date}</span>
+                    <span style={{ color: GRAY, fontSize: 13 }}>{post.read_time}</span>
                   </div>
-                  {isAdmin && (
-                    <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
-                      <button onClick={(e) => { e.stopPropagation(); setEditing(post.id); }} style={{ padding: "8px 20px", borderRadius: 6, border: "1px solid " + NAVY, background: "none", color: NAVY, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Edit Post</button>
-                      <button onClick={(e) => { e.stopPropagation(); handleDelete(post.id); }} style={{ padding: "8px 20px", borderRadius: 6, border: "1px solid " + RED, background: "none", color: RED, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Delete</button>
+                  <h3 style={{ color: NAVY, fontSize: 22, fontWeight: 700, lineHeight: 1.3, margin: "0 0 12px" }}>{post.title}</h3>
+                  <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.7, margin: 0 }}>{post.preview}</p>
+                  <div style={{ color: GOLD, fontSize: 14, fontWeight: 600, marginTop: 16 }}>{isOpen ? "Close \u2191" : "Read More \u2193"}</div>
+                </button>
+                {isOpen && (
+                  <div style={{ padding: "0 32px 32px", borderTop: "1px solid #E5E7EB" }}>
+                    {content.map((block, i) => (
+                      <div key={i}>
+                        {block.heading && <h4 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: "28px 0 12px" }}>{block.heading}</h4>}
+                        <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.8, margin: block.heading ? "0 0 16px" : "16px 0" }}>{block.text}</p>
+                      </div>
+                    ))}
+                    <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid #E5E7EB" }}>
+                      <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || "Sal Martorano is the founder of The AI Insurance Group, an informational platform focused on AI liability coverage and risk advisory. He is licensed for Property & Casualty insurance in New Jersey and Florida and produces insurance business through Alexander Capital Insurance Agency."}</p>
                     </div>
-                  )}
-                </div>
-              )}
+                    {isAdmin && (
+                      <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
+                        <button onClick={(e) => { e.stopPropagation(); setEditing(post.id); }} style={{ padding: "8px 20px", borderRadius: 6, border: "1px solid " + NAVY, background: "none", color: NAVY, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Edit Post</button>
+                        <button onClick={(e) => { e.stopPropagation(); handleDelete(post.id); }} style={{ padding: "8px 20px", borderRadius: 6, border: "1px solid " + RED, background: "none", color: RED, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Delete</button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          };
+          // If no Breaking posts, just render single column
+          if (breakingPosts.length === 0) {
+            return <div>{otherPosts.map(renderPost)}</div>;
+          }
+          // Split layout: Breaking left, everything else right
+          return (
+            <div className="blog-split-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "start" }}>
+              <div>
+                <div style={{ color: RED, fontSize: 12, fontWeight: 700, letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 12 }}>Breaking</div>
+                {breakingPosts.map(renderPost)}
+              </div>
+              <div>
+                <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 12 }}>Latest</div>
+                {otherPosts.map(renderPost)}
+              </div>
             </div>
           );
-        })}
+        })()}
       </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .blog-split-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </Section>
   );
 }
