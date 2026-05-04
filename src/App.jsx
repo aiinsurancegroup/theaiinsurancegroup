@@ -726,6 +726,10 @@ function FAQSection() {
       a: "An AI endorsement is a policy add-on that explicitly names AI-assisted work as covered work. It does three things a standard policy increasingly doesn't: names AI-generated output as inside the policy rather than contested on the boundary, clarifies which tools and use cases are in-scope, and tells you upfront what's covered and what isn't. Without one, you're relying on the carrier's interpretation of silence. That's not a coverage strategy.",
     },
     {
+      q: "Won't my E&O policy cover this?",
+      a: "Maybe — for old fact patterns. The harder question is whether it covers the NEW ones. Gunderson Dettmer, the law firm that represents roughly half of all venture-backed startups, framed it directly in their 2025 AI risk guide: \"negligence might be driven by an AI hallucination, while a cyber security breach could be driven by deep fake fraud.\" Same legal theories. Different facts. Your existing E&O was written for a world where humans made the mistakes. AI exposure now spans at least five coverage lines — E&O, Bias/Discrimination, IP, Regulatory Investigation, and Cyber — and the gaps BETWEEN policies are where claims fall. A hallucinated medical citation might trigger E&O. The same hallucination on a public website might trigger media liability. A discriminatory AI hiring output triggers EPLI. An AI-generated image resembling a copyrighted work triggers IP claims. A deepfake CFO scam triggers cyber. One incident, five potential coverage triggers, five different policy responses — and increasingly, AI exclusions appearing on each of them. \"I have E&O\" is no longer a complete answer to AI risk.",
+    },
+    {
       q: "When will my carrier exclude AI from my policy?",
       a: "Likely at your next renewal, without prominent notice. The Verisk endorsements became available January 1, 2026. Carriers adopt at their own pace, but the pattern is consistent: AI exclusions attach quietly as part of a renewal package. The time to check is before you sign the renewal, not after a claim.",
     },
