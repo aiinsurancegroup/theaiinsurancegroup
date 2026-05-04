@@ -446,6 +446,7 @@ const industryDetails = {
       "Connect you with specialty carriers offering affirmative AI coverage for legal work",
       "Monitor the exclusion language as it evolves across carriers",
     ],
+    coverageNeeds: ["E&O", "Cyber", "IP"],
   },
   "Healthcare & Medical": {
     headline: "AI hallucinations in medicine don't get caught by opposing counsel. They get caught by the patient.",
@@ -469,6 +470,7 @@ const industryDetails = {
       "Connect you with specialty markets offering affirmative AI medical liability coverage",
       "Review vendor contracts for AI indemnification and shifting liability",
     ],
+    coverageNeeds: ["E&O", "Bias/Discrim", "Regulatory", "Cyber"],
   },
   "Wealth Management & RIAs": {
     headline: "The SEC is calling it 'AI washing.' Your E&O may already exclude it.",
@@ -491,6 +493,7 @@ const industryDetails = {
       "Connect you with carriers offering affirmative AI coverage for advisory work",
       "Monitor evolving SEC guidance and how carriers are responding",
     ],
+    coverageNeeds: ["E&O", "Regulatory", "Cyber"],
   },
   "Directors & Officers": {
     headline: "Your D&O policy may have a new 'absolute AI' exclusion. Most boards haven't been told.",
@@ -513,6 +516,7 @@ const industryDetails = {
       "Connect directors with specialty carriers offering affirmative AI D&O coverage",
       "Provide ongoing updates as carrier practices evolve",
     ],
+    coverageNeeds: ["E&O", "Bias/Discrim", "Regulatory", "Cyber"],
   },
   "Technology & SaaS": {
     headline: "Your product liability policy may not cover harm caused by your AI product.",
@@ -535,6 +539,7 @@ const industryDetails = {
       "Connect you with specialty carriers offering affirmative AI products liability coverage",
       "Review customer contracts for AI indemnification and liability allocation",
     ],
+    coverageNeeds: ["E&O", "Bias/Discrim", "IP", "Regulatory", "Cyber"],
   },
   "Financial Services": {
     headline: "If AI makes a credit decision for you, the bias lawsuit lands on your desk.",
@@ -557,6 +562,7 @@ const industryDetails = {
       "Connect you with specialty carriers offering affirmative AI financial-services coverage",
       "Monitor CFPB, OCC, and state regulator AI enforcement and how carriers are responding",
     ],
+    coverageNeeds: ["E&O", "Bias/Discrim", "Regulatory", "Cyber"],
   },
 };
 
@@ -630,6 +636,31 @@ function IndustryModal({ industry, onClose }) {
                 {details.howWeHelp.map((item, i) => (<li key={i} style={{ color: DGRAY, fontSize: 14.5, lineHeight: 1.7, marginBottom: 6 }}>{item}</li>))}
               </ul>
             </div>
+
+            {details.coverageNeeds && (
+              <div style={{ marginTop: 26, paddingTop: 22, borderTop: "1px solid #E5E7EB" }}>
+                <div style={{ color: GOLD, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 6 }}>Coverage framework</div>
+                <p style={{ color: GRAY, fontSize: 12.5, lineHeight: 1.6, margin: "0 0 12px" }}>AI exposure typically spans these lines for this industry. Gaps between policies are where claims fall.</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  {["E&O", "Bias/Discrim", "IP", "Regulatory", "Cyber"].map(line => {
+                    const active = details.coverageNeeds.includes(line);
+                    return (
+                      <span key={line} style={{
+                        display: "inline-block",
+                        padding: "5px 11px",
+                        borderRadius: 999,
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        letterSpacing: 0.3,
+                        background: active ? GOLD : "#F3F4F6",
+                        color: active ? WHITE : "#9CA3AF",
+                        border: active ? "1px solid " + GOLD : "1px solid #E5E7EB",
+                      }}>{line}</span>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           <div style={{ padding: "18px 24px", borderTop: "1px solid #E5E7EB", background: LIGHT, display: "flex", gap: 10 }}>
