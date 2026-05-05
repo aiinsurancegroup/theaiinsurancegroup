@@ -35,7 +35,11 @@ function LegalPage({ title, onClose, children }) {
       <div style={{ background: NAVY, padding: "20px 24px", position: "sticky", top: 0, zIndex: 999 }}>
         <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <a href="#" onClick={(e) => { e.preventDefault(); onClose(); }} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <div style={{ width: 36, height: 36, borderRadius: 8, background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, color: WHITE, fontSize: 14 }}>AIG</div>
+            <div style={{ width: 36, height: 36, borderRadius: 8, background: WHITE, border: "1.5px solid " + NAVY, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 12, letterSpacing: -0.3, fontFamily: "Arial, sans-serif" }}>
+              <span style={{ color: GOLD }}>AI</span>
+              <span style={{ color: GOLD, margin: "0 1px" }}>·</span>
+              <span style={{ color: NAVY }}>IG</span>
+            </div>
             <div>
               <span style={{ color: WHITE, fontWeight: 700, fontSize: 16 }}>The AI Insurance</span>
               <span style={{ color: GOLD, fontWeight: 700, fontSize: 16 }}> Group</span>
@@ -234,7 +238,11 @@ function Nav() {
     }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
         <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); setMenuOpen(false); }} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 8, background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, color: WHITE, fontSize: 14, fontFamily: "Arial, sans-serif" }}>AIG</div>
+          <div style={{ width: 36, height: 36, borderRadius: 8, background: WHITE, border: "1.5px solid " + NAVY, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 12, letterSpacing: -0.3, fontFamily: "Arial, sans-serif" }}>
+            <span style={{ color: GOLD }}>AI</span>
+            <span style={{ color: GOLD, margin: "0 1px" }}>·</span>
+            <span style={{ color: NAVY }}>IG</span>
+          </div>
           <div className="nav-brand-text">
             <span style={{ color: WHITE, fontWeight: 700, fontSize: 16, letterSpacing: -0.3 }}>The AI Insurance</span>
             <span style={{ color: GOLD, fontWeight: 700, fontSize: 16 }}> Group</span>
@@ -1378,7 +1386,11 @@ function Footer({ onLegalPage }) {
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 40, marginBottom: 40 }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <div style={{ width: 32, height: 32, borderRadius: 6, background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, color: WHITE, fontSize: 12 }}>AIG</div>
+              <div style={{ width: 32, height: 32, borderRadius: 6, background: WHITE, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 11, letterSpacing: -0.3, fontFamily: "Arial, sans-serif" }}>
+                <span style={{ color: GOLD }}>AI</span>
+                <span style={{ color: GOLD, margin: "0 1px" }}>·</span>
+                <span style={{ color: NAVY }}>IG</span>
+              </div>
               <span style={{ color: WHITE, fontWeight: 700, fontSize: 15 }}>The AI Insurance <span style={{ color: GOLD }}>Group</span></span>
             </div>
             <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.6, maxWidth: 300 }}>Specialized AI liability coverage and risk advisory. Helping businesses navigate the 2026 AI insurance exclusion landscape.</p>
