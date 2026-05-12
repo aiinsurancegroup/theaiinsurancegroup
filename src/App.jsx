@@ -332,7 +332,7 @@ function Hero() {
           <span style={{ color: GOLD }}>Most policyholders don't know.</span>
         </h1>
         <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.6, maxWidth: 680, margin: "0 0 40px" }}>
-          On January 1, 2026, Verisk's new endorsements — attached to policies across roughly 82% of U.S. carriers — began carving AI claims out of General Liability, E&O, D&O, and Cyber coverage. No notice required. The exclusion shows up quietly at your next renewal.
+          On January 1, 2026, Verisk's new endorsements, attached to policies across about 82% of US carriers, started carving AI claims out of General Liability, E&O, D&O, and Cyber coverage. No notice required. The exclusion shows up quietly at your next renewal.
         </p>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
           <a href="https://isyouraicovered.com?new=1" style={{
@@ -353,7 +353,7 @@ function Hero() {
         <div style={{ marginTop: 64, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 24, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
           {[
             { big: "Jan 1, 2026", small: "Industry-wide AI exclusions activated" },
-            { big: "82%", small: "U.S. P&C policies using the amended forms" },
+            { big: "82%", small: "US P&C policies using the amended forms" },
             { big: "1,000+", small: "Documented AI hallucinations in court filings" },
             { big: "Your next renewal", small: "When your coverage quietly changes" },
           ].map((stat, i) => (
@@ -374,7 +374,7 @@ function ProblemSection() {
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         <SectionLabel text="01 / What changed" />
         <SectionTitle text="Your broker probably didn't tell you this happened." />
-        <BodyText text="On January 1, 2026, Verisk quietly released three endorsements — CG 40 47, CG 40 48, and CG 35 08 — that let carriers carve AI claims out of general liability. Major carriers are attaching them at renewal. Most brokers haven't read the forms. Most policyholders don't know the forms are already on their policies." />
+        <BodyText text="On January 1, 2026, Verisk quietly released three endorsements (CG 40 47, CG 40 48, and CG 35 08) that let carriers carve AI claims out of general liability. Major carriers are attaching them at renewal. Most brokers haven't read the forms. Most policyholders don't know the forms are already on their policies." />
         <div style={{ background: WHITE, borderRadius: 12, padding: 24, marginTop: 24, marginBottom: 16, border: "1px solid #E5E7EB" }}>
           <div style={{ color: NAVY, fontSize: 15, fontWeight: 700, marginBottom: 12 }}>📄 Proof: Read the actual exclusion forms</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -406,15 +406,15 @@ function ProblemSection() {
 
 function ServicesSection() {
   const services = [
-    { icon: "🔍", title: "AI Coverage Gap Audit", desc: "We review your entire commercial insurance portfolio — GL, E&O, D&O, Cyber, EPLI, and Products liability — to identify AI-related exclusions, sublimits, and endorsements that may have been added at your last renewal.", details: ["Full AI usage inventory across your organization", "Policy-by-policy exclusion analysis with form numbers cited", "Risk scenario mapping for your specific industry", "Governance recommendations to improve your underwriting profile"] },
-    { icon: "📄", title: "AI Liability Solutions", desc: "We connect you with specialty markets that most brokers can't access — including Lloyd's of London capacity and Munich Re-backed products — where licensed professionals can place affirmative AI coverage that fills the gaps traditional policies now exclude.", details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"] },
+    { icon: "🔍", title: "AI Coverage Gap Audit", desc: "We review your entire commercial insurance portfolio (GL, E&O, D&O, Cyber, EPLI, and Products liability) to identify AI-related exclusions, sublimits, and endorsements that may have been added at your last renewal.", details: ["Full AI usage inventory across your organization", "Policy-by-policy exclusion analysis with form numbers cited", "Risk scenario mapping for your specific industry", "Governance recommendations to improve your underwriting profile"] },
+    { icon: "📄", title: "AI Liability Solutions", desc: "We connect you with specialty markets that most brokers can't access, including Lloyd's of London capacity and Munich Re-backed products, where licensed professionals can place affirmative AI coverage that fills the gaps traditional policies now exclude.", details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"] },
     { icon: "🤝", title: "Broker Partnership Program", desc: "We partner with P&C brokers who want to offer AI coverage audits to their existing clients without building the specialty expertise in-house. You keep the client relationship — we provide the AI-specific analysis and market access.", details: ["White-label AI gap audit reports", "Specialty placement through Lloyd's and Munich Re", "Co-branded client presentations", "CE-eligible training on AI insurance exclusions"] },
   ];
   return (
     <Section bg={WHITE} id="services">
       <SectionLabel text="02 / Where we start" />
       <SectionTitle text="Before you buy coverage, you need to know what you've already lost." />
-      <BodyText text="Most people come to us wanting a quote. We start somewhere else — showing you what's already been taken off the table. Once you can see the gap, the question of how to fill it gets much easier." maxWidth={650} />
+      <BodyText text="Most people come to us wanting a quote. We start somewhere else, showing you what's already been taken off the table. Once you can see the gap, the question of how to fill it gets much easier." maxWidth={650} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28, marginTop: 40 }}>
         {services.map((s, i) => (
           <div key={i} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB" }}>
@@ -434,7 +434,7 @@ function ServicesSection() {
 const industryDetails = {
   "Law Firms": {
     headline: "Your malpractice policy may not cover what ChatGPT writes for you.",
-    setup: "Legal academic Damien Charlotin's database of AI hallucinations in court filings crossed 1,334 documented cases this month — up from 719 in January. In March 2026, the Sixth Circuit sanctioned two Tennessee attorneys $15,000 each plus opposing counsel's fees for fabricated citations. In April, Sullivan & Cromwell — the firm that advises OpenAI — filed a federal bankruptcy motion with hallucinated cases despite having written AI policies, training, and manual review. If their safeguards failed, the assumption that \"our protocols will catch it\" is no longer a defensible underwriting position.",
+    setup: "Legal academic Damien Charlotin's database of AI hallucinations in court filings crossed 1,334 documented cases this month, up from 719 in January. In March 2026, the Sixth Circuit sanctioned two Tennessee attorneys $15,000 each plus opposing counsel's fees for fabricated citations. In April, Sullivan & Cromwell, the firm that advises OpenAI, filed a federal bankruptcy motion with hallucinated cases despite having written AI policies, training, and manual review. If their safeguards failed, the assumption that \"our protocols will catch it\" is no longer a defensible underwriting position.",
     exposure: [
       "AI-assisted brief writing, legal research, and citation work",
       "Contract review and analysis with AI tools",
@@ -444,7 +444,7 @@ const industryDetails = {
       "Any workflow where you cannot explain exactly how the AI reached its conclusion",
     ],
     excluded: [
-      "Standard malpractice policies increasingly include AI-specific exclusions at renewal",
+      "Standard malpractice policies include AI-specific exclusions at renewal",
       "W.R. Berkley introduced an 'absolute' AI exclusion across professional liability lines",
       "Policies without explicit AI exclusions may still deny under 'knowing failure to supervise' if AI use was undisclosed to the carrier",
     ],
@@ -458,7 +458,7 @@ const industryDetails = {
   },
   "Healthcare & Medical": {
     headline: "AI hallucinations in medicine don't get caught by opposing counsel. They get caught by the patient.",
-    setup: "A peer-reviewed 2024 study in the Journal of Medical Internet Research found GPT-4 hallucinating medical literature references at a 28.6% rate. A separate analysis published in Nature's Schizophrenia journal examined 115 AI-generated medical article references and found 47% were completely fabricated and another 46% were authentic but misrepresented — leaving only 7% accurate. When a physician acts on AI output that turns out to be hallucinated — a wrong drug interaction, a misread imaging finding, a confidently wrong diagnostic recommendation — the liability question doesn't disappear because the mistake came from software.",
+    setup: "A peer-reviewed 2024 study in the Journal of Medical Internet Research found GPT-4 hallucinating medical literature references at a 28.6% rate. A separate analysis published in Nature's Schizophrenia journal examined 115 AI-generated medical article references and found 47% were completely fabricated and another 46% were authentic but misrepresented, leaving only 7% accurate. When a physician acts on AI output that turns out to be hallucinated (a wrong drug interaction, a misread imaging finding, a confidently wrong diagnostic recommendation), the liability question doesn't disappear because the mistake came from software.",
     exposure: [
       "AI-powered diagnostic imaging and pattern recognition",
       "Clinical decision support and treatment planning systems",
@@ -482,7 +482,7 @@ const industryDetails = {
   },
   "Wealth Management & RIAs": {
     headline: "The SEC is calling it 'AI washing.' Your E&O may already exclude it.",
-    setup: "SEC enforcement priorities now include 'AI washing' — claiming AI-driven capabilities a firm doesn't actually have. At the same time, RIAs are using AI for portfolio analysis, client communications, compliance monitoring, and fiduciary decision support. When those tools misfire, the questions get expensive fast: who made the decision, was it disclosed, does your E&O cover it?",
+    setup: "SEC enforcement priorities now include 'AI washing,' claiming AI-driven capabilities a firm doesn't actually have. At the same time, RIAs are using AI for portfolio analysis, client communications, compliance monitoring, and fiduciary decision support. When those tools misfire, the questions get expensive fast: who made the decision, was it disclosed, does your E&O cover it?",
     exposure: [
       "AI-driven portfolio construction or rebalancing",
       "AI-generated client communications and financial plans",
@@ -505,7 +505,7 @@ const industryDetails = {
   },
   "Directors & Officers": {
     headline: "Your D&O policy may have a new 'absolute AI' exclusion. Most boards haven't been told.",
-    setup: "W.R. Berkley and other carriers introduced 'absolute' AI exclusions across D&O, E&O, and Fiduciary Liability — removing coverage for any claim arising from the use, deployment, or development of artificial intelligence. These exclusions are showing up on renewal without conspicuous notice. Board members making AI-adjacent decisions can now be personally exposed.",
+    setup: "W.R. Berkley and other carriers introduced 'absolute' AI exclusions across D&O, E&O, and Fiduciary Liability, removing coverage for any claim arising from the use, deployment, or development of artificial intelligence. These exclusions are showing up on renewal without conspicuous notice. Board members making AI-adjacent decisions can now be personally exposed.",
     exposure: [
       "Board-level AI governance decisions and policies",
       "Disclosures to shareholders about AI capabilities or risks (72% of S&P 500 companies now disclose AI risk)",
@@ -516,7 +516,7 @@ const industryDetails = {
     excluded: [
       "Berkley-style 'absolute' AI exclusions remove all coverage related to AI",
       "Side-A coverage (personal asset protection) may become unavailable for AI-adjacent claims",
-      "Derivative suits based on AI disclosure failures increasingly fall outside standard D&O",
+      "Derivative suits based on AI disclosure failures fall outside standard D&O",
     ],
     howWeHelp: [
       "Read the exact AI exclusion language on your D&O policy",
@@ -528,7 +528,7 @@ const industryDetails = {
   },
   "Technology & SaaS": {
     headline: "Your product liability policy may not cover harm caused by your AI product.",
-    setup: "Verisk's CG 35 08 endorsement — effective January 1, 2026 — excludes AI-related claims from Products/Completed Operations coverage. If your AI product or AI-powered feature causes harm to a customer or third party, the general liability and product liability policies you've been buying may not respond. For technology companies embedding AI, the gap is immediate.",
+    setup: "Verisk's CG 35 08 endorsement, effective January 1, 2026, excludes AI-related claims from Products/Completed Operations coverage. If your AI product or AI-powered feature causes harm to a customer or third party, the general liability and product liability policies you've been buying may not respond. For technology companies embedding AI, the gap is immediate.",
     exposure: [
       "AI-powered SaaS products and features",
       "AI models delivered as APIs or components",
@@ -538,7 +538,7 @@ const industryDetails = {
     ],
     excluded: [
       "Verisk's CG 35 08 carves AI out of Products/Completed Operations coverage",
-      "Tech E&O policies increasingly add AI exclusions at renewal",
+      "Tech E&O policies add AI exclusions at renewal",
       "General Liability carriers use CG 40 47 and CG 40 48 to exclude AI broadly",
     ],
     howWeHelp: [
@@ -551,7 +551,7 @@ const industryDetails = {
   },
   "Financial Services": {
     headline: "If AI makes a credit decision for you, the bias lawsuit lands on your desk.",
-    setup: "AI is now deployed in underwriting, credit decisioning, trading algorithms, fraud detection, and compliance monitoring across banks, credit unions, lenders, and fintechs. When those systems produce discriminatory or erroneous outcomes, the financial institution — not the vendor — is the named defendant. And the insurance that would traditionally respond is now carving AI out.",
+    setup: "AI is now deployed in underwriting, credit decisioning, trading algorithms, fraud detection, and compliance monitoring across banks, credit unions, lenders, and fintechs. When those systems produce discriminatory or erroneous outcomes, the financial institution, not the vendor, is the named defendant. And the insurance that would traditionally respond is now carving AI out.",
     exposure: [
       "AI in credit underwriting and loan decisions",
       "Algorithmic trading and automated portfolio management",
@@ -695,7 +695,7 @@ function IndustriesSection() {
     <Section bg={LIGHT} id="industries">
       <SectionLabel text="03 / Why this is about you" />
       <SectionTitle text="Every profession thinks its AI exposure is someone else's problem." />
-      <BodyText text="A lawyer, a doctor, a wealth manager, and a corporate director face different AI liability — and each one usually assumes someone in another seat is more exposed. Each of them is wrong, just in different ways. Tap any industry below to see how it plays out for you specifically." maxWidth={680} />
+      <BodyText text="A lawyer, a doctor, a wealth manager, and a corporate director face different AI liability, and each one usually assumes someone in another seat is more exposed. Each of them is wrong, just in different ways. Tap any industry below to see how it plays out for you specifically." maxWidth={680} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 20, marginTop: 40 }}>
         {verticals.map((v, i) => (
           <button key={i} onClick={() => setActive(v)}
@@ -723,9 +723,9 @@ function IndustriesSection() {
 function ProcessSection() {
   const steps = [
     { num: "01", title: "Free Assessment", desc: "Complete our 60-second online assessment to identify your AI exposure level and preliminary coverage gaps.", time: "60 seconds" },
-    { num: "02", title: "Coverage Review", desc: "Our team reviews your actual policy documents — endorsements, exclusions, and definitions — across all commercial lines.", time: "48 hours" },
+    { num: "02", title: "Coverage Review", desc: "Our team reviews your actual policy documents (endorsements, exclusions, and definitions) across all commercial lines.", time: "48 hours" },
     { num: "03", title: "Gap Analysis Report", desc: "You receive a detailed report showing every AI-related exclusion in your portfolio, mapped to your specific risk scenarios, with severity ratings.", time: "Delivered with review" },
-    { num: "04", title: "Coverage Solutions", desc: "Licensed insurance professionals access specialty AI liability markets to fill identified gaps with affirmative coverage — backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
+    { num: "04", title: "Coverage Solutions", desc: "Licensed insurance professionals access specialty AI liability markets to fill identified gaps with affirmative coverage, backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
   ];
   return (
     <Section bg={WHITE} id="process">
@@ -758,15 +758,15 @@ function FAQSection() {
   const faqs = [
     {
       q: "My firm uses ChatGPT. Is that covered?",
-      a: "Probably not affirmatively, and increasingly not at all. If you have AI-related endorsements on your current malpractice, E&O, or professional liability policy, review the exact language. If you don't see AI mentioned anywhere, that silence isn't coverage — it's ambiguity, and ambiguity favors the carrier at claim time. Verisk's 2026 endorsements (CG 40 47, CG 40 48, CG 35 08) are being attached at renewal across roughly 82% of U.S. carriers.",
+      a: "Probably not affirmatively, and not at all. If you have AI-related endorsements on your current malpractice, E&O, or professional liability policy, review the exact language. If you don't see AI mentioned anywhere, that silence isn't coverage. It's ambiguity, and ambiguity favors the carrier at claim time. Verisk's 2026 endorsements (CG 40 47, CG 40 48, CG 35 08) are being attached at renewal across about 82% of US carriers.",
     },
     {
       q: "What's an \"AI endorsement\" and why do I need one?",
-      a: "An AI endorsement is a policy add-on that explicitly names AI-assisted work as covered work. It does three things a standard policy increasingly doesn't: names AI-generated output as inside the policy rather than contested on the boundary, clarifies which tools and use cases are in-scope, and tells you upfront what's covered and what isn't. Without one, you're relying on the carrier's interpretation of silence. That's not a coverage strategy.",
+      a: "An AI endorsement is a policy add-on that explicitly names AI-assisted work as covered work. It does three things a standard policy doesn't: names AI-generated output as inside the policy rather than contested on the boundary, clarifies which tools and use cases are in-scope, and tells you upfront what's covered and what isn't. Without one, you're relying on the carrier's interpretation of silence. That's not a coverage strategy.",
     },
     {
       q: "Won't my E&O policy cover this?",
-      a: "Maybe — for old fact patterns. The harder question is whether it covers the NEW ones. Gunderson Dettmer, the law firm that represents roughly half of all venture-backed startups, framed it directly in their 2025 AI risk guide: \"negligence might be driven by an AI hallucination, while a cyber security breach could be driven by deep fake fraud.\" Same legal theories. Different facts. Your existing E&O was written for a world where humans made the mistakes. AI exposure now spans at least five coverage lines — E&O, Bias/Discrimination, IP, Regulatory Investigation, and Cyber — and the gaps BETWEEN policies are where claims fall. A hallucinated medical citation might trigger E&O. The same hallucination on a public website might trigger media liability. A discriminatory AI hiring output triggers EPLI. An AI-generated image resembling a copyrighted work triggers IP claims. A deepfake CFO scam triggers cyber. One incident, five potential coverage triggers, five different policy responses — and increasingly, AI exclusions appearing on each of them. \"I have E&O\" is no longer a complete answer to AI risk.",
+      a: "Maybe, for old fact patterns. The harder question is whether it covers the NEW ones. Gunderson Dettmer, the law firm that represents about half of all venture-backed startups, framed it directly in their 2025 AI risk guide: \"negligence might be driven by an AI hallucination, while a cyber security breach could be driven by deep fake fraud.\" Same legal theories. Different facts. Your existing E&O was written for a world where humans made the mistakes. AI exposure now spans at least five coverage lines (E&O, Bias/Discrimination, IP, Regulatory Investigation, and Cyber), and the gaps BETWEEN policies are where claims fall. A hallucinated medical citation might trigger E&O. The same hallucination on a public website might trigger media liability. A discriminatory AI hiring output triggers EPLI. An AI-generated image resembling a copyrighted work triggers IP claims. A deepfake CFO scam triggers cyber. One incident, five potential coverage triggers, five different policy responses, and AI exclusions appearing on each of them. \"I have E&O\" is no longer a complete answer to AI risk.",
     },
     {
       q: "When will my carrier exclude AI from my policy?",
@@ -774,31 +774,31 @@ function FAQSection() {
     },
     {
       q: "If an AI tool fabricates a case citation or medical reference, am I liable?",
-      a: "Yes — and that's exactly the gap. Damien Charlotin's database of AI hallucinations in court filings crossed 1,334 documented cases this month. In March 2026, the Sixth Circuit sanctioned two Tennessee attorneys $15,000 each plus fees for fabricated citations. In healthcare, peer-reviewed research found GPT-4 hallucinating medical references at rates as high as 47%. The human using the tool is legally responsible for the output. Whether your carrier is — read your policy.",
+      a: "Yes. And that's exactly the gap. Damien Charlotin's database of AI hallucinations in court filings crossed 1,334 documented cases this month. In March 2026, the Sixth Circuit sanctioned two Tennessee attorneys $15,000 each plus fees for fabricated citations. In healthcare, peer-reviewed research found GPT-4 hallucinating medical references at rates as high as 47%. The human using the tool is legally responsible for the output. Whether your carrier is: read your policy.",
     },
     {
       q: "I use AI to generate images, voice, or content that \"looks like\" something else. Am I exposed?",
-      a: "Yes, and intent doesn't save you. Copyright, publicity rights, and trademark claims don't require you to have meant to copy someone — they turn on whether the output is infringing, regardless of whether you knew or approved the specific result. Tennessee's 2024 ELVIS Act extended publicity rights to AI-generated voice clones. Disney and Universal filed suit against Midjourney in June 2025 for AI-generated images reproducing their characters. In late 2025, Warner Music Group and Universal Music Group settled with AI company Suno over unlicensed use of their catalogs. If your business uses AI to generate content resembling real people, brands, or copyrighted works — even unintentionally — the liability landscape is real, active, and expanding. General liability and media liability policies are starting to carve this out.",
+      a: "Yes, and intent doesn't save you. Copyright, publicity rights, and trademark claims don't require you to have meant to copy someone. They turn on whether the output is infringing, regardless of whether you knew or approved the specific result. Tennessee's 2024 ELVIS Act extended publicity rights to AI-generated voice clones. Disney and Universal filed suit against Midjourney in June 2025 for AI-generated images reproducing their characters. In late 2025, Warner Music Group and Universal Music Group settled with AI company Suno over unlicensed use of their catalogs. If your business uses AI to generate content resembling real people, brands, or copyrighted works, even unintentionally, the liability landscape is real, active, and expanding. General liability and media liability policies are starting to carve this out.",
     },
     {
       q: "I'm a doctor using AI diagnostic tools. What happens if the AI is wrong?",
-      a: "Honestly: this is the risk window. As of April 2026, there's no major U.S. medical malpractice case yet where AI was central to the claim — The Doctors Company, a leading med-mal insurer, confirmed as much publicly. But three things are lining up fast. A June 2025 study in NEJM AI from Brown University found jurors view radiologists as MORE culpable when AI catches something the doctor misses — a legal theory ready for its first test case. The American Law Institute's May 2024 Restatement of Medical Malpractice shifted the standard of care toward evidence-based guidelines, setting up AI tools to be treated as part of the expected standard once adoption is widespread. Product liability cases against AI companies (Garcia v. Character Technologies, Raine v. OpenAI) are already establishing chatbots as \"products\" for strict liability. The first AI med-mal case is coming. Lawyers get paid to find the edge of a new liability theory — and they're very good at their jobs. Why wait to find out whether your policy was ready?",
+      a: "Honestly: this is the risk window. As of April 2026, there's no major US medical malpractice case yet where AI was central to the claim. The Doctors Company, a leading med-mal insurer, confirmed as much publicly. But three things are lining up fast. A June 2025 study in NEJM AI from Brown University found jurors view radiologists as MORE culpable when AI catches something the doctor misses, a legal theory ready for its first test case. The American Law Institute's May 2024 Restatement of Medical Malpractice shifted the standard of care toward evidence-based guidelines, setting up AI tools to be treated as part of the expected standard once adoption is widespread. Product liability cases against AI companies (Garcia v. Character Technologies, Raine v. OpenAI) are already establishing chatbots as \"products\" for strict liability. The first AI med-mal case is coming. Lawyers get paid to find the edge of a new liability theory, and they're very good at their jobs. Why wait to find out whether your policy was ready?",
     },
     {
       q: "I'm a wealth manager using AI for client analysis. What's the exposure?",
-      a: "Two angles. First, the SEC has active enforcement priorities around \"AI washing\" — claiming AI capabilities a firm doesn't actually have. Second, if AI-driven portfolio analysis or client communications produce an adverse outcome, your E&O and D&O coverage may not respond. Investment adviser E&O is adopting AI exclusions and sub-limits. Fiduciary exposure for algorithmic decisions is a moving target.",
+      a: "Two angles. First, the SEC has active enforcement priorities around \"AI washing,\" claiming AI capabilities a firm doesn't actually have. Second, if AI-driven portfolio analysis or client communications produce an adverse outcome, your E&O and D&O coverage may not respond. Investment adviser E&O is adopting AI exclusions and sub-limits. Fiduciary exposure for algorithmic decisions is a moving target.",
     },
     {
       q: "Does the new \"absolute AI exclusion\" really remove all D&O coverage?",
-      a: "If your D&O policy has it — yes. W.R. Berkley introduced an absolute AI exclusion that removes coverage for any claim arising from the use, deployment, or development of artificial intelligence across D&O, E&O, and fiduciary liability. Not narrowed — absolute. Board-level AI governance decisions, disclosures to shareholders about AI, and approval of AI-adjacent products all sit outside coverage. Read the exact language before your next renewal.",
+      a: "If your D&O policy has it, yes. W.R. Berkley introduced an absolute AI exclusion that removes coverage for any claim arising from the use, deployment, or development of artificial intelligence across D&O, E&O, and fiduciary liability. Not narrowed, absolute. Board-level AI governance decisions, disclosures to shareholders about AI, and approval of AI-adjacent products all sit outside coverage. Read the exact language before your next renewal.",
     },
     {
       q: "I use AI to screen resumes or assess candidates. Is that covered?",
-      a: "Probably not, and this is a fast-moving area. In March 2026, a federal judge allowed Mobley v. Workday to proceed as a nationwide class action — holding that AI hiring vendors can themselves be treated as \"agents\" liable under Title VII, alongside their employer customers. The EEOC settled its first AI discrimination case against iTutorGroup for $365,000, over software that auto-rejected women over 55 and men over 60. More recent filings include Sirius XM (Title VII class action, August 2025), Eightfold AI (FCRA violations, January 2026), and an ongoing Amazon complaint over AI used to deny disability accommodations. Five states now have active AI employment regulations — California, Illinois, New Jersey, Colorado, and New York City. EPLI and D&O policies are starting to carve AI-driven hiring decisions out at renewal.",
+      a: "Probably not, and this is a fast-moving area. In March 2026, a federal judge allowed Mobley v. Workday to proceed as a nationwide class action, holding that AI hiring vendors can themselves be treated as \"agents\" liable under Title VII, alongside their employer customers. The EEOC settled its first AI discrimination case against iTutorGroup for $365,000, over software that auto-rejected women over 55 and men over 60. More recent filings include Sirius XM (Title VII class action, August 2025), Eightfold AI (FCRA violations, January 2026), and an ongoing Amazon complaint over AI used to deny disability accommodations. Five states now have active AI employment regulations: California, Illinois, New Jersey, Colorado, and New York City. EPLI and D&O policies are starting to carve AI-driven hiring decisions out at renewal.",
     },
     {
       q: "My business uses AI chatbots to help customers. What if the AI says something wrong and someone gets hurt?",
-      a: "Courts have started treating AI chatbots as \"products\" for strict liability purposes. In May 2025, a federal court in Florida (Garcia v. Character Technologies) ruled that an AI chatbot IS a product under product liability law and allowed a wrongful death case to proceed — not only against the app's developer, but against Google as a \"component part manufacturer\" for contributing its AI technology to the design. Raine v. OpenAI, filed August 2025, applies the same theory to ChatGPT directly. The federal AI LEAD Act (proposed September 2025) would classify AI systems as products with design-defect and failure-to-warn liability. The EU's updated Product Liability Directive explicitly covers AI and must be transposed by member states by December 2026. And Verisk's CG 35 08 (effective January 2026) carves AI out of Products/Completed Operations coverage — so if your chatbot gives bad advice that causes harm, the GL or product liability policy that would have covered the old-style claim may no longer respond.",
+      a: "Courts have started treating AI chatbots as \"products\" for strict liability purposes. In May 2025, a federal court in Florida (Garcia v. Character Technologies) ruled that an AI chatbot IS a product under product liability law and allowed a wrongful death case to proceed, not only against the app's developer, but against Google as a \"component part manufacturer\" for contributing its AI technology to the design. Raine v. OpenAI, filed August 2025, applies the same theory to ChatGPT directly. The federal AI LEAD Act (proposed September 2025) would classify AI systems as products with design-defect and failure-to-warn liability. The EU's updated Product Liability Directive explicitly covers AI and must be transposed by member states by December 2026. And Verisk's CG 35 08 (effective January 2026) carves AI out of Products/Completed Operations coverage. So if your chatbot gives bad advice that causes harm, the GL or product liability policy that would have covered the old-style claim may no longer respond.",
     },
   ];
 
@@ -806,7 +806,7 @@ function FAQSection() {
     <Section bg={LIGHT} id="faq">
       <SectionLabel text="04.5 / Real questions, real answers" />
       <SectionTitle text="Insurance questions are usually boring. These aren't." />
-      <BodyText text="The questions below come from the actual conversations happening around AI liability right now — in law firms, hospitals, advisory boards. If you've been wondering any of this quietly, you're not alone." maxWidth={680} />
+      <BodyText text="The questions below come from the actual conversations happening around AI liability right now: in law firms, hospitals, advisory boards. If you've been wondering any of this quietly, you're not alone." maxWidth={680} />
 
       <div style={{ marginTop: 40, maxWidth: 820 }}>
         {faqs.map((item, i) => {
@@ -860,19 +860,19 @@ function ResearchSection() {
     {
       title: "The January 2026 Exclusion Trigger",
       articles: [
-        { title: "Verisk to Roll Out New General Liability Exclusions for Generative AI Exposures", source: "Independent Agent", date: "Oct 2025", url: "https://www.independentagent.com/vu_resource/verisk-to-roll-out-new-general-liability-exclusions-for-generative-ai-exposures/", quote: "Verisk received strong interest from many of our customers to create underwriting tools to address this emerging risk.", summary: "Verisk's ISO Core Lines team developed new general liability endorsements — CG 40 47, CG 40 48, and CG 35 08 — effective January 2026, giving carriers the ability to exclude generative AI exposures from commercial general liability policies. Verisk reported strong carrier interest and expects rapid adoption." },
-        { title: "New Generative AI Insurance Exclusions: What Businesses Need to Know in 2026", source: "PHL Firm", date: "Feb 2026", url: "https://phl-firm.com/generative-ai-insurance-exclusions-2026/", quote: "ISO forms underpin about 82% of U.S. P&C policies. Rapid adoption is expected. Small to mid-sized firms may be hit hardest.", summary: "ISO forms underpin approximately 82% of U.S. Property & Casualty policies, meaning the new AI exclusions have the potential for rapid, widespread adoption. CG 40 47 broadly excludes both bodily injury/property damage and personal/advertising injury claims tied to generative AI. Small to mid-sized firms may be hit hardest." },
+        { title: "Verisk to Roll Out New General Liability Exclusions for Generative AI Exposures", source: "Independent Agent", date: "Oct 2025", url: "https://www.independentagent.com/vu_resource/verisk-to-roll-out-new-general-liability-exclusions-for-generative-ai-exposures/", quote: "Verisk received strong interest from many of our customers to create underwriting tools to address this emerging risk.", summary: "Verisk's ISO Core Lines team developed new general liability endorsements (CG 40 47, CG 40 48, and CG 35 08) effective January 2026, giving carriers the ability to exclude generative AI exposures from commercial general liability policies. Verisk reported strong carrier interest and expects rapid adoption." },
+        { title: "New Generative AI Insurance Exclusions: What Businesses Need to Know in 2026", source: "PHL Firm", date: "Feb 2026", url: "https://phl-firm.com/generative-ai-insurance-exclusions-2026/", quote: "ISO forms underpin about 82% of U.S. P&C policies. Rapid adoption is expected. Small to mid-sized firms may be hit hardest.", summary: "ISO forms underpin approximately 82% of US Property & Casualty policies, meaning the new AI exclusions have the potential for rapid, widespread adoption. CG 40 47 broadly excludes both bodily injury/property damage and personal/advertising injury claims tied to generative AI. Small to mid-sized firms may be hit hardest." },
         { title: "Insurers, Brokers Adjust as AI Exclusions Emerge", source: "Business Insurance", date: "Apr 2026", url: "https://www.businessinsurance.com/insurers-brokers-adjust-as-ai-exclusions-emerge/", quote: "We're just at the very beginning and we have to watch this very closely. If AI exposures become excluded, we're going to have to figure out where this exposure should be covered.", summary: "Industry leaders confirm carriers are beginning to adopt the January 2026 ISO exclusions. Gallagher's cyber practice notes the industry is in its earliest stages of determining where AI exposure should be covered. Multiple carriers are evaluating endorsements and policy language changes." },
-        { title: "AI Update: The Growing Trend of AI-Related Insurance Policy Exclusions", source: "Zelle Law", date: "Oct 2025", url: "https://www.zellelaw.com/AI_Update_The_Growing_Trend_of_AI-Related_Insurance_Policy_Exclusions", quote: "Berkley's absolute AI exclusion eliminates coverage for any claim arising from the use, deployment, or development of artificial intelligence.", summary: "Berkley introduced one of the broadest AI exclusions to date — an absolute exclusion eliminating coverage for any claim arising from the use, deployment, or development of AI across D&O, E&O, and Fiduciary Liability policies. Hamilton Insurance Group similarly excludes all claims involving generative AI from professional liability." },
+        { title: "AI Update: The Growing Trend of AI-Related Insurance Policy Exclusions", source: "Zelle Law", date: "Oct 2025", url: "https://www.zellelaw.com/AI_Update_The_Growing_Trend_of_AI-Related_Insurance_Policy_Exclusions", quote: "Berkley's absolute AI exclusion eliminates coverage for any claim arising from the use, deployment, or development of artificial intelligence.", summary: "Berkley introduced one of the broadest AI exclusions to date, an absolute exclusion eliminating coverage for any claim arising from the use, deployment, or development of AI across D&O, E&O, and Fiduciary Liability policies. Hamilton Insurance Group similarly excludes all claims involving generative AI from professional liability." },
         { title: "Insurers Draw Battle Lines on AI: New Policies Cover Hallucinations While Others Exclude AI", source: "AI:PRODUCTIVITY", date: "Mar 2026", url: "https://aiproductivity.ai/news/ai-liability-insurance-coverage-exclusions-2026/", quote: "Companies that ignore this will eventually face a rude surprise when a claim gets denied under a newly-adopted exclusion.", summary: "The AI insurance market is splitting into two tracks: specialty carriers offering affirmative AI coverage, and traditional carriers using Verisk's new exclusions to remove AI risk entirely. Companies ignoring this shift will face a surprise when a claim gets denied under a newly-adopted exclusion." },
       ],
     },
     {
       title: "The Coverage Gap Problem",
       articles: [
-        { title: "Smart Systems, Blind Spots: Rethinking Insurance for the AI Era", source: "Gallagher Re / MIT / Testudo", date: "Mar 2026", url: "https://riskandinsurance.com/traditional-insurance-leaves-enterprises-exposed-as-ai-liability-claims-surge/", quote: "AI-related lawsuits grew 978% from 2021 to 2025 — yet the insurance products most enterprises rely on offer only fragmented coverage.", summary: "Generative AI-related lawsuits in the U.S. grew 978% from 2021 to 2025, with over 700 cumulative filings. Cyber, tech E&O, product liability, and CGL policies each leave significant gaps. The report also flags accumulation risk: a single flaw in a widely-used model could trigger claims across thousands of policyholders." },
+        { title: "Smart Systems, Blind Spots: Rethinking Insurance for the AI Era", source: "Gallagher Re / MIT / Testudo", date: "Mar 2026", url: "https://riskandinsurance.com/traditional-insurance-leaves-enterprises-exposed-as-ai-liability-claims-surge/", quote: "AI-related lawsuits grew 978% from 2021 to 2025 — yet the insurance products most enterprises rely on offer only fragmented coverage.", summary: "Generative AI-related lawsuits in the US grew 978% from 2021 to 2025, with over 700 cumulative filings. Cyber, tech E&O, product liability, and CGL policies each leave significant gaps. The report also flags accumulation risk: a single flaw in a widely-used model could trigger claims across thousands of policyholders." },
         { title: "AI Insurance Liability: New CGL Exclusions, Silent AI Coverage, and What Every Enterprise Should Know", source: "Swept AI", date: "Apr 2026", url: "https://www.swept.ai/post/ai-insurance-liability-cgl-exclusions-coverage-gaps", quote: "The transition from ambiguous AI coverage to explicit AI underwriting is happening now. Check your 2026 CGL renewal.", summary: "The transition from ambiguous AI coverage to explicit AI underwriting is underway. AIG, W.R. Berkley, and Great American have sought regulatory clearance for AI-specific exclusions. E&O carriers are scrutinizing AI-assisted professional services. Enterprises deploying third-party AI bear legal responsibility but vendor contracts limit indemnities." },
-        { title: "Silent AI Insurance Crisis: SME Coverage Gaps in 2026", source: "TechLife Future", date: "Dec 2025", url: "https://www.techlifefuture.com/ai-insurance-exclusions-sme/", quote: "Most SME owners believe their existing policy covers AI-related mishaps. That assumption likely won't survive a 2026 renewal.", summary: "Small and medium enterprises face a critical inflection point as insurers move from silent AI coverage to explicit exclusions. Most SME owners assume their existing GL or BOP covers AI-related mishaps — but that assumption likely won't survive a 2026 renewal." },
+        { title: "Silent AI Insurance Crisis: SME Coverage Gaps in 2026", source: "TechLife Future", date: "Dec 2025", url: "https://www.techlifefuture.com/ai-insurance-exclusions-sme/", quote: "Most SME owners believe their existing policy covers AI-related mishaps. That assumption likely won't survive a 2026 renewal.", summary: "Small and medium enterprises face a critical inflection point as insurers move from silent AI coverage to explicit exclusions. Most SME owners assume their existing GL or BOP covers AI-related mishaps, but that assumption likely won't survive a 2026 renewal." },
         { title: "When Insurance Won't Cover AI: Why AI Governance Is Now Essential", source: "Lexology / Galkin Law", date: "Jan 2026", url: "https://www.lexology.com/library/detail.aspx?g=b76e0dba-d9a8-44f1-9f5d-6fbd0a22f6b6", quote: "AI exposure is becoming its own insurable class — one carriers will only cover with strong governance assurances.", summary: "Policies may now deny coverage for harm from flawed chatbot advice, generative AI content, decision-automation errors, or hallucinations. Where coverage isn't excluded, insurers are raising premiums, increasing deductibles, or capping AI-related limits." },
       ],
     },
@@ -887,7 +887,7 @@ function ResearchSection() {
     {
       title: "Where AI Insurance Is Headed",
       articles: [
-        { title: "April 2026: Insurance AI Trends & Highlights", source: "Roots Automation", date: "Apr 2026", url: "https://www.roots.ai/blog/april-2026-insurance-ai-trends-highlights", quote: "A dedicated AI insurance sector could emerge within five to ten years — complete with its own MGAs, claims professionals, and policy forms.", summary: "An industry executive predicts a dedicated AI insurance sector could emerge within five to ten years — complete with its own MGAs, claims professionals, and policy forms — mirroring the trajectory of cyber insurance from a niche exposure in the 1990s to a major standalone line." },
+        { title: "April 2026: Insurance AI Trends & Highlights", source: "Roots Automation", date: "Apr 2026", url: "https://www.roots.ai/blog/april-2026-insurance-ai-trends-highlights", quote: "A dedicated AI insurance sector could emerge within five to ten years — complete with its own MGAs, claims professionals, and policy forms.", summary: "An industry executive predicts a dedicated AI insurance sector could emerge within five to ten years (complete with its own MGAs, claims professionals, and policy forms), mirroring the trajectory of cyber insurance from a niche exposure in the 1990s to a major standalone line." },
         { title: "AI Roll-Out Is Outpacing Risk Controls, Gallagher Warns", source: "Insurance Business", date: "Apr 2026", url: "https://www.insurancebusinessmag.com/us/news/technology/ai-rollout-is-outpacing-risk-controls-gallagher-warns-569745.aspx", quote: "43% of firms lack formal AI risk frameworks. The governance gap is feeding into more complex E&O, cyber, D&O, and employment practices exposures.", summary: "43% of firms lack formal AI risk frameworks and fewer than half conduct AI impact assessments, even as 47% now offer AI training and 40% have created AI-focused roles. The governance gap is feeding into more complex E&O, cyber, D&O, and employment practices exposures." },
         { title: "Gallagher Re Identifies Systemic Risk from AI Model Failures", source: "Insurance Business / Reinsurance", date: "Mar 2026", url: "https://www.insurancebusinessmag.com/reinsurance/news/breaking-news/gallagher-re-identifies-systemic-risk-from-ai-model-failures-569775.aspx", quote: "A single flaw in one widely adopted model could trigger claims across thousands of unrelated policyholders simultaneously.", summary: "A critical flaw in one widely adopted AI model could trigger simultaneous claims across thousands of unrelated policyholders. Unlike traditional catastrophe events with geographic boundaries, AI failures propagate instantly across industries and borders." },
       ],
@@ -898,12 +898,12 @@ function ResearchSection() {
     <Section bg={WHITE} id="research">
       <SectionLabel text="05 / What the industry is saying" />
       <SectionTitle text="Your current cyber insurance probably doesn't cover AI." />
-      <BodyText text="Don't take our word for it. Gallagher Re, Deloitte, Munich Re, and Verisk themselves have documented the same shift — cyber, E&O, and GL policies are carving AI out. The links below go to the original reports." maxWidth={680} />
+      <BodyText text="Don't take our word for it. Gallagher Re, Deloitte, Munich Re, and Verisk themselves have documented the same shift: cyber, E&O, and GL policies are carving AI out. The links below go to the original reports." maxWidth={680} />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginTop: 32, marginBottom: 48 }}>
         {[
           { stat: "978%", label: "Growth in AI lawsuits (2021–2025)" },
-          { stat: "82%", label: "Of U.S. P&C policies use ISO forms" },
+          { stat: "82%", label: "Of US P&C policies use ISO forms" },
           { stat: "$4.8B", label: "Projected AI premiums by 2032" },
           { stat: "91%", label: "Of businesses plan to use AI" },
         ].map((s, i) => (
@@ -1317,7 +1317,7 @@ function ContactSection() {
         <div>
           <SectionLabel text="Contact" />
           <SectionTitle text="Let's Talk About Your Coverage." />
-          <BodyText text="Whether you're a business owner concerned about AI exposure, a broker looking for a specialty partner, or an attorney advising clients on AI risk — we're here to help." />
+          <BodyText text="Whether you're a business owner concerned about AI exposure, a broker looking for a specialty partner, or an attorney advising clients on AI risk, we're here to help." />
           <div style={{ marginTop: 32 }}>
             {[
               { label: "Insurance Business / Quotes", value: "smartorano@alexcapinsuranceagency.com" },
