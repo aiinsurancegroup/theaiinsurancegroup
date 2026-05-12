@@ -374,7 +374,7 @@ function ProblemSection() {
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         <SectionLabel text="01 / What changed" />
         <SectionTitle text="Your broker probably didn't tell you this happened." />
-        <BodyText text="On January 1, 2026, Verisk quietly released three endorsements (CG 40 47, CG 40 48, and CG 35 08) that let carriers carve AI claims out of general liability. Major carriers are attaching them at renewal. Most brokers haven't read the forms. Most policyholders don't know the forms are already on their policies." />
+        <BodyText text="On January 1, 2026, Verisk quietly released three endorsements (CG 40 47, CG 40 48, and CG 35 08) that let carriers carve AI claims out of general liability. Major carriers are attaching them at renewal. Most brokers haven't read the forms, and most policyholders don't know the forms are already on their policies." />
         <div style={{ background: WHITE, borderRadius: 12, padding: 24, marginTop: 24, marginBottom: 16, border: "1px solid #E5E7EB" }}>
           <div style={{ color: NAVY, fontSize: 15, fontWeight: 700, marginBottom: 12 }}>📄 Proof: Read the actual exclusion forms</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -458,7 +458,7 @@ const industryDetails = {
   },
   "Healthcare & Medical": {
     headline: "AI hallucinations in medicine don't get caught by opposing counsel. They get caught by the patient.",
-    setup: "A peer-reviewed 2024 study in the Journal of Medical Internet Research found GPT-4 hallucinating medical literature references at a 28.6% rate. A separate analysis published in Nature's Schizophrenia journal examined 115 AI-generated medical article references and found 47% were completely fabricated and another 46% were authentic but misrepresented, leaving only 7% accurate. When a physician acts on AI output that turns out to be hallucinated (a wrong drug interaction, a misread imaging finding, a confidently wrong diagnostic recommendation), the liability question doesn't disappear because the mistake came from software.",
+    setup: "A peer-reviewed 2024 study in the Journal of Medical Internet Research found GPT-4 hallucinating medical literature references at a 28.6% rate. A separate analysis published in Nature's Schizophrenia journal examined 115 AI-generated medical article references and found 47% were completely fabricated and another 46% were authentic but misrepresented, leaving only 7% accurate. When a physician acts on AI output that turns out to be hallucinated (a misread imaging finding or a confidently wrong diagnostic recommendation), the liability question doesn't disappear because the mistake came from software.",
     exposure: [
       "AI-powered diagnostic imaging and pattern recognition",
       "Clinical decision support and treatment planning systems",
@@ -766,7 +766,7 @@ function FAQSection() {
     },
     {
       q: "Won't my E&O policy cover this?",
-      a: "Maybe, for old fact patterns. The harder question is whether it covers the NEW ones. Gunderson Dettmer, the law firm that represents about half of all venture-backed startups, framed it directly in their 2025 AI risk guide: \"negligence might be driven by an AI hallucination, while a cyber security breach could be driven by deep fake fraud.\" Same legal theories. Different facts. Your existing E&O was written for a world where humans made the mistakes. AI exposure now spans at least five coverage lines (E&O, Bias/Discrimination, IP, Regulatory Investigation, and Cyber), and the gaps BETWEEN policies are where claims fall. A hallucinated medical citation might trigger E&O. The same hallucination on a public website might trigger media liability. A discriminatory AI hiring output triggers EPLI. An AI-generated image resembling a copyrighted work triggers IP claims. A deepfake CFO scam triggers cyber. One incident, five potential coverage triggers, five different policy responses, and AI exclusions appearing on each of them. \"I have E&O\" is no longer a complete answer to AI risk.",
+      a: "Maybe, for old fact patterns. The harder question is whether it covers the NEW ones. Gunderson Dettmer, the law firm that represents about half of all venture-backed startups, framed it directly in their 2025 AI risk guide: \"negligence might be driven by an AI hallucination, while a cyber security breach could be driven by deep fake fraud.\" Same legal theories. Different facts. Your existing E&O was written for a world where humans made the mistakes. AI exposure now spans at least five coverage lines (E&O, Bias/Discrimination, IP, Regulatory Investigation, and Cyber), and the gaps BETWEEN policies are where claims fall. A hallucinated medical citation might trigger E&O, while the same hallucination on a public website might trigger media liability. A discriminatory AI hiring output triggers EPLI. AI-generated images resembling copyrighted works trigger IP claims, and a deepfake CFO scam triggers cyber. One incident, five potential coverage triggers, five different policy responses, and AI exclusions appearing on each of them. \"I have E&O\" is no longer a complete answer to AI risk.",
     },
     {
       q: "When will my carrier exclude AI from my policy?",
@@ -778,7 +778,7 @@ function FAQSection() {
     },
     {
       q: "I use AI to generate images, voice, or content that \"looks like\" something else. Am I exposed?",
-      a: "Yes, and intent doesn't save you. Copyright, publicity rights, and trademark claims don't require you to have meant to copy someone. They turn on whether the output is infringing, regardless of whether you knew or approved the specific result. Tennessee's 2024 ELVIS Act extended publicity rights to AI-generated voice clones. Disney and Universal filed suit against Midjourney in June 2025 for AI-generated images reproducing their characters. In late 2025, Warner Music Group and Universal Music Group settled with AI company Suno over unlicensed use of their catalogs. If your business uses AI to generate content resembling real people, brands, or copyrighted works, even unintentionally, the liability landscape is real, active, and expanding. General liability and media liability policies are starting to carve this out.",
+      a: "Yes, and intent doesn't save you. Copyright, publicity rights, and trademark claims don't require you to have meant to copy someone. They turn on whether the output is infringing, regardless of whether you knew or approved the specific result. Tennessee's 2024 ELVIS Act extended publicity rights to AI-generated voice clones. Disney and Universal filed suit against Midjourney in June 2025 for AI-generated images reproducing their characters. In late 2025, Warner Music Group and Universal Music Group settled with AI company Suno over unlicensed use of their catalogs. If your business uses AI to generate content resembling real people, brands, or copyrighted works, even unintentionally, the liability landscape is real and expanding. General liability and media liability policies are starting to carve this out.",
     },
     {
       q: "I'm a doctor using AI diagnostic tools. What happens if the AI is wrong?",
@@ -786,7 +786,7 @@ function FAQSection() {
     },
     {
       q: "I'm a wealth manager using AI for client analysis. What's the exposure?",
-      a: "Two angles. First, the SEC has active enforcement priorities around \"AI washing,\" claiming AI capabilities a firm doesn't actually have. Second, if AI-driven portfolio analysis or client communications produce an adverse outcome, your E&O and D&O coverage may not respond. Investment adviser E&O is adopting AI exclusions and sub-limits. Fiduciary exposure for algorithmic decisions is a moving target.",
+      a: "Two angles. The SEC has active enforcement priorities around \"AI washing,\" claiming AI capabilities a firm doesn't actually have. And if AI-driven portfolio analysis or client communications produce an adverse outcome, your E&O and D&O coverage may not respond. Investment adviser E&O is adopting AI exclusions and sub-limits. Fiduciary exposure for algorithmic decisions is a moving target.",
     },
     {
       q: "Does the new \"absolute AI exclusion\" really remove all D&O coverage?",
