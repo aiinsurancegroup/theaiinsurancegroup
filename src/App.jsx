@@ -218,6 +218,7 @@ function Nav() {
   }, []);
 
   const links = [
+    { label: "Get a Quote", href: "#quote" },
     { label: "Services", href: "#services" },
     { label: "Industries", href: "#industries" },
     { label: "The Problem", href: "#problem" },
@@ -1283,6 +1284,38 @@ function CTASection() {
   );
 }
 
+function QuoteSection() {
+  const lines = [
+    { label: "Auto", href: "https://apply.theaiinsurancegroup.com/apply/auto-nj" },
+    { label: "Homeowners", href: "https://apply.theaiinsurancegroup.com/apply/homeowners" },
+    { label: "Personal Umbrella", href: "https://apply.theaiinsurancegroup.com/apply/personal-umbrella" },
+    { label: "Workers Comp", href: "https://apply.theaiinsurancegroup.com/apply/workers-comp" },
+    { label: "General Liability", href: "https://apply.theaiinsurancegroup.com/apply/general-liability" },
+  ];
+  return (
+    <section id="quote" style={{ background: `linear-gradient(135deg, ${DARK} 0%, ${NAVY} 100%)`, padding: "80px 24px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
+        <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>Get a Quote</div>
+        <h2 style={{ color: WHITE, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Get a quote in minutes.</h2>
+        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Pick your coverage line to start a quick application. Licensed in New Jersey, serving clients nationwide.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+          {lines.map((l) => (
+            <a key={l.label} href={l.href} className="quote-btn" style={{
+              display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center",
+              background: GOLD, color: WHITE, borderRadius: 8, padding: "22px 20px", minHeight: 64,
+              fontSize: 16, fontWeight: 700, textDecoration: "none", letterSpacing: 0.3,
+              boxShadow: "0 4px 20px rgba(184,151,42,0.25)", boxSizing: "border-box",
+              transition: "transform 0.15s ease, box-shadow 0.15s ease",
+            }}>{l.label}</a>
+          ))}
+        </div>
+        <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginTop: 20 }}>Insurance products sold through Alexander Capital Insurance Agency, a licensed agency.</p>
+      </div>
+      <style>{`.quote-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(184,151,42,0.4); }`}</style>
+    </section>
+  );
+}
+
 function ContactSection() {
   const [contactForm, setContactForm] = useState({ name: "", email: "", company: "", phone: "", role: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
@@ -1431,6 +1464,7 @@ export default function App() {
       <BreakingBanner />
       <Nav />
       <Hero />
+      <QuoteSection />
       <ProblemSection />
       <ServicesSection />
       <IndustriesSection />
