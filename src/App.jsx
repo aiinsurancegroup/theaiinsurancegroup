@@ -1341,6 +1341,38 @@ function QuoteSection() {
   );
 }
 
+function AgentsSection() {
+  const pitch = [
+    { title: "Carrier access you can't get solo", desc: "Write across our 100+ markets from day one, no production commitments to unlock appointments." },
+    { title: "AI-powered quoting tools", desc: "Use the same submissions and market-matching platform we built in-house to quote faster and place smarter." },
+    { title: "Keep your book, skip the overhead", desc: "Your clients stay your clients. Skip the cost, licensing burden, and E&O headaches of standing up your own agency." },
+    { title: "Competitive splits", desc: "Straightforward commission splits that reward the business you bring." },
+  ];
+  return (
+    <section id="agents" style={{ background: LIGHT, padding: "80px 24px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
+        <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>For Licensed Agents</div>
+        <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>You're a licensed producer. You shouldn't need your own agency to write real business.</h2>
+        <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>If you're a licensed insurance agent without your own agency, you're leaving money and markets on the table. Sub-produce under The AI Insurance Group and get the carrier access, technology, and back-end most solo agents can't build alone — while you keep your clients and your book.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+          {pitch.map((p) => (
+            <div key={p.title} style={{ background: WHITE, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB", textAlign: "left" }}>
+              <h3 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: "0 0 8px" }}>{p.title}</h3>
+              <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>{p.desc}</p>
+            </div>
+          ))}
+        </div>
+        <p style={{ color: GRAY, fontSize: 16, lineHeight: 1.7, margin: "40px auto 24px", maxWidth: 620 }}>If you're licensed, producing, and tired of being capped by markets you can't reach — let's talk.</p>
+        <a href="#contact" style={{
+          display: "inline-block", background: GOLD, color: WHITE, border: "none", borderRadius: 8,
+          padding: "20px 40px", fontSize: 18, fontWeight: 700, textDecoration: "none",
+          boxShadow: "0 4px 28px rgba(184,151,42,0.35)", letterSpacing: 0.2,
+        }}>Apply to Produce With Us →</a>
+      </div>
+    </section>
+  );
+}
+
 function ContactSection() {
   const [contactForm, setContactForm] = useState({ name: "", email: "", company: "", phone: "", role: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
@@ -1499,6 +1531,7 @@ export default function App() {
       <ResearchSection />
       <BlogSection />
       <CTASection />
+      <AgentsSection />
       <ContactSection />
       <Footer onLegalPage={setLegalPage} />
     </div>
