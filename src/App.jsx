@@ -1405,13 +1405,13 @@ function AgentsSection() {
     { key: "email", placeholder: "Email *", type: "email" },
     { key: "phone", placeholder: "Phone Number", type: "tel" },
     { key: "homeState", placeholder: "Home State (Resident License)", type: "text" },
-    { key: "states", placeholder: "States Licensed In", type: "text" },
+    { key: "states", placeholder: "States Licensed In (e.g. NJ, NY, PA, FL)", type: "text" },
     { key: "npn", placeholder: "NPN (National Producer Number)", type: "text" },
     { key: "years", placeholder: "Years as a Producer", type: "text" },
-    { key: "book", placeholder: "Approximate Book Size", type: "text" },
+    { key: "book", placeholder: "Approximate Book Size (e.g. $500K premium or 200 policies)", type: "text" },
     { key: "lines", placeholder: "Lines Written", kind: "select", options: ["Personal", "Commercial", "Both"] },
-    { key: "agency", placeholder: "Current Agency or Aggregator (if any)", type: "text" },
-    { key: "notes", placeholder: "Anything else / why you're interested", kind: "textarea" },
+    { key: "agency", placeholder: "Current Agency or Aggregator (e.g. Smart Choice, or none)", type: "text" },
+    { key: "notes", placeholder: "Your timeline, markets you need, anything relevant", kind: "textarea" },
   ];
 
   const fieldStyle = {
