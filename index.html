@@ -7,7 +7,13 @@
     <meta name="description" content="Specialized AI liability coverage and risk advisory for lawyers, physicians, wealth managers, and corporate directors." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Inter', -apple-system, sans-serif; }</style>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: 'Inter', -apple-system, sans-serif; }
+      /* Anchor jumps must clear the fixed ticker (--banner-h, set by BreakingBanner)
+         plus the fixed nav (76px unscrolled / 60px scrolled). */
+      html { scroll-padding-top: calc(var(--banner-h, 0px) + 76px); }
+    </style>
   </head>
   <body>
     <div id="root"></div>
