@@ -462,8 +462,8 @@ function ServicesSection() {
   return (
     <Section bg={WHITE} id="services">
       <SectionLabel text="How we start" />
-      <SectionTitle text="Before you buy coverage, you need to know what you've already lost." />
-      <BodyText text="Most people come to us wanting a quote. We start somewhere else, showing you what's already been taken off the table. Once you can see the gap, the question of how to fill it gets much easier." maxWidth={650} />
+      <SectionTitle text="Already insured? We'll check whether AI is still covered." />
+      <BodyText text="If your business already carries coverage, we'll review your existing policies for the AI exclusions carriers have started adding at renewal — and show you exactly where the gaps are. Then we help you fill them." maxWidth={650} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28, marginTop: 40 }}>
         {services.map((s, i) => (
           <div key={i} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB" }}>
@@ -771,7 +771,7 @@ function IndustriesSection() {
 
 function ProcessSection() {
   const steps = [
-    { num: "01", title: "Free Assessment", desc: "Complete our 60-second online assessment to identify your AI exposure level and preliminary coverage gaps.", time: "60 seconds" },
+    { num: "01", title: "Check My AI Coverage", desc: "Complete our 60-second online assessment to identify your AI exposure level and preliminary coverage gaps.", time: "60 seconds" },
     { num: "02", title: "Coverage Review", desc: "Our team reviews your actual policy documents (endorsements, exclusions, and definitions) across all commercial lines.", time: "48 hours" },
     { num: "03", title: "Gap Analysis Report", desc: "You receive a detailed report showing every AI-related exclusion in your portfolio, mapped to your specific risk scenarios, with severity ratings.", time: "Delivered with review" },
     { num: "04", title: "Coverage Solutions", desc: "Licensed insurance professionals access specialty AI liability markets to fill identified gaps with affirmative coverage, backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
@@ -780,7 +780,7 @@ function ProcessSection() {
     <Section bg={WHITE} id="process">
       <div style={{ maxWidth: 700, margin: "0 auto" }}>
         <SectionLabel text="How we figure this out" />
-        <SectionTitle text="60 seconds will tell you more about your coverage than your last renewal call." />
+        <SectionTitle text="Checking your AI coverage takes about 60 seconds." />
         <BodyText text="Four steps. Most take less time than you think." />
         <div style={{ marginTop: 40 }}>
           {steps.map((s, i) => (
