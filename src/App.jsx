@@ -124,7 +124,7 @@ function TermsOfService({ onClose }) {
 
       <LegalH2>Description of Services</LegalH2>
       <LegalP>The AI Insurance Group provides educational and informational content regarding AI-related insurance risks and coverage options. We also provide a free AI Coverage Gap Assessment tool designed to help businesses identify potential coverage gaps related to artificial intelligence usage.</LegalP>
-      <LegalP>The AI Insurance Group is an informational and marketing platform. Insurance products referenced on our Sites are sold through Alexander Capital Insurance Agency, a licensed agency. Coverage availability, terms, and pricing are determined by the issuing insurance carriers and are subject to underwriting approval.</LegalP>
+      <LegalP>The AI Insurance Group is a licensed insurance producer (NJ License No. 3004245927), currently licensed in New Jersey. Insurance products are placed with licensed insurance carriers. Coverage is subject to carrier underwriting, terms, and availability, and may vary by state.</LegalP>
 
       <LegalH2>Not Insurance Advice</LegalH2>
       <LegalP>The information provided on our Sites, including the AI Coverage Gap Assessment results, is for general informational and educational purposes only. It does not constitute insurance advice, legal advice, or a coverage determination. Assessment results are based on self-reported responses and are not a substitute for a professional review of your actual insurance policy documents by a licensed insurance professional.</LegalP>
@@ -164,14 +164,14 @@ function Disclosures({ onClose }) {
   return (
     <LegalPage title="Disclosures" onClose={onClose}>
       <LegalH2>About The AI Insurance Group</LegalH2>
-      <LegalP>The AI Insurance Group is an informational and marketing platform focused on AI-related insurance risks and coverage solutions. The AI Insurance Group educates the market on AI liability exposures, identifies potential coverage gaps in existing policies, and connects users with licensed insurance professionals.</LegalP>
+      <LegalP>The AI Insurance Group is a full-service independent insurance agency. We represent multiple carriers and shop the market to place coverage that fits each client.</LegalP>
 
       <LegalH2>Insurance Sales and Licensed Agency</LegalH2>
-      <LegalP>All insurance products referenced on theaiinsurancegroup.com and isyouraicovered.com are sold through Alexander Capital Insurance Agency, a licensed agency. Sal Martorano is a licensed Property & Casualty insurance producer in New Jersey and Florida and produces insurance business through Alexander Capital Insurance Agency.</LegalP>
+      <LegalP>The AI Insurance Group is a licensed insurance producer (NJ License No. 3004245927), currently licensed in New Jersey. Insurance products are placed with licensed insurance carriers. Coverage is subject to carrier underwriting, terms, and availability, and may vary by state.</LegalP>
       <LegalP>Coverage availability, terms, conditions, limits, and pricing are determined by the issuing insurance carriers and are subject to underwriting review and approval. Not all coverage options are available in all states.</LegalP>
 
       <LegalH2>Insurance Products and Coverage</LegalH2>
-      <LegalP>All policies are written, issued, and serviced by licensed insurance carriers through Alexander Capital Insurance Agency. The AI Insurance Group itself does not bind, issue, or service insurance policies.</LegalP>
+      <LegalP>All policies are written, issued, and serviced by the licensed insurance carriers The AI Insurance Group represents. The AI Insurance Group itself does not bind, issue, or service insurance policies.</LegalP>
 
       <LegalH2>AI Coverage Gap Assessment</LegalH2>
       <LegalP>The AI Coverage Gap Assessment tool available at isyouraicovered.com is designed for general informational and educational purposes only. The assessment:</LegalP>
@@ -1230,7 +1230,7 @@ function BlogSection() {
                       </div>
                     ))}
                     <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid #E5E7EB" }}>
-                      <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || "Sal Martorano is the founder of The AI Insurance Group, an informational platform focused on AI liability coverage and risk advisory. He is licensed for Property & Casualty insurance in New Jersey and Florida and produces insurance business through Alexander Capital Insurance Agency."}</p>
+                      <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || "Sal Martorano is the founder of The AI Insurance Group, an informational platform focused on AI liability coverage and risk advisory."}</p>
                     </div>
                     {isAdmin && (
                       <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
@@ -1309,7 +1309,7 @@ function QuoteSection() {
             }}>{l.label}</a>
           ))}
         </div>
-        <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginTop: 20 }}>Insurance products sold through Alexander Capital Insurance Agency, a licensed agency.</p>
+        <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginTop: 20 }}>Insurance products offered through The AI Insurance Group.</p>
       </div>
       <style>{`.quote-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(184,151,42,0.4); }`}</style>
     </section>
@@ -1345,11 +1345,11 @@ function ContactSection() {
           <BodyText text="Whether you're a business owner concerned about AI exposure, a broker looking for a specialty partner, or an attorney advising clients on AI risk, we're here to help." />
           <div style={{ marginTop: 32 }}>
             {[
-              { label: "Insurance Business / Quotes", value: "smartorano@alexcapinsuranceagency.com" },
+              { label: "Insurance Business / Quotes", value: "sal@theaiinsurancegroup.com" },
               { label: "Platform & General Inquiries", value: "sal@theaiinsurancegroup.com" },
               { label: "Coverage Assessment", value: "IsYourAICovered.com" },
               { label: "Knowledge Base", value: "AIExclusion.com" },
-              { label: "Location", value: "New Jersey | Serving clients nationwide" },
+              { label: "Location", value: "Morganville, New Jersey | Licensed in New Jersey" },
             ].map((item, i) => (
               <div key={i} style={{ padding: "14px 0", borderBottom: "1px solid #F3F4F6" }}>
                 <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 4 }}>{item.label}</div>
@@ -1395,7 +1395,7 @@ function ContactSection() {
               <button onClick={handleContactSubmit}
                 style={{ width: "100%", padding: "16px", borderRadius: 8, border: "none", background: NAVY, color: WHITE, fontSize: 16, fontWeight: 700, cursor: "pointer", boxSizing: "border-box" }}>Submit Request →</button>
               <p style={{ color: GRAY, fontSize: 12, marginTop: 8, textAlign: "center" }}>Your information is confidential. We respond within 24 hours.</p>
-              <p style={{ color: GRAY, fontSize: 10, marginTop: 4, textAlign: "center", lineHeight: 1.5 }}>Insurance products sold through Alexander Capital Insurance Agency, a licensed agency.</p>
+              <p style={{ color: GRAY, fontSize: 10, marginTop: 4, textAlign: "center", lineHeight: 1.5 }}>Insurance products offered through The AI Insurance Group.</p>
             </>
           )}
         </div>
@@ -1435,7 +1435,7 @@ function Footer({ onLegalPage }) {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
           <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, lineHeight: 1.6, maxWidth: 600 }}>
-            © 2026 The AI Insurance Group. All rights reserved. The AI Insurance Group is an informational and marketing platform. Insurance products are sold through Alexander Capital Insurance Agency, a licensed agency.
+            © 2026 The AI Insurance Group. All rights reserved. The AI Insurance Group is a licensed insurance producer, NJ License No. 3004245927. Licensed in New Jersey. Products and services vary by state.
           </div>
           <div style={{ display: "flex", gap: 20 }}>
             {[
