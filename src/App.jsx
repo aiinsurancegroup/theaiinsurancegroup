@@ -1391,6 +1391,68 @@ function QuoteSection() {
 }
 
 function AgentsSection() {
+  const [formOpen, setFormOpen] = useState(false);
+  const [agentForm, setAgentForm] = useState({
+    name: "", email: "", phone: "", homeState: "", states: "", npn: "",
+    years: "", book: "", lines: "", agency: "", notes: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+
+  const fields = [
+    { key: "name", placeholder: "Full Name *", type: "text" },
+    { key: "email", placeholder: "Email *", type: "email" },
+    { key: "phone", placeholder: "Phone Number", type: "tel" },
+    { key: "homeState", placeholder: "Home State (Resident License)", type: "text" },
+    { key: "states", placeholder: "States Licensed In", type: "text" },
+    { key: "npn", placeholder: "NPN (National Producer Number)", type: "text" },
+    { key: "years", placeholder: "Years as a Producer", type: "text" },
+    { key: "book", placeholder: "Approximate Book Size", type: "text" },
+    { key: "lines", placeholder: "Lines Written", kind: "select", options: ["Personal", "Commercial", "Both"] },
+    { key: "agency", placeholder: "Current Agency or Aggregator (if any)", type: "text" },
+    { key: "notes", placeholder: "Anything else / why you're interested", kind: "textarea" },
+  ];
+
+  const fieldStyle = {
+    width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB",
+    background: LIGHT, fontSize: 15, outline: "none", boxSizing: "border-box", color: NAVY,
+  };
+
+  const handleAgentSubmit = async () => {
+    if (!agentForm.name || !agentForm.email) {
+      setError("Please fill in your name and email.");
+      return;
+    }
+    setSending(true);
+    setError("");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "616091eb-05d1-4527-94ce-e52463d79f89",
+          subject: "New Agent Application — The AI Insurance Group",
+          from_name: "TheAIInsuranceGroup.com",
+          name: agentForm.name, email: agentForm.email, phone: agentForm.phone,
+          home_state: agentForm.homeState, states_licensed: agentForm.states, npn: agentForm.npn,
+          years_producing: agentForm.years, book_size: agentForm.book,
+          lines_written: agentForm.lines, current_agency: agentForm.agency,
+          message: agentForm.notes,
+        }),
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message || "Submission rejected");
+      setSubmitted(true);
+    } catch (e) {
+      console.error("Agent form error:", e);
+      setError("Something went wrong — please email sal@theaiinsurancegroup.com directly.");
+    } finally {
+      setSending(false);
+    }
+  };
+
   const pitch = [
     { title: "Carrier access you can't get solo", desc: "Write across our 100+ markets from day one, no production commitments to unlock appointments." },
     { title: "AI-powered quoting tools", desc: "Use the same submissions and market-matching platform we built in-house to quote faster and place smarter." },
@@ -1412,11 +1474,59 @@ function AgentsSection() {
           ))}
         </div>
         <p style={{ color: GRAY, fontSize: 16, lineHeight: 1.7, margin: "40px auto 24px", maxWidth: 620 }}>If you're licensed, producing, and tired of being capped by markets you can't reach — let's talk.</p>
-        <a href="#contact" style={{
+        <button onClick={() => setFormOpen(!formOpen)} style={{
           display: "inline-block", background: GOLD, color: WHITE, border: "none", borderRadius: 8,
-          padding: "20px 40px", fontSize: 18, fontWeight: 700, textDecoration: "none",
+          padding: "20px 40px", fontSize: 18, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
           boxShadow: "0 4px 28px rgba(184,151,42,0.35)", letterSpacing: 0.2,
-        }}>Apply to Produce With Us →</a>
+        }}>Apply to Produce With Us →</button>
+
+        {formOpen && (
+          <div style={{ background: WHITE, borderRadius: 16, padding: 36, border: "1px solid #E5E7EB", marginTop: 32, textAlign: "left" }}>
+            {submitted ? (
+              <div style={{ textAlign: "center", padding: "60px 20px" }}>
+                <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
+                <h3 style={{ color: NAVY, fontSize: 22, fontWeight: 700, margin: "0 0 12px" }}>Application received</h3>
+                <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>We'll be in touch within 24 hours.</p>
+              </div>
+            ) : (
+              <>
+                <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 24px" }}>Apply to Produce With Us</h3>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+                  {fields.map((f) => {
+                    if (f.kind === "select") return (
+                      <select key={f.key} value={agentForm[f.key]}
+                        onChange={(e) => setAgentForm({ ...agentForm, [f.key]: e.target.value })}
+                        style={{ ...fieldStyle, color: agentForm[f.key] ? NAVY : GRAY, fontFamily: "inherit" }}>
+                        <option value="">{f.placeholder}</option>
+                        {f.options.map((o) => (<option key={o}>{o}</option>))}
+                      </select>
+                    );
+                    if (f.kind === "textarea") return (
+                      <textarea key={f.key} placeholder={f.placeholder} rows={3} value={agentForm[f.key]}
+                        onChange={(e) => setAgentForm({ ...agentForm, [f.key]: e.target.value })}
+                        style={{ ...fieldStyle, gridColumn: "1 / -1", resize: "vertical", fontFamily: "inherit" }} />
+                    );
+                    return (
+                      <input key={f.key} type={f.type} placeholder={f.placeholder} value={agentForm[f.key]}
+                        onChange={(e) => setAgentForm({ ...agentForm, [f.key]: e.target.value })}
+                        style={fieldStyle} />
+                    );
+                  })}
+                </div>
+                {error && (
+                  <p style={{ color: "#DC2626", fontSize: 14, lineHeight: 1.6, margin: "16px 0 0" }}>{error}</p>
+                )}
+                <button onClick={handleAgentSubmit} disabled={sending}
+                  style={{
+                    width: "100%", padding: "16px", borderRadius: 8, border: "none", marginTop: 16,
+                    background: NAVY, color: WHITE, fontSize: 16, fontWeight: 700, fontFamily: "inherit",
+                    cursor: sending ? "not-allowed" : "pointer", opacity: sending ? 0.6 : 1, boxSizing: "border-box",
+                  }}>{sending ? "Sending..." : "Submit Application →"}</button>
+                <p style={{ color: GRAY, fontSize: 12, marginTop: 8, textAlign: "center" }}>Your information is confidential. We respond within 24 hours.</p>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
