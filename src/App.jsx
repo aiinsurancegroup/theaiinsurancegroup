@@ -219,10 +219,9 @@ function Nav() {
 
   const links = [
     { label: "Get a Quote", href: "#quote" },
-    { label: "Services", href: "#services" },
-    { label: "Industries", href: "#industries" },
-    { label: "The Problem", href: "#problem" },
-    { label: "Research", href: "#research" },
+    { label: "Coverage", href: "#services" },
+    { label: "AI Specialty", href: "#industries" },
+    { label: "For Agents", href: "#agents" },
     { label: "FAQ", href: "#faq" },
     { label: "Blog", href: "#blog" },
     { label: "Contact", href: "#contact" },
@@ -276,7 +275,7 @@ function Nav() {
           <a href="https://isyouraicovered.com?new=1" style={{
             background: GOLD, color: WHITE, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700,
             textDecoration: "none", letterSpacing: 0.3
-          }}>Free Assessment →</a>
+          }}>Check My AI Coverage →</a>
           <a href="https://audit.theaiinsurancegroup.com" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: GOLD, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700, textDecoration: "none", letterSpacing: 0.3, border: "1px solid #B8972A" }}>Audit Portal</a>
         </div>
       </div>
@@ -1284,6 +1283,32 @@ function CTASection() {
   );
 }
 
+function CarriersSection() {
+  const proof = [
+    { title: "Independent, not captive", desc: "We answer to you, not a single insurer." },
+    { title: "AI-powered shopping", desc: "Our tools compare markets fast, so you're not waiting days for one quote." },
+    { title: "One relationship for everything", desc: "Home, auto, business, and specialty under a single agent." },
+  ];
+  return (
+    <section id="carriers" style={{ background: LIGHT, padding: "80px 24px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
+        <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>THE WHOLE MARKET, ONE AGENT</div>
+        <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Why shop one carrier when we shop 100+?</h2>
+        <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>A captive agent sells you their company's product. As an independent agency, we work for you — not a carrier. We put your coverage in front of 100+ national, regional, and specialty markets across personal, commercial, and specialty lines, then bring you the best fit and price. And we use AI to do it faster, so you get real options in less time.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+          {proof.map((p) => (
+            <div key={p.title} style={{ background: WHITE, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB" }}>
+              <h3 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: "0 0 8px" }}>{p.title}</h3>
+              <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>{p.desc}</p>
+            </div>
+          ))}
+        </div>
+        {/* LOGO WALL GOES HERE */}
+      </div>
+    </section>
+  );
+}
+
 function QuoteSection() {
   const lines = [
     { label: "Auto", href: "https://apply.theaiinsurancegroup.com/apply/auto-nj" },
@@ -1464,6 +1489,7 @@ export default function App() {
       <BreakingBanner />
       <Nav />
       <Hero />
+      <CarriersSection />
       <QuoteSection />
       <ProblemSection />
       <ServicesSection />
