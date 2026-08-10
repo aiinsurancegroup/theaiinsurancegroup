@@ -322,41 +322,41 @@ function Hero() {
           display: "inline-block", background: "rgba(220,38,38,0.12)", border: `1px solid rgba(220,38,38,0.35)`,
           borderRadius: 20, padding: "6px 16px", color: "#F87171", fontSize: 12, fontWeight: 700, letterSpacing: 1.2, marginBottom: 32,
         }}>
-          ● EFFECTIVE JANUARY 1, 2026 — YOUR COVERAGE CHANGED
+          ● INDEPENDENT INSURANCE AGENCY · LICENSED IN NEW JERSEY
         </div>
         <h1 style={{
           color: WHITE, fontSize: "clamp(36px, 5.5vw, 60px)", fontWeight: 800,
           lineHeight: 1.08, margin: "0 0 24px", letterSpacing: -1.5, maxWidth: 900,
         }}>
-          Your insurance probably stopped<br />
-          covering AI on January 1.<br />
-          <span style={{ color: GOLD }}>Most policyholders don't know.</span>
+          One agent. 100+ carriers.<br />
+          Every line of coverage.<br />
+          <span style={{ color: GOLD }}>That's what independent means.</span>
         </h1>
         <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.6, maxWidth: 680, margin: "0 0 40px" }}>
-          On January 1, 2026, Verisk's new endorsements, attached to policies across about 82% of US carriers, started carving AI claims out of General Liability, E&O, D&O, and Cyber coverage. No notice required. The exclusion shows up quietly at your next renewal.
+          We're a full-service independent insurance agency — home, auto, umbrella, business, workers comp, general liability, and more. We shop 100+ carriers so you don't have to, then use AI to find the best fit and price faster than a single-carrier agent ever could. One relationship, the whole market.
         </p>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-          <a href="https://isyouraicovered.com?new=1" style={{
+          <a href="#quote" style={{
             background: GOLD, color: WHITE, border: "none", borderRadius: 8, padding: "20px 40px",
             fontSize: 18, fontWeight: 700, cursor: "pointer", textDecoration: "none",
             boxShadow: "0 4px 28px rgba(184,151,42,0.35)", letterSpacing: 0.2,
-          }}>Check my coverage — 60 seconds →</a>
-          <a href="#blog" style={{
+          }}>Get a Quote →</a>
+          <a href="https://isyouraicovered.com?new=1" style={{
             background: "transparent", color: WHITE, border: `1px solid rgba(255,255,255,0.25)`,
             borderRadius: 8, padding: "20px 32px", fontSize: 16, fontWeight: 600,
             cursor: "pointer", textDecoration: "none",
-          }}>See how this is playing out →</a>
+          }}>Check My AI Coverage →</a>
         </div>
         <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, marginTop: 16, maxWidth: 600 }}>
-          Free. 60 seconds. No contact info required to get your risk rating.
+          Licensed in New Jersey. Free quotes, no obligation.
         </p>
 
         <div style={{ marginTop: 64, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 24, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
           {[
-            { big: "Jan 1, 2026", small: "Industry-wide AI exclusions activated" },
-            { big: "82%", small: "US P&C policies using the amended forms" },
-            { big: "1,000+", small: "Documented AI hallucinations in court filings" },
-            { big: "Your next renewal", small: "When your coverage quietly changes" },
+            { big: "100+", small: "Carriers and markets we shop for you" },
+            { big: "All lines", small: "Personal, commercial & specialty" },
+            { big: "Independent", small: "We work for you, not a carrier" },
+            { big: "Fast", small: "AI-powered quoting, real options quickly" },
           ].map((stat, i) => (
             <div key={i}>
               <div style={{ color: GOLD, fontSize: 24, fontWeight: 800, lineHeight: 1.1, letterSpacing: -0.5, marginBottom: 8 }}>{stat.big}</div>
@@ -1297,7 +1297,7 @@ function QuoteSection() {
       <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
         <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>Get a Quote</div>
         <h2 style={{ color: WHITE, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Get a quote in minutes.</h2>
-        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Pick your coverage line to start a quick application. Licensed in New Jersey, serving clients nationwide.</p>
+        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Pick your coverage line and start a quick online application. We'll shop it across our markets and get back to you with real options. Licensed in New Jersey.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
           {lines.map((l) => (
             <a key={l.label} href={l.href} className="quote-btn" style={{
@@ -1341,8 +1341,8 @@ function ContactSection() {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60 }}>
         <div>
           <SectionLabel text="Contact" />
-          <SectionTitle text="Let's Talk About Your Coverage." />
-          <BodyText text="Whether you're a business owner concerned about AI exposure, a broker looking for a specialty partner, or an attorney advising clients on AI risk, we're here to help." />
+          <SectionTitle text="Let's talk about your coverage." />
+          <BodyText text="Whether you need a quick quote, run an AI-driven company that needs specialty coverage, want your current policies checked for AI gaps, or you're a licensed agent interested in producing with us — we're here to help." />
           <div style={{ marginTop: 32 }}>
             {[
               { label: "Insurance Business / Quotes", value: "sal@theaiinsurancegroup.com" },
@@ -1381,12 +1381,12 @@ function ContactSection() {
               <select value={contactForm.role} onChange={(e) => setContactForm({ ...contactForm, role: e.target.value })}
                 style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, fontSize: 15, marginBottom: 12, color: contactForm.role ? NAVY : GRAY, outline: "none", boxSizing: "border-box" }}>
                 <option value="">I am a...</option>
-                <option>Business Owner / Executive</option>
-                <option>Attorney / Law Firm</option>
-                <option>Physician / Medical Practice</option>
-                <option>Wealth Manager / RIA / Broker-Dealer</option>
-                <option>Director / Board Member</option>
-                <option>Insurance Broker / Agent</option>
+                <option>Looking for a quote</option>
+                <option>Business owner</option>
+                <option>AI-driven company</option>
+                <option>Existing policyholder (AI coverage check)</option>
+                <option>Licensed agent (produce with us)</option>
+                <option>Insurance broker / partner</option>
                 <option>Other</option>
               </select>
               <textarea placeholder="Tell us about your situation (optional)" rows={3} value={contactForm.message}
@@ -1418,7 +1418,7 @@ function Footer({ onLegalPage }) {
               </div>
               <span style={{ color: WHITE, fontWeight: 700, fontSize: 15 }}>The AI Insurance <span style={{ color: GOLD }}>Group</span></span>
             </div>
-            <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.6, maxWidth: 300 }}>Specialized AI liability coverage and risk advisory. Helping businesses navigate the 2026 AI insurance exclusion landscape.</p>
+            <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.6, maxWidth: 300 }}>A full-service independent insurance agency — home, auto, business, and specialty lines. We shop 100+ carriers so you don't have to. Specialists in coverage for AI-driven companies.</p>
           </div>
           <div>
             <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>RESOURCES</div>
@@ -1428,7 +1428,7 @@ function Footer({ onLegalPage }) {
           </div>
           <div>
             <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>COVERAGE LINES</div>
-            {["AI Liability (CGL Gap Fill)", "AI Professional Liability (E&O)", "AI Directors & Officers (D&O)", "AI Cyber Liability", "AI Products Liability"].map((l, i) => (
+            {["Auto", "Homeowners", "Personal Umbrella", "Workers Comp", "General Liability", "Business & Commercial", "AI Company Specialty"].map((l, i) => (
               <div key={i} style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, marginBottom: 8 }}>{l}</div>
             ))}
           </div>
