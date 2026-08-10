@@ -219,7 +219,7 @@ function Nav() {
 
   const links = [
     { label: "Get a Quote", href: "#quote" },
-    { label: "Coverage", href: "#services" },
+    { label: "Coverage", href: "#coverage" },
     { label: "AI Specialty", href: "#industries" },
     { label: "For Agents", href: "#agents" },
     { label: "FAQ", href: "#faq" },
@@ -364,6 +364,43 @@ function Hero() {
           ))}
         </div>
       </div>
+    </section>
+  );
+}
+
+function CoverageSection() {
+  const columns = [
+    { title: "Personal Lines", items: ["Homeowners & Renters", "Auto", "Personal Umbrella", "Landlord & Dwelling", "Flood"] },
+    { title: "Business Lines", items: ["General Liability", "Workers Comp", "Commercial Auto", "Business Owners Policy (BOP)", "Professional Liability (E&O)", "Cyber & specialty"] },
+  ];
+  return (
+    <section id="coverage" style={{ background: WHITE, padding: "80px 24px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
+        <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>What We Cover</div>
+        <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Everything you need, from one independent agency.</h2>
+        <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Most people find us through our name and assume we only insure AI companies. We don't — we do it all. We're a full-service independent agency writing every major personal and commercial line. AI is how we work (shopping the market faster) and one thing we specialize in (insuring AI-driven businesses) — but it's not all we do.</p>
+        <div className="coverage-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, textAlign: "left" }}>
+          {columns.map((c) => (
+            <div key={c.title} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB" }}>
+              <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 16px" }}>{c.title}</h3>
+              <ul style={{ margin: 0, padding: "0 0 0 18px" }}>
+                {c.items.map((i) => (<li key={i} style={{ color: DGRAY, fontSize: 15, lineHeight: 1.9 }}>{i}</li>))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <p style={{ color: GRAY, fontSize: 16, lineHeight: 1.7, margin: "40px auto 24px", maxWidth: 620 }}>Not sure what you need? Start a quote or reach out — we'll figure out the right coverage together.</p>
+        <a href="#quote" style={{
+          display: "inline-block", background: GOLD, color: WHITE, border: "none", borderRadius: 8,
+          padding: "20px 40px", fontSize: 18, fontWeight: 700, textDecoration: "none",
+          boxShadow: "0 4px 28px rgba(184,151,42,0.35)", letterSpacing: 0.2,
+        }}>Get a Quote →</a>
+      </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .coverage-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
 }
@@ -1523,6 +1560,7 @@ export default function App() {
       <Hero />
       <CarriersSection />
       <QuoteSection />
+      <CoverageSection />
       <ProblemSection />
       <ServicesSection />
       <IndustriesSection />
