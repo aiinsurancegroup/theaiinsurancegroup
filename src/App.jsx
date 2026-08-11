@@ -9,6 +9,8 @@ const LGOLD = "#F5EFE0";
 const GRAY = "#6B7280";
 const DGRAY = "#374151";
 const RED = "#DC2626";
+const BORDER = "#E5E7EB";
+const DIVIDER = "#F3F4F6";
 
 const Section = ({ children, bg = WHITE, id }) => (
   <section id={id} style={{ background: bg, padding: "80px 24px" }}>
@@ -381,7 +383,7 @@ function CoverageSection() {
         <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Most people find us through our name and assume we only insure AI companies. We don't — we do it all. We're a full-service independent agency writing every major personal and commercial line. AI is how we work (shopping the market faster) and one thing we specialize in (insuring AI-driven businesses) — but it's not all we do.</p>
         <div className="coverage-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, textAlign: "left" }}>
           {columns.map((c) => (
-            <div key={c.title} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB" }}>
+            <div key={c.title} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: `1px solid ${BORDER}` }}>
               <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 16px" }}>{c.title}</h3>
               <ul style={{ margin: 0, padding: "0 0 0 18px" }}>
                 {c.items.map((i) => (<li key={i} style={{ color: DGRAY, fontSize: 15, lineHeight: 1.9 }}>{i}</li>))}
@@ -424,7 +426,7 @@ function ProblemSection() {
         <SectionLabel text="What changed" />
         <SectionTitle text="Your broker probably didn't tell you this happened." />
         <BodyText text="On January 1, 2026, Verisk quietly released three endorsements (CG 40 47, CG 40 48, and CG 35 08) that let carriers carve AI claims out of general liability. Major carriers are attaching them at renewal. Most brokers haven't read the forms, and most policyholders don't know the forms are already on their policies." />
-        <div style={{ background: WHITE, borderRadius: 12, padding: 24, marginTop: 24, marginBottom: 16, border: "1px solid #E5E7EB" }}>
+        <div style={{ background: WHITE, borderRadius: 12, padding: 24, marginTop: 24, marginBottom: 16, border: `1px solid ${BORDER}` }}>
           <div style={{ color: NAVY, fontSize: 15, fontWeight: 700, marginBottom: 12 }}>📄 Proof: Read the actual exclusion forms</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <a href="https://www.independentagent.com/vu_resource/verisk-to-roll-out-new-general-liability-exclusions-for-generative-ai-exposures/" target="_blank" rel="noopener noreferrer" style={{ color: GOLD, fontSize: 14, textDecoration: "none", fontWeight: 600 }}>→ Independent Agents: Verisk Rolls Out New AI Exclusions (January 2026)</a>
@@ -466,7 +468,7 @@ function ServicesSection() {
       <BodyText text="If your business already carries coverage, we'll review your existing policies for the AI exclusions carriers have started adding at renewal — and show you exactly where the gaps are. Then we help you fill them." maxWidth={650} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28, marginTop: 40 }}>
         {services.map((s, i) => (
-          <div key={i} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB" }}>
+          <div key={i} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: `1px solid ${BORDER}` }}>
             <div style={{ fontSize: 36, marginBottom: 16 }}>{s.icon}</div>
             <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 12px" }}>{s.title}</h3>
             <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.6, margin: "0 0 20px" }}>{s.desc}</p>
@@ -658,7 +660,7 @@ function IndustryModal({ industry, onClose }) {
           height: "min(85vh, 780px)", display: "flex", flexDirection: "column",
           overflow: "hidden", animation: "mContent 250ms ease-out",
         }}>
-          <div style={{ padding: "22px 24px", borderBottom: "1px solid #E5E7EB", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+          <div style={{ padding: "22px 24px", borderBottom: `1px solid ${BORDER}`, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 14, flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 28, flexShrink: 0 }}>{industry.icon}</div>
               <div style={{ minWidth: 0 }}>
@@ -666,7 +668,7 @@ function IndustryModal({ industry, onClose }) {
                 <div style={{ color: NAVY, fontSize: 18, fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{industry.name}</div>
               </div>
             </div>
-            <button onClick={onClose} aria-label="Close" style={{ background: LIGHT, border: "1px solid #E5E7EB", borderRadius: 8, cursor: "pointer", color: GRAY, fontSize: 20, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", padding: 0, lineHeight: 1, flexShrink: 0 }}>×</button>
+            <button onClick={onClose} aria-label="Close" style={{ background: LIGHT, border: `1px solid ${BORDER}`, borderRadius: 8, cursor: "pointer", color: GRAY, fontSize: 20, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", padding: 0, lineHeight: 1, flexShrink: 0 }}>×</button>
           </div>
 
           <div style={{ padding: "26px 24px", overflow: "auto", flex: 1, minHeight: 0, WebkitOverflowScrolling: "touch" }}>
@@ -695,7 +697,7 @@ function IndustryModal({ industry, onClose }) {
             </div>
 
             {details.coverageNeeds && (
-              <div style={{ marginTop: 26, paddingTop: 22, borderTop: "1px solid #E5E7EB" }}>
+              <div style={{ marginTop: 26, paddingTop: 22, borderTop: `1px solid ${BORDER}` }}>
                 <div style={{ color: GOLD, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 6 }}>Coverage framework</div>
                 <p style={{ color: GRAY, fontSize: 12.5, lineHeight: 1.6, margin: "0 0 12px" }}>AI exposure typically spans these lines for this industry. Gaps between policies are where claims fall.</p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
@@ -709,9 +711,9 @@ function IndustryModal({ industry, onClose }) {
                         fontSize: 11.5,
                         fontWeight: 700,
                         letterSpacing: 0.3,
-                        background: active ? GOLD : "#F3F4F6",
+                        background: active ? GOLD : DIVIDER,
                         color: active ? WHITE : "#9CA3AF",
-                        border: active ? "1px solid " + GOLD : "1px solid #E5E7EB",
+                        border: active ? "1px solid " + GOLD : `1px solid ${BORDER}`,
                       }}>{line}</span>
                     );
                   })}
@@ -720,9 +722,9 @@ function IndustryModal({ industry, onClose }) {
             )}
           </div>
 
-          <div style={{ padding: "18px 24px", borderTop: "1px solid #E5E7EB", background: LIGHT, display: "flex", gap: 10 }}>
+          <div style={{ padding: "18px 24px", borderTop: `1px solid ${BORDER}`, background: LIGHT, display: "flex", gap: 10 }}>
             <a href="https://isyouraicovered.com?new=1" style={{ flex: 1, textAlign: "center", background: GOLD, color: WHITE, padding: "14px 20px", borderRadius: 8, fontSize: 15, fontWeight: 700, textDecoration: "none", letterSpacing: 0.2 }}>Check my coverage →</a>
-            <button onClick={onClose} style={{ background: WHITE, color: GRAY, padding: "14px 20px", borderRadius: 8, fontSize: 14, fontWeight: 600, border: "1px solid #E5E7EB", cursor: "pointer", fontFamily: "inherit" }}>Close</button>
+            <button onClick={onClose} style={{ background: WHITE, color: GRAY, padding: "14px 20px", borderRadius: 8, fontSize: 14, fontWeight: 600, border: `1px solid ${BORDER}`, cursor: "pointer", fontFamily: "inherit" }}>Close</button>
           </div>
         </div>
       </div>
@@ -749,9 +751,9 @@ function IndustriesSection() {
         {verticals.map((v, i) => (
           <button key={i} onClick={() => setActive(v)}
             onMouseEnter={(e) => { e.currentTarget.style.borderColor = GOLD; e.currentTarget.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#E5E7EB"; e.currentTarget.style.transform = "translateY(0)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = BORDER; e.currentTarget.style.transform = "translateY(0)"; }}
             style={{
-              background: WHITE, borderRadius: 12, padding: 28, border: "1px solid #E5E7EB",
+              background: WHITE, borderRadius: 12, padding: 28, border: `1px solid ${BORDER}`,
               textAlign: "left", cursor: "pointer", fontFamily: "inherit",
               transition: "border-color 0.2s, transform 0.15s", width: "100%",
             }}>
@@ -784,7 +786,7 @@ function ProcessSection() {
         <BodyText text="Four steps. Most take less time than you think." />
         <div style={{ marginTop: 40 }}>
           {steps.map((s, i) => (
-            <div key={i} style={{ display: "flex", gap: 24, padding: "28px 0", borderBottom: i < steps.length - 1 ? "1px solid #E5E7EB" : "none" }}>
+            <div key={i} style={{ display: "flex", gap: 24, padding: "28px 0", borderBottom: i < steps.length - 1 ? `1px solid ${BORDER}` : "none" }}>
               <div style={{ width: 56, height: 56, borderRadius: 12, background: i === 0 ? GOLD : LGOLD, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: i === 0 ? WHITE : NAVY, fontSize: 18, fontWeight: 800 }}>{s.num}</div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
@@ -861,7 +863,7 @@ function FAQSection() {
         {faqs.map((item, i) => {
           const isOpen = open === i;
           return (
-            <div key={i} style={{ background: WHITE, borderRadius: 12, border: "1px solid #E5E7EB", marginBottom: 12, overflow: "hidden" }}>
+            <div key={i} style={{ background: WHITE, borderRadius: 12, border: `1px solid ${BORDER}`, marginBottom: 12, overflow: "hidden" }}>
               <button
                 onClick={() => setOpen(isOpen ? null : i)}
                 style={{
@@ -872,12 +874,12 @@ function FAQSection() {
               >
                 <span style={{ color: NAVY, fontSize: 16, fontWeight: 600, lineHeight: 1.4, flex: 1 }}>{item.q}</span>
                 <span style={{
-                  flexShrink: 0, width: 28, height: 28, borderRadius: "50%", border: "1px solid #E5E7EB",
+                  flexShrink: 0, width: 28, height: 28, borderRadius: "50%", border: `1px solid ${BORDER}`,
                   display: "flex", alignItems: "center", justifyContent: "center",
                   transition: "transform 0.2s, background 0.2s, border-color 0.2s",
                   transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                   background: isOpen ? GOLD : WHITE,
-                  borderColor: isOpen ? GOLD : "#E5E7EB",
+                  borderColor: isOpen ? GOLD : BORDER,
                   color: isOpen ? WHITE : GRAY,
                   fontSize: 12,
                 }}>▼</span>
@@ -958,7 +960,7 @@ function ResearchSection() {
           { stat: "$4.8B", label: "Projected AI premiums by 2032" },
           { stat: "91%", label: "Of businesses plan to use AI" },
         ].map((s, i) => (
-          <div key={i} style={{ background: LIGHT, borderRadius: 12, padding: 24, textAlign: "center", border: "1px solid #E5E7EB" }}>
+          <div key={i} style={{ background: LIGHT, borderRadius: 12, padding: 24, textAlign: "center", border: `1px solid ${BORDER}` }}>
             <div style={{ color: NAVY, fontSize: 32, fontWeight: 800, letterSpacing: -1 }}>{s.stat}</div>
             <div style={{ color: GRAY, fontSize: 12, lineHeight: 1.4, marginTop: 6 }}>{s.label}</div>
           </div>
@@ -972,7 +974,7 @@ function ResearchSection() {
             const key = `${catIdx}-${artIdx}`;
             const isOpen = expanded === key;
             return (
-              <div key={artIdx} style={{ borderBottom: "1px solid #E5E7EB" }}>
+              <div key={artIdx} style={{ borderBottom: `1px solid ${BORDER}` }}>
                 <button onClick={() => setExpanded(isOpen ? null : key)} style={{
                   width: "100%", textAlign: "left", padding: "16px 0", background: "none", border: "none",
                   cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, fontFamily: "inherit",
@@ -985,7 +987,7 @@ function ResearchSection() {
                     </div>
                   </div>
                   <div style={{
-                    width: 28, height: 28, borderRadius: "50%", border: "1px solid #E5E7EB",
+                    width: 28, height: 28, borderRadius: "50%", border: `1px solid ${BORDER}`,
                     display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                     transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                   }}>
@@ -1010,7 +1012,7 @@ function ResearchSection() {
         </div>
       ))}
 
-      <div style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid #E5E7EB" }}>
+      <div style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${BORDER}` }}>
         <p style={{ color: GRAY, fontSize: 12, fontStyle: "italic", textAlign: "center", margin: 0 }}>All summaries written by The AI Insurance Group based on publicly available sources. Last updated: May 2026.</p>
       </div>
     </Section>
@@ -1067,7 +1069,7 @@ function BlogEditor({ post, onSave, onCancel, adminPassword }) {
     setSaving(false);
   };
 
-  const inputStyle = { width: "100%", padding: "12px 14px", borderRadius: 8, border: "1px solid #E5E7EB", fontSize: 15, color: NAVY, outline: "none", boxSizing: "border-box", fontFamily: "inherit" };
+  const inputStyle = { width: "100%", padding: "12px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, fontSize: 15, color: NAVY, outline: "none", boxSizing: "border-box", fontFamily: "inherit" };
   const textareaStyle = { ...inputStyle, resize: "vertical", lineHeight: 1.7 };
 
   return (
@@ -1082,20 +1084,20 @@ function BlogEditor({ post, onSave, onCancel, adminPassword }) {
         <div style={{ color: GRAY, fontSize: 12, fontWeight: 600, letterSpacing: 0.5, marginBottom: 6 }}>PRIORITY</div>
         <div style={{ display: "flex", gap: 6 }}>
           {[{ val: 0, label: "Normal" }, { val: 1, label: "Featured" }, { val: 2, label: "Breaking" }].map(opt => (
-            <button key={opt.val} type="button" onClick={() => setPriority(opt.val)} style={{ flex: 1, padding: "10px 14px", borderRadius: 8, border: "1px solid " + (priority === opt.val ? NAVY : "#E5E7EB"), background: priority === opt.val ? NAVY : WHITE, color: priority === opt.val ? WHITE : GRAY, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>{opt.label}</button>
+            <button key={opt.val} type="button" onClick={() => setPriority(opt.val)} style={{ flex: 1, padding: "10px 14px", borderRadius: 8, border: "1px solid " + (priority === opt.val ? NAVY : BORDER), background: priority === opt.val ? NAVY : WHITE, color: priority === opt.val ? WHITE : GRAY, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>{opt.label}</button>
           ))}
         </div>
       </div>
       <textarea placeholder="Preview text (shows before reader clicks Read More)" rows={3} value={preview} onChange={e => setPreview(e.target.value)} style={{ ...textareaStyle, marginBottom: 20 }} />
       <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>ARTICLE CONTENT</div>
       {blocks.map((block, i) => (
-        <div key={i} style={{ background: LIGHT, borderRadius: 10, padding: 16, marginBottom: 12, border: "1px solid #E5E7EB" }}>
+        <div key={i} style={{ background: LIGHT, borderRadius: 10, padding: 16, marginBottom: 12, border: `1px solid ${BORDER}` }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
             <span style={{ color: GRAY, fontSize: 12, fontWeight: 600 }}>Section {i + 1}</span>
             <div style={{ display: "flex", gap: 6 }}>
-              {i > 0 && <button onClick={() => moveBlock(i, -1)} style={{ background: "none", border: "1px solid #E5E7EB", borderRadius: 4, padding: "2px 8px", cursor: "pointer", fontSize: 12, color: GRAY }}>{"\u2191"}</button>}
-              {i < blocks.length - 1 && <button onClick={() => moveBlock(i, 1)} style={{ background: "none", border: "1px solid #E5E7EB", borderRadius: 4, padding: "2px 8px", cursor: "pointer", fontSize: 12, color: GRAY }}>{"\u2193"}</button>}
-              <button onClick={() => removeBlock(i)} style={{ background: "none", border: "1px solid #E5E7EB", borderRadius: 4, padding: "2px 8px", cursor: "pointer", fontSize: 12, color: RED }}>{"\u2715"}</button>
+              {i > 0 && <button onClick={() => moveBlock(i, -1)} style={{ background: "none", border: `1px solid ${BORDER}`, borderRadius: 4, padding: "2px 8px", cursor: "pointer", fontSize: 12, color: GRAY }}>{"\u2191"}</button>}
+              {i < blocks.length - 1 && <button onClick={() => moveBlock(i, 1)} style={{ background: "none", border: `1px solid ${BORDER}`, borderRadius: 4, padding: "2px 8px", cursor: "pointer", fontSize: 12, color: GRAY }}>{"\u2193"}</button>}
+              <button onClick={() => removeBlock(i)} style={{ background: "none", border: `1px solid ${BORDER}`, borderRadius: 4, padding: "2px 8px", cursor: "pointer", fontSize: 12, color: RED }}>{"\u2715"}</button>
             </div>
           </div>
           <input placeholder="Section heading (leave blank for no heading)" value={block.heading || ""} onChange={e => updateBlock(i, "heading", e.target.value)} style={{ ...inputStyle, marginBottom: 8, fontSize: 14 }} />
@@ -1108,7 +1110,7 @@ function BlogEditor({ post, onSave, onCancel, adminPassword }) {
       )}
       <div style={{ display: "flex", gap: 12 }}>
         <button onClick={handleSave} disabled={saving} style={{ flex: 1, padding: "14px", borderRadius: 8, border: "none", background: NAVY, color: WHITE, fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{saving ? "Saving..." : post ? "Save Changes" : "Publish Post"}</button>
-        <button onClick={onCancel} style={{ padding: "14px 24px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, color: GRAY, fontSize: 15, cursor: "pointer" }}>Cancel</button>
+        <button onClick={onCancel} style={{ padding: "14px 24px", borderRadius: 8, border: `1px solid ${BORDER}`, background: WHITE, color: GRAY, fontSize: 15, cursor: "pointer" }}>Cancel</button>
       </div>
     </div>
   );
@@ -1250,7 +1252,7 @@ function BlogSection() {
             const content = typeof post.content === "string" ? JSON.parse(post.content) : post.content;
             if (editing === post.id) return <BlogEditor key={post.id} post={post} onSave={handleSaved} onCancel={() => setEditing(null)} adminPassword={adminPassword} />;
             return (
-              <div key={post.id} style={{ background: WHITE, borderRadius: 16, border: "1px solid #E5E7EB", overflow: "hidden", marginBottom: 20 }}>
+              <div key={post.id} style={{ background: WHITE, borderRadius: 16, border: `1px solid ${BORDER}`, overflow: "hidden", marginBottom: 20 }}>
                 <button onClick={() => setExpandedPost(isOpen ? null : post.id)} style={{
                   width: "100%", textAlign: "left", padding: "32px", background: "none", border: "none",
                   cursor: "pointer", fontFamily: "inherit",
@@ -1270,14 +1272,14 @@ function BlogSection() {
                   <div style={{ color: GOLD, fontSize: 14, fontWeight: 600, marginTop: 16 }}>{isOpen ? "Close \u2191" : "Read More \u2193"}</div>
                 </button>
                 {isOpen && (
-                  <div style={{ padding: "0 32px 32px", borderTop: "1px solid #E5E7EB" }}>
+                  <div style={{ padding: "0 32px 32px", borderTop: `1px solid ${BORDER}` }}>
                     {content.map((block, i) => (
                       <div key={i}>
                         {block.heading && <h4 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: "28px 0 12px" }}>{block.heading}</h4>}
                         <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.8, margin: block.heading ? "0 0 16px" : "16px 0" }}>{block.text}</p>
                       </div>
                     ))}
-                    <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid #E5E7EB" }}>
+                    <div style={{ marginTop: 28, paddingTop: 20, borderTop: `1px solid ${BORDER}` }}>
                       <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || "Sal Martorano is the founder of The AI Insurance Group, an informational platform focused on AI liability coverage and risk advisory."}</p>
                     </div>
                     {isAdmin && (
@@ -1346,7 +1348,7 @@ function CarriersSection() {
         <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>A captive agent sells you their company's product. As an independent agency, we work for you — not a carrier. We put your coverage in front of 100+ national, regional, and specialty markets across personal, commercial, and specialty lines, then bring you the best fit and price. And we use AI to do it faster, so you get real options in less time.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
           {proof.map((p) => (
-            <div key={p.title} style={{ background: WHITE, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB" }}>
+            <div key={p.title} style={{ background: WHITE, borderRadius: 16, padding: 32, border: `1px solid ${BORDER}` }}>
               <h3 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: "0 0 8px" }}>{p.title}</h3>
               <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>{p.desc}</p>
             </div>
@@ -1415,7 +1417,7 @@ function AgentsSection() {
   ];
 
   const fieldStyle = {
-    width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB",
+    width: "100%", padding: "14px 16px", borderRadius: 8, border: `1px solid ${BORDER}`,
     background: LIGHT, fontSize: 15, outline: "none", boxSizing: "border-box", color: NAVY,
   };
 
@@ -1467,7 +1469,7 @@ function AgentsSection() {
         <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>If you're a licensed insurance agent without your own agency, you're leaving money and markets on the table. Sub-produce under The AI Insurance Group and get the carrier access, technology, and back-end most solo agents can't build alone — while you keep your clients and your book.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
           {pitch.map((p) => (
-            <div key={p.title} style={{ background: WHITE, borderRadius: 16, padding: 32, border: "1px solid #E5E7EB", textAlign: "left" }}>
+            <div key={p.title} style={{ background: WHITE, borderRadius: 16, padding: 32, border: `1px solid ${BORDER}`, textAlign: "left" }}>
               <h3 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: "0 0 8px" }}>{p.title}</h3>
               <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>{p.desc}</p>
             </div>
@@ -1481,7 +1483,7 @@ function AgentsSection() {
         }}>Apply to Produce With Us →</button>
 
         {formOpen && (
-          <div style={{ background: WHITE, borderRadius: 16, padding: 36, border: "1px solid #E5E7EB", marginTop: 32, textAlign: "left" }}>
+          <div style={{ background: WHITE, borderRadius: 16, padding: 36, border: `1px solid ${BORDER}`, marginTop: 32, textAlign: "left" }}>
             {submitted ? (
               <div style={{ textAlign: "center", padding: "60px 20px" }}>
                 <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
@@ -1514,7 +1516,7 @@ function AgentsSection() {
                   })}
                 </div>
                 {error && (
-                  <p style={{ color: "#DC2626", fontSize: 14, lineHeight: 1.6, margin: "16px 0 0" }}>{error}</p>
+                  <p style={{ color: RED, fontSize: 14, lineHeight: 1.6, margin: "16px 0 0" }}>{error}</p>
                 )}
                 <button onClick={handleAgentSubmit} disabled={sending}
                   style={{
@@ -1567,7 +1569,7 @@ function ContactSection() {
               { label: "Knowledge Base", value: "AIExclusion.com" },
               { label: "Location", value: "Morganville, New Jersey | Licensed in New Jersey" },
             ].map((item, i) => (
-              <div key={i} style={{ padding: "14px 0", borderBottom: "1px solid #F3F4F6" }}>
+              <div key={i} style={{ padding: "14px 0", borderBottom: `1px solid ${DIVIDER}` }}>
                 <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 4 }}>{item.label}</div>
                 <div style={{ color: NAVY, fontSize: 16, fontWeight: 500 }}>{item.value}</div>
               </div>
@@ -1592,10 +1594,10 @@ function ContactSection() {
               ].map((f, i) => (
                 <input key={i} type={f.type} placeholder={f.placeholder} value={contactForm[f.key]}
                   onChange={(e) => setContactForm({ ...contactForm, [f.key]: e.target.value })}
-                  style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, fontSize: 15, marginBottom: 12, outline: "none", boxSizing: "border-box", color: NAVY }} />
+                  style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: WHITE, fontSize: 15, marginBottom: 12, outline: "none", boxSizing: "border-box", color: NAVY }} />
               ))}
               <select value={contactForm.role} onChange={(e) => setContactForm({ ...contactForm, role: e.target.value })}
-                style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, fontSize: 15, marginBottom: 12, color: contactForm.role ? NAVY : GRAY, outline: "none", boxSizing: "border-box" }}>
+                style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: WHITE, fontSize: 15, marginBottom: 12, color: contactForm.role ? NAVY : GRAY, outline: "none", boxSizing: "border-box" }}>
                 <option value="">I am a...</option>
                 <option>Looking for a quote</option>
                 <option>Business owner</option>
@@ -1607,7 +1609,7 @@ function ContactSection() {
               </select>
               <textarea placeholder="Tell us about your situation (optional)" rows={3} value={contactForm.message}
                 onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: "1px solid #E5E7EB", background: WHITE, fontSize: 15, marginBottom: 16, outline: "none", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", color: NAVY }} />
+                style={{ width: "100%", padding: "14px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: WHITE, fontSize: 15, marginBottom: 16, outline: "none", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", color: NAVY }} />
               <button onClick={handleContactSubmit}
                 style={{ width: "100%", padding: "16px", borderRadius: 8, border: "none", background: NAVY, color: WHITE, fontSize: 16, fontWeight: 700, cursor: "pointer", boxSizing: "border-box" }}>Submit Request →</button>
               <p style={{ color: GRAY, fontSize: 12, marginTop: 8, textAlign: "center" }}>Your information is confidential. We respond within 24 hours.</p>
