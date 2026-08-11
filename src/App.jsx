@@ -442,14 +442,25 @@ function SpecialtySection() {
   );
 }
 
-function ProblemSection() {
+function WhatChangedSection() {
+  const services = [
+    { icon: "🔍", title: "AI Coverage Gap Audit", desc: "We review your entire commercial insurance portfolio (GL, E&O, D&O, Cyber, EPLI, and Products liability) to identify AI-related exclusions, sublimits, and endorsements that may have been added at your last renewal.", details: ["Full AI usage inventory across your organization", "Policy-by-policy exclusion analysis with form numbers cited", "Risk scenario mapping for your specific industry", "Governance recommendations to improve your underwriting profile"] },
+    { icon: "📄", title: "AI Liability Solutions", desc: "We connect you with specialty markets that most brokers can't access, including Lloyd's of London capacity and Munich Re-backed products, where licensed professionals can place affirmative AI coverage that fills the gaps traditional policies now exclude.", details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"] },
+    { icon: "🤝", title: "Broker Partnership Program", desc: "We partner with P&C brokers who want to offer AI coverage audits to their existing clients without building the specialty expertise in-house. You keep the client relationship — we provide the AI-specific analysis and market access.", details: ["White-label AI gap audit reports", "Specialty placement through Lloyd's and Munich Re", "Co-branded client presentations", "CE-eligible training on AI insurance exclusions"] },
+  ];
+  const steps = [
+    { num: "01", title: "Check My AI Coverage", desc: "Complete our 60-second online assessment to identify your AI exposure level and preliminary coverage gaps.", time: "60 seconds" },
+    { num: "02", title: "Coverage Review", desc: "Our team reviews your actual policy documents (endorsements, exclusions, and definitions) across all commercial lines.", time: "48 hours" },
+    { num: "03", title: "Gap Analysis Report", desc: "You receive a detailed report showing every AI-related exclusion in your portfolio, mapped to your specific risk scenarios, with severity ratings.", time: "Delivered with review" },
+    { num: "04", title: "Coverage Solutions", desc: "Licensed insurance professionals access specialty AI liability markets to fill identified gaps with affirmative coverage, backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
+  ];
   return (
-    <Section bg={LIGHT} id="problem">
+    <Section bg={WHITE} id="problem">
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         <SectionLabel text="What changed" />
         <SectionTitle text="Your broker probably didn't tell you this happened." />
         <BodyText text="On January 1, 2026, Verisk quietly released three endorsements (CG 40 47, CG 40 48, and CG 35 08) that let carriers carve AI claims out of general liability. Major carriers are attaching them at renewal. Most brokers haven't read the forms, and most policyholders don't know the forms are already on their policies." />
-        <div style={{ background: WHITE, borderRadius: 12, padding: 24, marginTop: 24, marginBottom: 16, border: `1px solid ${BORDER}` }}>
+        <div style={{ background: LIGHT, borderRadius: 12, padding: 24, marginTop: 24, marginBottom: 16, border: `1px solid ${BORDER}` }}>
           <div style={{ color: NAVY, fontSize: 15, fontWeight: 700, marginBottom: 12 }}>📄 Proof: Read the actual exclusion forms</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <a href="https://www.independentagent.com/vu_resource/verisk-to-roll-out-new-general-liability-exclusions-for-generative-ai-exposures/" target="_blank" rel="noopener noreferrer" style={{ color: GOLD, fontSize: 14, textDecoration: "none", fontWeight: 600 }}>→ Independent Agents: Verisk Rolls Out New AI Exclusions (January 2026)</a>
@@ -464,8 +475,8 @@ function ProblemSection() {
             { stat: "80%", desc: "Of insurers deploying AI exclusions in at least one core product by 2026", source: "Gallagher Re / Evercore ISI" },
           ].map((s, i) => (
             <div key={i} style={{
-              background: WHITE, borderRadius: 12, padding: 28,
-              boxShadow: "0 1px 4px rgba(0,0,0,0.06)", borderLeft: `4px solid ${GOLD}`,
+              background: LIGHT, borderRadius: 12, padding: 28,
+              border: `1px solid ${BORDER}`, borderLeft: `4px solid ${GOLD}`,
             }}>
               <div style={{ color: NAVY, fontSize: 36, fontWeight: 800, letterSpacing: -1 }}>{s.stat}</div>
               <div style={{ color: DGRAY, fontSize: 14, lineHeight: 1.5, margin: "8px 0 12px" }}>{s.desc}</div>
@@ -474,28 +485,8 @@ function ProblemSection() {
           ))}
         </div>
       </div>
-    </Section>
-  );
-}
 
-function ServicesSection() {
-  const steps = [
-    { num: "01", title: "Check My AI Coverage", desc: "Complete our 60-second online assessment to identify your AI exposure level and preliminary coverage gaps.", time: "60 seconds" },
-    { num: "02", title: "Coverage Review", desc: "Our team reviews your actual policy documents (endorsements, exclusions, and definitions) across all commercial lines.", time: "48 hours" },
-    { num: "03", title: "Gap Analysis Report", desc: "You receive a detailed report showing every AI-related exclusion in your portfolio, mapped to your specific risk scenarios, with severity ratings.", time: "Delivered with review" },
-    { num: "04", title: "Coverage Solutions", desc: "Licensed insurance professionals access specialty AI liability markets to fill identified gaps with affirmative coverage, backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
-  ];
-  const services = [
-    { icon: "🔍", title: "AI Coverage Gap Audit", desc: "We review your entire commercial insurance portfolio (GL, E&O, D&O, Cyber, EPLI, and Products liability) to identify AI-related exclusions, sublimits, and endorsements that may have been added at your last renewal.", details: ["Full AI usage inventory across your organization", "Policy-by-policy exclusion analysis with form numbers cited", "Risk scenario mapping for your specific industry", "Governance recommendations to improve your underwriting profile"] },
-    { icon: "📄", title: "AI Liability Solutions", desc: "We connect you with specialty markets that most brokers can't access, including Lloyd's of London capacity and Munich Re-backed products, where licensed professionals can place affirmative AI coverage that fills the gaps traditional policies now exclude.", details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"] },
-    { icon: "🤝", title: "Broker Partnership Program", desc: "We partner with P&C brokers who want to offer AI coverage audits to their existing clients without building the specialty expertise in-house. You keep the client relationship — we provide the AI-specific analysis and market access.", details: ["White-label AI gap audit reports", "Specialty placement through Lloyd's and Munich Re", "Co-branded client presentations", "CE-eligible training on AI insurance exclusions"] },
-  ];
-  return (
-    <Section bg={WHITE} id="services">
-      <SectionLabel text="How we start" />
-      <SectionTitle text="Already insured? We'll check whether AI is still covered." />
-      <BodyText text="If your business already carries coverage, we'll review your existing policies for the AI exclusions carriers have started adding at renewal — and show you exactly where the gaps are. Then we help you fill them." maxWidth={650} />
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28, marginTop: 40 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28, marginTop: 56 }}>
         {services.map((s, i) => (
           <div key={i} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: `1px solid ${BORDER}` }}>
             <div style={{ fontSize: 36, marginBottom: 16 }}>{s.icon}</div>
@@ -823,7 +814,7 @@ function IndustriesSection() {
 
 const FAQ_PREVIEW = 4;
 
-function FAQSection() {
+function ResourcesSection() {
   const [open, setOpen] = useState(null);
   const [showAllFaqs, setShowAllFaqs] = useState(false);
 
@@ -875,17 +866,19 @@ function FAQSection() {
   ];
 
   return (
-    <Section bg={LIGHT} id="faq">
-      <SectionLabel text="Real questions, real answers" />
-      <SectionTitle text="Insurance questions are usually boring. These aren't." />
-      <BodyText text="The questions below come from the actual conversations happening around AI liability right now: in law firms, hospitals, advisory boards. If you've been wondering any of this quietly, you're not alone." maxWidth={680} />
+    <Section bg={WHITE} id="faq">
+      <SectionLabel text="Go deeper" />
+      <SectionTitle text="Common questions and industry research." />
+      <BodyText text="The questions below come from the actual conversations happening around AI liability right now: in law firms, hospitals, advisory boards. Underneath them sit the original industry reports the answers draw on." maxWidth={680} />
 
-      <div style={{ marginTop: 40, maxWidth: 820 }}>
+      <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "40px 0 0" }}>Common questions</h3>
+
+      <div style={{ marginTop: 20, maxWidth: 820 }}>
         {faqs.map((item, i) => {
           if (!showAllFaqs && i >= FAQ_PREVIEW) return null;
           const isOpen = open === i;
           return (
-            <div key={i} style={{ background: WHITE, borderRadius: 12, border: `1px solid ${BORDER}`, marginBottom: 12, overflow: "hidden" }}>
+            <div key={i} style={{ background: LIGHT, borderRadius: 12, border: `1px solid ${BORDER}`, marginBottom: 12, overflow: "hidden" }}>
               <button
                 onClick={() => setOpen(isOpen ? null : i)}
                 style={{
@@ -926,13 +919,14 @@ function FAQSection() {
         </div>
       )}
 
+      <ResearchBlock />
     </Section>
   );
 }
 
 const RESEARCH_PREVIEW = 3;
 
-function ResearchSection() {
+function ResearchBlock() {
   const [expanded, setExpanded] = useState(null);
   const [showAllResearch, setShowAllResearch] = useState(false);
   const categories = [
@@ -986,12 +980,11 @@ function ResearchSection() {
   const totalArticles = runningIdx;
 
   return (
-    <Section bg={WHITE} id="research">
-      <SectionLabel text="What the industry is saying" />
-      <SectionTitle text="Your current cyber insurance probably doesn't cover AI." />
-      <BodyText text="Don't take our word for it. Gallagher Re, Deloitte, Munich Re, and Verisk themselves have documented the same shift: cyber, E&O, and GL policies are carving AI out. The links below go to the original reports." maxWidth={680} />
-
-      <div style={{ marginTop: 40 }} />
+    // Rendered inside ResourcesSection; keeps id="research" so the footer's
+    // "Industry Research" link still resolves.
+    <div id="research" style={{ marginTop: 56, paddingTop: 32, borderTop: `1px solid ${BORDER}` }}>
+      <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 6px" }}>Industry research</h3>
+      <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: "0 0 28px", maxWidth: 680 }}>Gallagher Re, Deloitte, Munich Re, and Verisk have documented the same shift: cyber, E&O, and GL policies are carving AI out. The links below go to the original reports.</p>
 
       {catsWithOffset.map((cat, catIdx) => (
         (!showAllResearch && cat.offset >= RESEARCH_PREVIEW) ? null : (
@@ -1054,7 +1047,7 @@ function ResearchSection() {
       <div style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${BORDER}` }}>
         <p style={{ color: GRAY, fontSize: 12, fontStyle: "italic", textAlign: "center", margin: 0 }}>All summaries written by The AI Insurance Group based on publicly available sources. Last updated: May 2026.</p>
       </div>
-    </Section>
+    </div>
   );
 }
 
@@ -1746,11 +1739,9 @@ export default function App() {
       <QuoteSection />
       <CoverageSection />
       <SpecialtySection />
-      <ProblemSection />
-      <ServicesSection />
+      <WhatChangedSection />
       <IndustriesSection />
-      <FAQSection />
-      <ResearchSection />
+      <ResourcesSection />
       <BlogSection />
       <CTASection />
       <AgentsSection />
