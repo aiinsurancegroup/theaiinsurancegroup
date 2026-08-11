@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const NAVY = "#1A2B45";
+const NAVY = "#0F2847";
 const GOLD = "#B8972A";
 const DARK = "#0F1923";
 const WHITE = "#FFFFFF";
@@ -309,10 +309,12 @@ function Nav() {
 
 function Hero() {
   return (
-    <section style={{
-      background: `linear-gradient(135deg, ${DARK} 0%, ${NAVY} 50%, #1e3a5f 100%)`,
-      minHeight: "calc(100vh - var(--banner-h, 0px))", display: "flex", flexDirection: "column", justifyContent: "center",
-      padding: "120px 24px 80px", position: "relative", overflow: "hidden",
+    <section className="hero-bg" style={{
+      backgroundImage: `linear-gradient(135deg, rgba(15,25,35,0.85) 0%, rgba(15,40,71,0.62) 55%, rgba(22,52,92,0.45) 100%), url(/hero.jpg)`,
+      backgroundSize: "cover", backgroundPosition: "center right",
+      minHeight: "520px",
+      display: "flex", flexDirection: "column", justifyContent: "center",
+      padding: "88px 24px 56px", position: "relative", overflow: "hidden",
     }}>
       <div style={{
         position: "absolute", top: "10%", right: "-5%", width: 500, height: 500,
@@ -321,20 +323,20 @@ function Hero() {
       <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div style={{
           display: "inline-block", background: "rgba(220,38,38,0.12)", border: `1px solid rgba(220,38,38,0.35)`,
-          borderRadius: 20, padding: "6px 16px", color: "#F87171", fontSize: 12, fontWeight: 700, letterSpacing: 1.2, marginBottom: 32,
+          borderRadius: 20, padding: "6px 16px", color: "#F87171", fontSize: 12, fontWeight: 700, letterSpacing: 1.2, marginBottom: 20,
         }}>
           ● INDEPENDENT INSURANCE AGENCY · LICENSED IN NEW JERSEY
         </div>
-        <h1 style={{
+        <h1 className="hero-title" style={{
           color: WHITE, fontSize: "clamp(36px, 5.5vw, 60px)", fontWeight: 800,
-          lineHeight: 1.08, margin: "0 0 24px", letterSpacing: -1.5, maxWidth: 900,
+          lineHeight: 1.08, margin: "0 0 16px", letterSpacing: -1.5, maxWidth: 900,
         }}>
           One agent. 100+ carriers.<br />
           Every line of coverage.<br />
           <span style={{ color: GOLD }}>That's what independent means.</span>
         </h1>
-        <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.6, maxWidth: 680, margin: "0 0 40px" }}>
-          We're a full-service independent insurance agency — home, auto, umbrella, business, workers comp, general liability, and more. We shop 100+ carriers so you don't have to, then use AI to find the best fit and price faster than a single-carrier agent ever could. One relationship, the whole market.
+        <p className="hero-sub" style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.6, maxWidth: 680, margin: "0 0 28px" }}>
+          A full-service independent agency — home, auto, business, and more. We shop 100+ carriers so you don't have to, and use AI to find the best fit, faster.
         </p>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
           <a href="#quote" style={{
@@ -348,23 +350,39 @@ function Hero() {
             cursor: "pointer", textDecoration: "none",
           }}>Check My AI Coverage →</a>
         </div>
-        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, marginTop: 16, maxWidth: 600 }}>
+        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, marginTop: 12, maxWidth: 600 }}>
           Licensed in New Jersey. Free quotes, no obligation.
         </p>
+      </div>
+      <style>{`
+        @media (max-width: 768px) {
+          /* A shorter hero means "cover" scales the 16:9 photo down, so more
+             of the room fits across a narrow viewport. */
+          .hero-bg { background-position: center center !important; padding: 72px 20px 40px !important; }
+          .hero-title { font-size: 30px !important; letter-spacing: -0.8px !important; }
+          .hero-sub { font-size: 15px !important; margin-bottom: 22px !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
 
-        <div style={{ marginTop: 64, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 24, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-          {[
-            { big: "100+", small: "Carriers and markets we shop for you" },
-            { big: "All lines", small: "Personal, commercial & specialty" },
-            { big: "Independent", small: "We work for you, not a carrier" },
-            { big: "Fast", small: "AI-powered quoting, real options quickly" },
-          ].map((stat, i) => (
-            <div key={i}>
-              <div style={{ color: GOLD, fontSize: 24, fontWeight: 800, lineHeight: 1.1, letterSpacing: -0.5, marginBottom: 8 }}>{stat.big}</div>
-              <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 1.5 }}>{stat.small}</div>
-            </div>
-          ))}
-        </div>
+function StatsBand() {
+  const stats = [
+    { big: "100+", small: "Carriers and markets we shop for you" },
+    { big: "All lines", small: "Personal, commercial & specialty" },
+    { big: "Independent", small: "We work for you, not a carrier" },
+    { big: "Fast", small: "AI-powered quoting, real options quickly" },
+  ];
+  return (
+    <section style={{ background: WHITE, padding: "40px 24px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 24 }}>
+        {stats.map((s) => (
+          <div key={s.big}>
+            <div style={{ color: NAVY, fontSize: 24, fontWeight: 800, lineHeight: 1.1, letterSpacing: -0.5, marginBottom: 8 }}>{s.big}</div>
+            <div style={{ color: GRAY, fontSize: 13, lineHeight: 1.5 }}>{s.small}</div>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -381,15 +399,19 @@ function CoverageSection() {
         <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>What We Cover</div>
         <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Everything you need, from one independent agency.</h2>
         <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Most people find us through our name and assume we only insure AI companies. We don't — we do it all. We're a full-service independent agency writing every major personal and commercial line. AI is how we work (shopping the market faster) and one thing we specialize in (insuring AI-driven businesses) — but it's not all we do.</p>
-        <div className="coverage-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, textAlign: "left" }}>
-          {columns.map((c) => (
-            <div key={c.title} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: `1px solid ${BORDER}` }}>
-              <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 16px" }}>{c.title}</h3>
-              <ul style={{ margin: 0, padding: "0 0 0 18px" }}>
-                {c.items.map((i) => (<li key={i} style={{ color: DGRAY, fontSize: 15, lineHeight: 1.9 }}>{i}</li>))}
-              </ul>
-            </div>
-          ))}
+        <div className="coverage-split" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, textAlign: "left", alignItems: "center" }}>
+          <img src="/coverage.jpg" alt="A family standing outside their home beside their car" loading="lazy"
+            style={{ width: "100%", height: "auto", display: "block", borderRadius: 16, border: `1px solid ${BORDER}` }} />
+          <div className="coverage-grid" style={{ display: "grid", gridTemplateColumns: "1fr", gap: 16 }}>
+            {columns.map((c) => (
+              <div key={c.title} style={{ background: LIGHT, borderRadius: 16, padding: 32, border: `1px solid ${BORDER}` }}>
+                <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 16px" }}>{c.title}</h3>
+                <ul style={{ margin: 0, padding: "0 0 0 18px" }}>
+                  {c.items.map((i) => (<li key={i} style={{ color: DGRAY, fontSize: 15, lineHeight: 1.9 }}>{i}</li>))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
         <p style={{ color: GRAY, fontSize: 16, lineHeight: 1.7, margin: "40px auto 24px", maxWidth: 620 }}>Not sure what you need? Start a quote or reach out — we'll figure out the right coverage together.</p>
         <a href="#quote" style={{
@@ -400,6 +422,7 @@ function CoverageSection() {
       </div>
       <style>{`
         @media (max-width: 768px) {
+          .coverage-split { grid-template-columns: 1fr !important; }
           .coverage-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
@@ -409,11 +432,11 @@ function CoverageSection() {
 
 function SpecialtySection() {
   return (
-    <section id="specialty" style={{ background: `linear-gradient(135deg, ${DARK} 0%, ${NAVY} 100%)`, padding: "80px 24px" }}>
+    <section id="specialty" style={{ background: LIGHT, padding: "80px 24px" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
         <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>Our Specialty</div>
-        <h2 style={{ color: WHITE, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Insuring AI-driven companies — and the coverage gaps everyone else missed.</h2>
-        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 auto", maxWidth: 640 }}>Here's where our name comes from. Alongside our everyday full-service work, we're a genuine specialist in AI risk. That means two things: we place real coverage for AI-driven companies — Tech E&O, Cyber with AI endorsements, affirmative AI coverage — and we help any business check whether new AI exclusions have quietly stripped protection from policies they already hold. Both are covered below.</p>
+        <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Insuring AI-driven companies — and the coverage gaps everyone else missed.</h2>
+        <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto", maxWidth: 640 }}>Here's where our name comes from. Alongside our everyday full-service work, we're a genuine specialist in AI risk. That means two things: we place real coverage for AI-driven companies — Tech E&O, Cyber with AI endorsements, affirmative AI coverage — and we help any business check whether new AI exclusions have quietly stripped protection from policies they already hold. Both are covered below.</p>
       </div>
     </section>
   );
@@ -1323,12 +1346,12 @@ function BlogSection() {
 
 function CTASection() {
   return (
-    <section style={{ background: `linear-gradient(135deg, ${DARK} 0%, ${NAVY} 100%)`, padding: "80px 24px", textAlign: "center" }}>
+    <section style={{ background: WHITE, padding: "80px 24px", textAlign: "center" }}>
       <div style={{ maxWidth: 600, margin: "0 auto" }}>
-        <h2 style={{ color: WHITE, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Don't Wait for a Denied Claim<br />to Find Out You're Exposed.</h2>
-        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 0 36px" }}>Your next renewal will answer this question. Find out the answer now.</p>
+        <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Don't Wait for a Denied Claim<br />to Find Out You're Exposed.</h2>
+        <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 0 36px" }}>Your next renewal will answer this question. Find out the answer now.</p>
         <a href="https://isyouraicovered.com?new=1" style={{ display: "inline-block", background: GOLD, color: WHITE, borderRadius: 8, padding: "20px 48px", fontSize: 18, fontWeight: 700, textDecoration: "none", boxShadow: "0 4px 24px rgba(184,151,42,0.3)", letterSpacing: 0.3 }}>Check My Coverage — Free →</a>
-        <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginTop: 16 }}>No obligation. No spam. Takes 60 seconds.</p>
+        <p style={{ color: GRAY, fontSize: 13, marginTop: 16 }}>No obligation. No spam. Takes 60 seconds.</p>
       </div>
     </section>
   );
@@ -1369,11 +1392,11 @@ function QuoteSection() {
     { label: "General Liability", href: "https://apply.theaiinsurancegroup.com/apply/general-liability" },
   ];
   return (
-    <section id="quote" style={{ background: `linear-gradient(135deg, ${DARK} 0%, ${NAVY} 100%)`, padding: "80px 24px" }}>
+    <section id="quote" style={{ background: WHITE, padding: "80px 24px" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
         <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>Get a Quote</div>
-        <h2 style={{ color: WHITE, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Get a quote in minutes.</h2>
-        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Pick your coverage line and start a quick online application. We'll shop it across our markets and get back to you with real options. Licensed in New Jersey.</p>
+        <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Get a quote in minutes.</h2>
+        <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Pick your coverage line and start a quick online application. We'll shop it across our markets and get back to you with real options. Licensed in New Jersey.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
           {lines.map((l) => (
             <a key={l.label} href={l.href} className="quote-btn" style={{
@@ -1385,7 +1408,7 @@ function QuoteSection() {
             }}>{l.label}</a>
           ))}
         </div>
-        <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginTop: 20 }}>Insurance products offered through The AI Insurance Group.</p>
+        <p style={{ color: GRAY, fontSize: 13, marginTop: 20 }}>Insurance products offered through The AI Insurance Group.</p>
       </div>
       <style>{`.quote-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(184,151,42,0.4); }`}</style>
     </section>
@@ -1556,7 +1579,7 @@ function ContactSection() {
   };
   return (
     <Section bg={WHITE} id="contact">
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60 }}>
+      <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60 }}>
         <div>
           <SectionLabel text="Contact" />
           <SectionTitle text="Let's talk about your coverage." />
@@ -1618,6 +1641,11 @@ function ContactSection() {
           )}
         </div>
       </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+        }
+      `}</style>
     </Section>
   );
 }
@@ -1682,6 +1710,7 @@ export default function App() {
       <BreakingBanner />
       <Nav />
       <Hero />
+      <StatsBand />
       <CarriersSection />
       <QuoteSection />
       <CoverageSection />
