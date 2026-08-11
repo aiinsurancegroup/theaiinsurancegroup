@@ -479,6 +479,12 @@ function ProblemSection() {
 }
 
 function ServicesSection() {
+  const steps = [
+    { num: "01", title: "Check My AI Coverage", desc: "Complete our 60-second online assessment to identify your AI exposure level and preliminary coverage gaps.", time: "60 seconds" },
+    { num: "02", title: "Coverage Review", desc: "Our team reviews your actual policy documents (endorsements, exclusions, and definitions) across all commercial lines.", time: "48 hours" },
+    { num: "03", title: "Gap Analysis Report", desc: "You receive a detailed report showing every AI-related exclusion in your portfolio, mapped to your specific risk scenarios, with severity ratings.", time: "Delivered with review" },
+    { num: "04", title: "Coverage Solutions", desc: "Licensed insurance professionals access specialty AI liability markets to fill identified gaps with affirmative coverage, backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
+  ];
   const services = [
     { icon: "🔍", title: "AI Coverage Gap Audit", desc: "We review your entire commercial insurance portfolio (GL, E&O, D&O, Cyber, EPLI, and Products liability) to identify AI-related exclusions, sublimits, and endorsements that may have been added at your last renewal.", details: ["Full AI usage inventory across your organization", "Policy-by-policy exclusion analysis with form numbers cited", "Risk scenario mapping for your specific industry", "Governance recommendations to improve your underwriting profile"] },
     { icon: "📄", title: "AI Liability Solutions", desc: "We connect you with specialty markets that most brokers can't access, including Lloyd's of London capacity and Munich Re-backed products, where licensed professionals can place affirmative AI coverage that fills the gaps traditional policies now exclude.", details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"] },
@@ -500,6 +506,27 @@ function ServicesSection() {
             </ul>
           </div>
         ))}
+      </div>
+
+      <div style={{ marginTop: 48, paddingTop: 32, borderTop: `1px solid ${BORDER}` }}>
+        <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 6px" }}>How it works</h3>
+        <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: "0 0 24px" }}>Four steps. Most take less time than you think.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+          {steps.map((s, i) => (
+            <div key={i} style={{ background: LIGHT, borderRadius: 12, padding: 20, border: `1px solid ${BORDER}` }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                <span style={{
+                  width: 28, height: 28, borderRadius: 8, flexShrink: 0,
+                  background: i === 0 ? GOLD : LGOLD, color: i === 0 ? WHITE : NAVY,
+                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 800,
+                }}>{s.num}</span>
+                <span style={{ color: GOLD, fontSize: 11, fontWeight: 600, background: LGOLD, padding: "3px 10px", borderRadius: 4 }}>{s.time}</span>
+              </div>
+              <h4 style={{ color: NAVY, fontSize: 15, fontWeight: 700, margin: "0 0 6px" }}>{s.title}</h4>
+              <p style={{ color: GRAY, fontSize: 13, lineHeight: 1.55, margin: 0 }}>{s.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </Section>
   );
@@ -794,40 +821,11 @@ function IndustriesSection() {
   );
 }
 
-function ProcessSection() {
-  const steps = [
-    { num: "01", title: "Check My AI Coverage", desc: "Complete our 60-second online assessment to identify your AI exposure level and preliminary coverage gaps.", time: "60 seconds" },
-    { num: "02", title: "Coverage Review", desc: "Our team reviews your actual policy documents (endorsements, exclusions, and definitions) across all commercial lines.", time: "48 hours" },
-    { num: "03", title: "Gap Analysis Report", desc: "You receive a detailed report showing every AI-related exclusion in your portfolio, mapped to your specific risk scenarios, with severity ratings.", time: "Delivered with review" },
-    { num: "04", title: "Coverage Solutions", desc: "Licensed insurance professionals access specialty AI liability markets to fill identified gaps with affirmative coverage, backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
-  ];
-  return (
-    <Section bg={WHITE} id="process">
-      <div style={{ maxWidth: 700, margin: "0 auto" }}>
-        <SectionLabel text="How we figure this out" />
-        <SectionTitle text="Checking your AI coverage takes about 60 seconds." />
-        <BodyText text="Four steps. Most take less time than you think." />
-        <div style={{ marginTop: 40 }}>
-          {steps.map((s, i) => (
-            <div key={i} style={{ display: "flex", gap: 24, padding: "28px 0", borderBottom: i < steps.length - 1 ? `1px solid ${BORDER}` : "none" }}>
-              <div style={{ width: 56, height: 56, borderRadius: 12, background: i === 0 ? GOLD : LGOLD, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: i === 0 ? WHITE : NAVY, fontSize: 18, fontWeight: 800 }}>{s.num}</div>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                  <h3 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: 0 }}>{s.title}</h3>
-                  <span style={{ color: GOLD, fontSize: 12, fontWeight: 600, background: LGOLD, padding: "4px 12px", borderRadius: 4 }}>{s.time}</span>
-                </div>
-                <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>{s.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </Section>
-  );
-}
+const FAQ_PREVIEW = 4;
 
 function FAQSection() {
   const [open, setOpen] = useState(null);
+  const [showAllFaqs, setShowAllFaqs] = useState(false);
 
   const faqs = [
     {
@@ -884,6 +882,7 @@ function FAQSection() {
 
       <div style={{ marginTop: 40, maxWidth: 820 }}>
         {faqs.map((item, i) => {
+          if (!showAllFaqs && i >= FAQ_PREVIEW) return null;
           const isOpen = open === i;
           return (
             <div key={i} style={{ background: WHITE, borderRadius: 12, border: `1px solid ${BORDER}`, marginBottom: 12, overflow: "hidden" }}>
@@ -917,19 +916,25 @@ function FAQSection() {
         })}
       </div>
 
-      <div style={{ marginTop: 40, textAlign: "center" }}>
-        <a href="https://isyouraicovered.com?new=1" style={{
-          display: "inline-block", background: GOLD, color: WHITE, borderRadius: 8,
-          padding: "16px 36px", fontSize: 16, fontWeight: 700, textDecoration: "none",
-          boxShadow: "0 4px 20px rgba(184,151,42,0.25)", letterSpacing: 0.2,
-        }}>Check my coverage — 60 seconds →</a>
-      </div>
+      {faqs.length > FAQ_PREVIEW && (
+        <div style={{ marginTop: 20, textAlign: "center" }}>
+          <button onClick={() => setShowAllFaqs(!showAllFaqs)} style={{
+            background: "transparent", color: GOLD, border: `1px solid ${GOLD}`, borderRadius: 8,
+            padding: "12px 28px", fontSize: 15, fontWeight: 700, cursor: "pointer",
+            fontFamily: "inherit", letterSpacing: 0.2,
+          }}>{showAllFaqs ? "Show fewer ↑" : "Show all questions →"}</button>
+        </div>
+      )}
+
     </Section>
   );
 }
 
+const RESEARCH_PREVIEW = 3;
+
 function ResearchSection() {
   const [expanded, setExpanded] = useState(null);
+  const [showAllResearch, setShowAllResearch] = useState(false);
   const categories = [
     {
       title: "The January 2026 Exclusion Trigger",
@@ -970,30 +975,30 @@ function ResearchSection() {
     },
   ];
 
+  // Articles are nested under categories, so tag each category with the
+  // running index of its first article to apply a flat preview limit.
+  let runningIdx = 0;
+  const catsWithOffset = categories.map((cat) => {
+    const offset = runningIdx;
+    runningIdx += cat.articles.length;
+    return { ...cat, offset };
+  });
+  const totalArticles = runningIdx;
+
   return (
     <Section bg={WHITE} id="research">
       <SectionLabel text="What the industry is saying" />
       <SectionTitle text="Your current cyber insurance probably doesn't cover AI." />
       <BodyText text="Don't take our word for it. Gallagher Re, Deloitte, Munich Re, and Verisk themselves have documented the same shift: cyber, E&O, and GL policies are carving AI out. The links below go to the original reports." maxWidth={680} />
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginTop: 32, marginBottom: 48 }}>
-        {[
-          { stat: "978%", label: "Growth in AI lawsuits (2021–2025)" },
-          { stat: "82%", label: "Of US P&C policies use ISO forms" },
-          { stat: "$4.8B", label: "Projected AI premiums by 2032" },
-          { stat: "91%", label: "Of businesses plan to use AI" },
-        ].map((s, i) => (
-          <div key={i} style={{ background: LIGHT, borderRadius: 12, padding: 24, textAlign: "center", border: `1px solid ${BORDER}` }}>
-            <div style={{ color: NAVY, fontSize: 32, fontWeight: 800, letterSpacing: -1 }}>{s.stat}</div>
-            <div style={{ color: GRAY, fontSize: 12, lineHeight: 1.4, marginTop: 6 }}>{s.label}</div>
-          </div>
-        ))}
-      </div>
+      <div style={{ marginTop: 40 }} />
 
-      {categories.map((cat, catIdx) => (
+      {catsWithOffset.map((cat, catIdx) => (
+        (!showAllResearch && cat.offset >= RESEARCH_PREVIEW) ? null : (
         <div key={catIdx} style={{ marginBottom: 32 }}>
           <h3 style={{ color: NAVY, fontSize: 20, fontWeight: 700, margin: "0 0 16px", paddingBottom: 12, borderBottom: `2px solid ${LGOLD}` }}>{cat.title}</h3>
           {cat.articles.map((article, artIdx) => {
+            if (!showAllResearch && cat.offset + artIdx >= RESEARCH_PREVIEW) return null;
             const key = `${catIdx}-${artIdx}`;
             const isOpen = expanded === key;
             return (
@@ -1033,7 +1038,18 @@ function ResearchSection() {
             );
           })}
         </div>
+        )
       ))}
+
+      {totalArticles > RESEARCH_PREVIEW && (
+        <div style={{ marginTop: 8, textAlign: "center" }}>
+          <button onClick={() => setShowAllResearch(!showAllResearch)} style={{
+            background: "transparent", color: GOLD, border: `1px solid ${GOLD}`, borderRadius: 8,
+            padding: "12px 28px", fontSize: 15, fontWeight: 700, cursor: "pointer",
+            fontFamily: "inherit", letterSpacing: 0.2,
+          }}>{showAllResearch ? "Show fewer ↑" : "Show all research →"}</button>
+        </div>
+      )}
 
       <div style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${BORDER}` }}>
         <p style={{ color: GRAY, fontSize: 12, fontStyle: "italic", textAlign: "center", margin: 0 }}>All summaries written by The AI Insurance Group based on publicly available sources. Last updated: May 2026.</p>
@@ -1209,8 +1225,11 @@ function BreakingBanner() {
   );
 }
 
+const BLOG_PREVIEW = 3;
+
 function BlogSection() {
   const [expandedPost, setExpandedPost] = useState(null);
+  const [showAllPosts, setShowAllPosts] = useState(false);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -1268,8 +1287,10 @@ function BlogSection() {
         )}
         {creating && <BlogEditor post={null} onSave={handleSaved} onCancel={() => setCreating(false)} adminPassword={adminPassword} />}
         {(() => {
-          const breakingPosts = posts.filter(p => p.priority === 2);
-          const otherPosts = posts.filter(p => p.priority !== 2);
+          // Admin always sees every post, otherwise hidden ones can't be edited.
+          const visiblePosts = (showAllPosts || isAdmin) ? posts : posts.slice(0, BLOG_PREVIEW);
+          const breakingPosts = visiblePosts.filter(p => p.priority === 2);
+          const otherPosts = visiblePosts.filter(p => p.priority !== 2);
           const renderPost = (post) => {
             const isOpen = expandedPost === post.id;
             const content = typeof post.content === "string" ? JSON.parse(post.content) : post.content;
@@ -1332,6 +1353,16 @@ function BlogSection() {
             </div>
           );
         })()}
+
+        {!isAdmin && posts.length > BLOG_PREVIEW && (
+          <div style={{ marginTop: 8, textAlign: "center" }}>
+            <button onClick={() => setShowAllPosts(!showAllPosts)} style={{
+              background: "transparent", color: GOLD, border: `1px solid ${GOLD}`, borderRadius: 8,
+              padding: "12px 28px", fontSize: 15, fontWeight: 700, cursor: "pointer",
+              fontFamily: "inherit", letterSpacing: 0.2,
+            }}>{showAllPosts ? "Show fewer ↑" : "Show all posts →"}</button>
+          </div>
+        )}
       </div>
       <style>{`
         @media (max-width: 768px) {
@@ -1718,7 +1749,6 @@ export default function App() {
       <ProblemSection />
       <ServicesSection />
       <IndustriesSection />
-      <ProcessSection />
       <FAQSection />
       <ResearchSection />
       <BlogSection />
