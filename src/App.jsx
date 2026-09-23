@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import LeadForm from "./lead/LeadForm";
 
 const NAVY = "#0F2847";
 const GOLD = "#B8972A";
@@ -1405,33 +1406,58 @@ function CarriersSection() {
 }
 
 function QuoteSection() {
-  const lines = [
-    { label: "Auto", href: "https://apply.theaiinsurancegroup.com/apply/auto-nj" },
-    { label: "Homeowners", href: "https://apply.theaiinsurancegroup.com/apply/homeowners" },
-    { label: "Personal Umbrella", href: "https://apply.theaiinsurancegroup.com/apply/personal-umbrella" },
-    { label: "Workers Comp", href: "https://apply.theaiinsurancegroup.com/apply/workers-comp" },
-    { label: "General Liability", href: "https://apply.theaiinsurancegroup.com/apply/general-liability" },
+  // The three lines the Step 1 selector does not cover. They still go to the
+  // existing application host until /quote/:slug lands, and stay as a quiet
+  // secondary row rather than being removed -- they work today, and dropping
+  // them would lose a working path to gain nothing.
+  const otherLines = [
+    { label: "personal umbrella", href: "https://apply.theaiinsurancegroup.com/apply/personal-umbrella" },
+    { label: "workers comp", href: "https://apply.theaiinsurancegroup.com/apply/workers-comp" },
+    { label: "general liability", href: "https://apply.theaiinsurancegroup.com/apply/general-liability" },
   ];
   return (
-    <section id="quote" style={{ background: WHITE, padding: "80px 24px" }}>
-      <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
-        <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>Get a Quote</div>
-        <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Get a quote in minutes.</h2>
-        <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Pick your coverage line and start a quick online application. We'll shop it across our markets and get back to you with real options. Licensed in New Jersey, Pennsylvania and Florida.</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-          {lines.map((l) => (
-            <a key={l.label} href={l.href} className="quote-btn" style={{
-              display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center",
-              background: GOLD, color: WHITE, borderRadius: 8, padding: "22px 20px", minHeight: 64,
-              fontSize: 16, fontWeight: 700, textDecoration: "none", letterSpacing: 0.3,
-              boxShadow: "0 4px 20px rgba(184,151,42,0.25)", boxSizing: "border-box",
-              transition: "transform 0.15s ease, box-shadow 0.15s ease",
-            }}>{l.label}</a>
-          ))}
+    <section id="quote" style={{ background: WHITE, padding: "72px 24px" }}>
+      <div className="quote-grid" style={{
+        maxWidth: 1080, margin: "0 auto", display: "grid",
+        gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "start",
+      }}>
+        <div className="quote-copy">
+          <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>Free Insurance Review</div>
+          <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>
+            Find out what your policy actually covers.
+          </h2>
+          <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 0 20px" }}>
+            Send us what you have now and a licensed agent reads it properly — every page, not the
+            summary. You get it in writing: what you're covered for, what you're not, and whether
+            the price still matches the cover.
+          </p>
+          <ul style={{ color: GRAY, fontSize: 15.5, lineHeight: 1.75, margin: "0 0 20px", paddingLeft: 20 }}>
+            <li>Free, with no obligation to change anything.</li>
+            <li>Every finding checked by a licensed agent before you see it.</li>
+            <li>If your cover is right, we'll tell you that.</li>
+          </ul>
+          <p style={{ color: GRAY, fontSize: 14, margin: 0, lineHeight: 1.6 }}>
+            Looking for something else? We also write{" "}
+            {otherLines.map((l, i) => (
+              <React.Fragment key={l.label}>
+                <a href={l.href} style={{ color: NAVY, fontWeight: 600 }}>{l.label}</a>
+                {i < otherLines.length - 2 ? ", " : i === otherLines.length - 2 ? " and " : "."}
+              </React.Fragment>
+            ))}
+          </p>
         </div>
-        <p style={{ color: GRAY, fontSize: 13, marginTop: 20 }}>Insurance products offered through The AI Insurance Group.</p>
+
+        <LeadForm defaultProduct="home" />
       </div>
-      <style>{`.quote-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(184,151,42,0.4); }`}</style>
+      <style>{`
+        @media (max-width: 860px) {
+          /* One column, form first. On a phone the reason to scroll is the
+             form, not the copy explaining it. */
+          .quote-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .quote-copy { order: 2; }
+          .quote-grid > form { order: 1; }
+        }
+      `}</style>
     </section>
   );
 }
