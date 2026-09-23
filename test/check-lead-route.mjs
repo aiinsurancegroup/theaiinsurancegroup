@@ -224,6 +224,56 @@ console.log('\n--- the upload prompt names real places a policy lives');
 expect('phone, email or paper', form.includes('Have it on your phone, in your email, or on paper?'), true);
 expect('  a photo is the suggested route', form.includes('A clear photo of your declarations page works'), true);
 
+
+// --- Path B: the short questionnaire ---------------------------------------
+const qapi = fs.readFileSync('api/questionnaire.js', 'utf8');
+const qui = fs.readFileSync('src/lead/Questionnaire.jsx', 'utf8');
+const vercel = JSON.parse(fs.readFileSync('vercel.json', 'utf8'));
+const app = fs.readFileSync('src/App.jsx', 'utf8');
+
+console.log('\n--- only declarations-stage questions are served');
+expect('the query filters on stage', qapi.includes('stage=eq.declarations'), true);
+expect('  underwriting is never sent', /stage=eq\.underwriting/.test(qapi), false);
+expect('  nor step1, already collected', /stage=eq\.step1/.test(qapi), false);
+expect('ordered as the document is', qapi.includes('order=sort_order.asc'), true);
+expect('inactive questionnaires are refused', qapi.includes('active=is.true'), true);
+
+console.log('\n--- answers survive an abandonment');
+expect('saved on every advance', qui.includes('await save(last)'), true);
+expect('  partial until finished', qapi.includes('complete ? "submitted" : "partial"'), true);
+expect('the submission is linked to the lead', qapi.includes('submission_id: id'), true);
+expect('  and STEP2_STARTED logged', qapi.includes('"STEP2_STARTED"'), true);
+expect('  QUESTIONNAIRE_COMPLETED on finish', qapi.includes('"QUESTIONNAIRE_COMPLETED"'), true);
+expect('a failed autosave does not block', /catch \{[\s\S]{0,300}Swallowed/.test(qui), true);
+
+console.log('\n--- progress is counted in sections, not questions');
+expect('sections shown', qui.includes('Section {sectionIndex + 1} of {sections.length}'), true);
+expect('  never a question count', /Question \{/.test(qui), false);
+expect('  and the reason is written down', qui.includes('"Question 12 of 46" tells them to stop'), true);
+
+console.log('\n--- a stranger"s answers are bounded before storage');
+expect('answer count capped', qapi.includes('MAX_ANSWERS = 60'), true);
+expect('value length capped', qapi.includes('MAX_VALUE_LEN = 2000'), true);
+expect('field keys are validated', qapi.includes('/^[A-Za-z0-9_]{1,60}$/'), true);
+expect('slug shape is pinned', qapi.includes('SLUG_RE = /^[a-z0-9-]{2,40}$/'), true);
+expect('origin checked like every other route', qapi.includes('if (!originOk) return res.status(403)'), true);
+expect('service key, never an anon client', qapi.includes('SUPABASE_SERVICE_ROLE_KEY') && !/createClient\(/.test(qapi), true);
+
+console.log('\n--- the route actually resolves');
+// Without the rewrite the CDN 404s /quote/homeowners before React loads.
+const rw = vercel.rewrites?.[0];
+expect('an SPA fallback exists', !!rw, true);
+expect('  it excludes /api', rw?.source?.includes('(?!api/'), true);
+expect('  and serves index.html', rw?.destination, '/index.html');
+// Asserted on backslash-free fragments deliberately. Three attempts to pin the
+// whole regex lost their escapes -- once to the shell, twice to the string
+// literal -- and each time produced a pattern matching nothing, which is a test
+// that can only fail. The slug group is distinctive enough on its own.
+expect('App routes /quote/:slug', app.includes('([a-z0-9-]{2,40})'), true);
+expect('  read from the pathname, not a hash', app.includes('window.location.pathname.match'), true);
+expect('  and carries the lead id through', app.includes("new URLSearchParams(window.location.search).get(\"lead\")"), true);
+expect('the form links there with the lead', form.includes('`/quote/${done.questionnaire_slug}?lead=${done.lead_id}`'), true);
+
 console.log(`\n${pass} passed, ${fail} failed`);
 
 process.exit(fail ? 1 : 0);

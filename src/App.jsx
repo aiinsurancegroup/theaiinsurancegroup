@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LeadForm from "./lead/LeadForm";
+import Questionnaire from "./lead/Questionnaire";
 
 const NAVY = "#0F2847";
 const GOLD = "#B8972A";
@@ -1745,8 +1746,29 @@ function Footer({ onLegalPage }) {
   );
 }
 
+// Path-based routing, read once at render. Deliberately not a router library:
+// there are two URL shapes to serve, and the SPA fallback in vercel.json means
+// React sees the real path. A router would earn its place when the five content
+// pages land, not before.
+function routeFromPath() {
+  if (typeof window === "undefined") return null;
+  const m = window.location.pathname.match(/^\/quote\/([a-z0-9-]{2,40})\/?$/i);
+  if (!m) return null;
+  const lead = new URLSearchParams(window.location.search).get("lead");
+  return { kind: "quote", slug: m[1].toLowerCase(), leadId: lead };
+}
+
 export default function App() {
   const [legalPage, setLegalPage] = useState(null);
+  const route = routeFromPath();
+
+  if (route?.kind === "quote") {
+    return (
+      <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", margin: 0, background: LIGHT, minHeight: "100vh" }}>
+        <Questionnaire slug={route.slug} leadId={route.leadId} />
+      </div>
+    );
+  }
 
   if (legalPage === "privacy") return <PrivacyPolicy onClose={() => setLegalPage(null)} />;
   if (legalPage === "terms") return <TermsOfService onClose={() => setLegalPage(null)} />;
