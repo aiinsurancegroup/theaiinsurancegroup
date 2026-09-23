@@ -176,6 +176,88 @@ const sbHeaders = (key, extra) => ({
   apikey: key, Authorization: "Bearer " + key, "Content-Type": "application/json", ...(extra || {}),
 });
 
+// --- the upload path --------------------------------------------------------
+//
+// Path A: they upload a policy, and that is the whole of Step 1. The
+// declarations page carries everything the questionnaire would have asked, so
+// asking anyway is asking someone to transcribe a document they just handed us.
+//
+// The file has to end up somewhere the audit tool can actually analyse, which
+// means a real audit row and a real audit_policies row -- not a recorded
+// intention. A lead that says "they meant to upload something" costs the client
+// a second request for the same document, which is the thing this path exists
+// to avoid.
+//
+// Same route the client portal uses: the server mints a signed URL and owns the
+// path, the browser PUTs the bytes straight to storage. They never pass through
+// a function, which is what keeps this clear of the 4.5MB request body cap.
+
+const BUCKET = "policies";
+const MAX_FILE_BYTES = 25 * 1024 * 1024;
+const UUID_RE = /^[0-9a-f-]{36}$/i;
+
+// What a visitor said they wanted -> the audit tool's policy_type. "detect" is
+// its auto-identify sentinel, and it is the right default: someone uploading
+// from a homeowners landing page may well attach their auto policy instead, and
+// the analysis identifies the document rather than trusting the button.
+const PRODUCT_POLICY_TYPE = {
+  home: "property", auto: "auto_policy", umbrella: "umbrella",
+  business: "gl", workers: "wc",
+};
+
+function safeFileName(name) {
+  const base = String(name || "").split(/[\\/]/).pop() || "policy.pdf";
+  const cleaned = base.replace(/[^A-Za-z0-9._-]/g, "_").replace(/^\.+/, "").slice(0, 120);
+  return cleaned || "policy.pdf";
+}
+
+const randomSegment = () => Math.random().toString(36).slice(2, 11);
+
+// Create the audit this lead's documents will live in, and mint one signed
+// upload URL. client_industry is NOT NULL on audits and a personal-lines lead
+// has no industry, so it is set explicitly rather than left to fail the insert.
+async function createAuditForLead(lead, serviceKey, fileName, fileSize) {
+  const clientName = `${lead.first_name} ${lead.last_name}`.trim();
+  const ins = await fetch(`${SUPABASE_URL}/rest/v1/audits`, {
+    method: "POST",
+    headers: sbHeaders(serviceKey, { Prefer: "return=representation" }),
+    body: JSON.stringify({
+      client_name: clientName,
+      client_industry: lead.product === "business" || lead.product === "workers" ? "Other" : "Personal Lines",
+      client_contact: clientName,
+      client_email: lead.email,
+      status: "DRAFT",
+      file_count: 0,
+      created_by: "web",
+    }),
+  });
+  const text = await ins.text();
+  if (!ins.ok) {
+    console.error(`[lead] audit insert failed ${ins.status}: ${text.slice(0, 200)}`);
+    return null;
+  }
+  let rows = null;
+  try { rows = JSON.parse(text); } catch { rows = null; }
+  const audit = Array.isArray(rows) ? rows[0] : rows;
+  if (!audit?.id) return null;
+
+  const path = `${audit.id}/${randomSegment()}_${safeFileName(fileName)}`;
+  const signRes = await fetch(
+    `${SUPABASE_URL}/storage/v1/object/upload/sign/${BUCKET}/${path}`,
+    { method: "POST", headers: sbHeaders(serviceKey), body: JSON.stringify({}) }
+  );
+  if (!signRes.ok) {
+    console.error(`[lead] sign upload failed ${signRes.status}`);
+    return { audit_id: audit.id, upload: null };
+  }
+  let signed = null;
+  try { signed = JSON.parse(await signRes.text()); } catch { signed = null; }
+  const token = signed?.url ? new URLSearchParams(signed.url.split("?")[1] || "").get("token") : null;
+  if (!token) return { audit_id: audit.id, upload: null };
+
+  return { audit_id: audit.id, upload: { path, upload_token: token } };
+}
+
 export default async function handler(req, res) {
   const origin = req.headers.origin;
   const originOk = isAllowedOrigin(origin, req);
@@ -204,6 +286,67 @@ export default async function handler(req, res) {
   }
 
   const body = req.body || {};
+
+  // ---- attach --------------------------------------------------------------
+  // Called after the browser has PUT the bytes to storage. Records the document
+  // against the audit so it appears in the admin dashboard ready to analyse.
+  //
+  // The path is NOT trusted. A caller holding a lead id could otherwise attach
+  // any object in the bucket to their own lead, so the path must sit inside the
+  // folder of the audit already linked to that lead -- which the server created
+  // and the caller never chose.
+  if (body.action === "attach") {
+    if (!UUID_RE.test(String(body.lead_id || ""))) return res.status(400).json({ error: "Invalid request." });
+
+    const look = await fetch(
+      `${SUPABASE_URL}/rest/v1/leads?id=eq.${body.lead_id}&select=id,audit_id,product,first_name,last_name`,
+      { headers: sbHeaders(serviceKey) }
+    );
+    if (!look.ok) return res.status(502).json({ error: "Could not attach the document." });
+    let lrows = null;
+    try { lrows = JSON.parse(await look.text()); } catch { lrows = null; }
+    const lead = Array.isArray(lrows) ? lrows[0] : null;
+    if (!lead?.audit_id) return res.status(400).json({ error: "Invalid request." });
+
+    const path = String(body.path || "");
+    const prefix = `${lead.audit_id}/`;
+    if (!path.startsWith(prefix) || path.includes("..") || !/^[0-9a-f-]{36}\/[A-Za-z0-9._-]{1,200}$/.test(path)) {
+      console.error(`[lead] attach rejected a path outside its own audit: ${path.slice(0, 80)}`);
+      return res.status(400).json({ error: "Invalid request." });
+    }
+
+    const size = Number(body.file_size_bytes);
+    const polIns = await fetch(`${SUPABASE_URL}/rest/v1/audit_policies`, {
+      method: "POST",
+      headers: sbHeaders(serviceKey),
+      body: JSON.stringify({
+        audit_id: lead.audit_id,
+        policy_type: PRODUCT_POLICY_TYPE[lead.product] || "detect",
+        file_name: safeFileName(body.file_name),
+        file_size_bytes: Number.isFinite(size) && size > 0 ? size : null,
+        storage_path: path,
+        ai_status: "PENDING",
+        validation_status: "PENDING",
+      }),
+    });
+    if (!polIns.ok) {
+      const t = await polIns.text();
+      console.error(`[lead] audit_policies insert failed ${polIns.status}: ${t.slice(0, 200)}`);
+      return res.status(502).json({ error: "Could not attach the document." });
+    }
+
+    await fetch(`${SUPABASE_URL}/rest/v1/audits?id=eq.${lead.audit_id}`, {
+      method: "PATCH", headers: sbHeaders(serviceKey), body: JSON.stringify({ file_count: 1 }),
+    }).catch(() => {});
+
+    await fetch(`${SUPABASE_URL}/rest/v1/lead_events`, {
+      method: "POST", headers: sbHeaders(serviceKey),
+      body: JSON.stringify({ lead_id: lead.id, event: "POLICY_UPLOADED", meta: { audit_id: lead.audit_id } }),
+    }).catch(() => {});
+
+    return res.status(200).json({ ok: true });
+  }
+
   const v = validate(body);
   if (v.error) return res.status(400).json({ error: v.error });
 
@@ -279,12 +422,43 @@ export default async function handler(req, res) {
     console.error(`[lead] event write failed for ${lead.id}: ${e.message}`);
   }
 
-  // The client gets the id and where to go next, and nothing else about the
-  // row. Notably not whether we are licensed in their state as a bare fact --
-  // the UI needs the routing decision, not a verdict to display.
+  // Path A: they are uploading. Create the audit and hand back a signed URL so
+  // the browser can PUT the file straight to storage. Done here rather than in
+  // a second round trip because the audit belongs to this lead either way, and
+  // a lead that exists without its audit is a lead someone has to chase.
+  let upload = null;
+  if (body.will_upload === true && body.docs_consent === true) {
+    const size = Number(body.file_size_bytes);
+    if (!Number.isFinite(size) || size <= 0 || size > MAX_FILE_BYTES) {
+      // The lead is already saved. Say so rather than failing the whole step --
+      // losing a lead over an oversized attachment would be the worse trade.
+      upload = { error: `That file is over ${Math.round(MAX_FILE_BYTES / 1048576)} MB. We'll email you about it instead.` };
+    } else {
+      const created = await createAuditForLead(lead, serviceKey, body.file_name, size);
+      if (created?.audit_id) {
+        await fetch(`${SUPABASE_URL}/rest/v1/leads?id=eq.${lead.id}`, {
+          method: "PATCH", headers: sbHeaders(serviceKey),
+          body: JSON.stringify({ audit_id: created.audit_id }),
+        }).catch(() => {});
+        upload = created.upload
+          ? { audit_id: created.audit_id, ...created.upload }
+          : { error: "We couldn't prepare the upload. We'll email you instead." };
+      } else {
+        upload = { error: "We couldn't prepare the upload. We'll email you instead." };
+      }
+    }
+  }
+
+  // The client gets the id, where to go next, and an upload slot if they asked
+  // for one. Nothing else about the row -- notably not whether we are licensed
+  // in their state as a bare fact, because the UI needs the routing decision
+  // rather than a verdict to display.
   return res.status(200).json({
     lead_id: lead.id,
-    next: route.questionnaire_slug ? "questionnaire" : "manual",
+    // Path A ends here: the declarations page carries what the questionnaire
+    // would have asked, so there is nothing left to ask.
+    next: upload?.path ? "uploaded" : route.questionnaire_slug ? "questionnaire" : "manual",
     questionnaire_slug: route.questionnaire_slug,
+    upload,
   });
 }

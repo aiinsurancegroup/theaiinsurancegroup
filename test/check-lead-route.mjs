@@ -81,5 +81,46 @@ expect('authenticates with the service key', src.includes('process.env.SUPABASE_
 expect('  no key literal is embedded', /eyJ[A-Za-z0-9_-]{20,}/.test(src), false);
 expect('  and it never builds a browser client', /createClient\(/.test(src), false);
 
+
+// --- Path A: the upload actually lands -------------------------------------
+console.log('\n--- Path A creates a real audit, not a recorded intention');
+expect('an audit row is created', src.includes('async function createAuditForLead'), true);
+expect('  with a signed upload URL', src.includes('/storage/v1/object/upload/sign/'), true);
+expect('  into the policies bucket', src.includes('const BUCKET = "policies"'), true);
+expect('  and the server owns the path', src.includes('`${audit.id}/${randomSegment()}_${safeFileName(fileName)}`'), true);
+expect('the lead is linked to its audit', /leads\?id=eq\.\$\{lead\.id\}[\s\S]{0,200}audit_id: created\.audit_id/.test(src), true);
+// Anchored on the REST call, not the first mention: "audit_policies" appears in
+// a comment 6000 characters earlier, and matching that proved nothing.
+expect('attach writes an audit_policies row', /rest\/v1\/audit_policies[\s\S]{0,400}storage_path: path/.test(src), true);
+expect('  PENDING, ready for the dashboard', src.includes('ai_status: "PENDING"'), true);
+expect('  and logs POLICY_UPLOADED', src.includes('"POLICY_UPLOADED"'), true);
+expect('client_industry is set explicitly', src.includes('client_industry:'), true);
+
+console.log('\n--- an upload cannot be attached to someone else"s audit');
+// The path is server-minted, but the browser hands it back, so attach must
+// confirm it sits inside the audit already linked to that lead.
+expect('the path is checked against the lead"s own audit', src.includes('!path.startsWith(prefix)'), true);
+expect('  prefix comes from the looked-up lead', src.includes('const prefix = `${lead.audit_id}/`'), true);
+expect('  traversal is rejected', src.includes('path.includes("..")'), true);
+expect('  and the shape is pinned', src.includes(String.raw`/^[0-9a-f-]{36}\/[A-Za-z0-9._-]{1,200}$/`), true);
+expect('a rejected path is logged', src.includes('attach rejected a path outside its own audit'), true);
+expect('lead_id must be a uuid', src.includes('UUID_RE.test(String(body.lead_id'), true);
+
+console.log('\n--- an upload problem never costs the lead');
+// Ordering INSIDE the handler. Comparing whole-file positions matched the
+// function's own definition near the top of the file, not the call site.
+const handler = src.slice(src.indexOf('export default async function handler'));
+expect('the lead is written before the audit',
+  handler.indexOf('rest/v1/leads`') < handler.indexOf('await createAuditForLead('), true);
+expect('  and the audit only after a saved lead', handler.includes('const created = await createAuditForLead(lead'), true);
+expect('an oversized file returns a message, not a failure', src.includes("We'll email you about it instead"), true);
+expect('a failed sign returns a message too', src.includes("We couldn't prepare the upload"), true);
+expect('upload requires the documents consent', src.includes('body.will_upload === true && body.docs_consent === true'), true);
+
+console.log('\n--- Path A ends at Step 1');
+expect('an upload short-circuits the questionnaire', src.includes('next: upload?.path ? "uploaded"'), true);
+expect('  the reason is written down', src.includes('the declarations page carries what the questionnaire'), true);
+
 console.log(`\n${pass} passed, ${fail} failed`);
+
 process.exit(fail ? 1 : 0);
