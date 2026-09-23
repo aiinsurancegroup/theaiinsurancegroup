@@ -126,7 +126,7 @@ function TermsOfService({ onClose }) {
 
       <LegalH2>Description of Services</LegalH2>
       <LegalP>The AI Insurance Group provides educational and informational content regarding AI-related insurance risks and coverage options. We also provide a free AI Coverage Gap Assessment tool designed to help businesses identify potential coverage gaps related to artificial intelligence usage.</LegalP>
-      <LegalP>The AI Insurance Group is a licensed insurance producer (NJ License No. 3004245927), currently licensed in New Jersey. Insurance products are placed with licensed insurance carriers. Coverage is subject to carrier underwriting, terms, and availability, and may vary by state.</LegalP>
+      <LegalP>The AI Insurance Group is a licensed insurance producer (NJ License No. 3004245927), currently licensed in New Jersey, Pennsylvania and Florida. Insurance products are placed with licensed insurance carriers. Coverage is subject to carrier underwriting, terms, and availability, and may vary by state.</LegalP>
 
       <LegalH2>Not Insurance Advice</LegalH2>
       <LegalP>The information provided on our Sites, including the AI Coverage Gap Assessment results, is for general informational and educational purposes only. It does not constitute insurance advice, legal advice, or a coverage determination. Assessment results are based on self-reported responses and are not a substitute for a professional review of your actual insurance policy documents by a licensed insurance professional.</LegalP>
@@ -169,7 +169,7 @@ function Disclosures({ onClose }) {
       <LegalP>The AI Insurance Group is a full-service independent insurance agency. We represent multiple carriers and shop the market to place coverage that fits each client.</LegalP>
 
       <LegalH2>Insurance Sales and Licensed Agency</LegalH2>
-      <LegalP>The AI Insurance Group is a licensed insurance producer (NJ License No. 3004245927), currently licensed in New Jersey. Insurance products are placed with licensed insurance carriers. Coverage is subject to carrier underwriting, terms, and availability, and may vary by state.</LegalP>
+      <LegalP>The AI Insurance Group is a licensed insurance producer (NJ License No. 3004245927), currently licensed in New Jersey, Pennsylvania and Florida. Insurance products are placed with licensed insurance carriers. Coverage is subject to carrier underwriting, terms, and availability, and may vary by state.</LegalP>
       <LegalP>Coverage availability, terms, conditions, limits, and pricing are determined by the issuing insurance carriers and are subject to underwriting review and approval. Not all coverage options are available in all states.</LegalP>
 
       <LegalH2>Insurance Products and Coverage</LegalH2>
@@ -191,9 +191,6 @@ function Disclosures({ onClose }) {
 
       <LegalH2>Carrier and Product References</LegalH2>
       <LegalP>References to specific insurance carriers, products, endorsement forms (such as Verisk ISO forms CG 40 47, CG 40 48, and CG 35 08), and carrier actions are based on publicly available filings, industry publications, and press releases. These references are provided for educational purposes. Carrier practices, forms, and availability are subject to change. Mention of any carrier or product does not constitute an endorsement or guarantee of availability.</LegalP>
-
-      <LegalH2>Lloyd's of London and Munich Re References</LegalH2>
-      <LegalP>References to Lloyd's of London and Munich Re on our Sites refer to the capacity and products available through specialty insurance markets. These references indicate that coverage options exist through these markets via licensed intermediaries. They do not imply a direct relationship, endorsement, or appointment unless specifically stated.</LegalP>
 
       <LegalH2>FINRA Licensing</LegalH2>
       <LegalP>FINRA Series 7, 24, 55, 63, and 99 licenses referenced on our Sites are held by Sal Martorano individually and pertain to securities industry qualifications. These licenses are referenced to demonstrate financial services expertise and are separate from property and casualty insurance licensing.</LegalP>
@@ -274,10 +271,10 @@ function Nav() {
           {links.map(l => (
             <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500 }}>{l.label}</a>
           ))}
-          <a href="https://isyouraicovered.com?new=1" style={{
+          <a href="#quote" style={{
             background: GOLD, color: WHITE, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700,
             textDecoration: "none", letterSpacing: 0.3
-          }}>Check My AI Coverage →</a>
+          }}>Get My Free Insurance Review →</a>
           <a href="https://audit.theaiinsurancegroup.com" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: GOLD, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700, textDecoration: "none", letterSpacing: 0.3, border: "1px solid #B8972A" }}>Audit Portal</a>
         </div>
       </div>
@@ -325,7 +322,7 @@ function Hero() {
           display: "inline-block", background: "rgba(220,38,38,0.12)", border: `1px solid rgba(220,38,38,0.35)`,
           borderRadius: 20, padding: "6px 16px", color: "#F87171", fontSize: 12, fontWeight: 700, letterSpacing: 1.2, marginBottom: 20,
         }}>
-          ● INDEPENDENT INSURANCE AGENCY · LICENSED IN NEW JERSEY
+          ● INDEPENDENT INSURANCE AGENCY · LICENSED IN NJ, PA & FL
         </div>
         <h1 className="hero-title" style={{
           color: WHITE, fontSize: "clamp(36px, 5.5vw, 60px)", fontWeight: 800,
@@ -336,7 +333,7 @@ function Hero() {
           <span style={{ color: GOLD }}>That's what independent means.</span>
         </h1>
         <p className="hero-sub" style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.6, maxWidth: 680, margin: "0 0 28px" }}>
-          A full-service independent agency — home, auto, business, and more. We shop 100+ carriers so you don't have to, and use AI to find the best fit, faster.
+          A full-service independent agency — home, auto, business, and more. We shop 100+ carriers so you don't have to. Start with a free review of the insurance you already have: we'll read your current policy and tell you what it covers, what it doesn't, and whether the price still matches.
         </p>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
           <a href="#quote" style={{
@@ -344,14 +341,14 @@ function Hero() {
             fontSize: 18, fontWeight: 700, cursor: "pointer", textDecoration: "none",
             boxShadow: "0 4px 28px rgba(184,151,42,0.35)", letterSpacing: 0.2,
           }}>Get a Quote →</a>
-          <a href="https://isyouraicovered.com?new=1" style={{
+          <a href="#quote" style={{
             background: "transparent", color: WHITE, border: `1px solid rgba(255,255,255,0.25)`,
             borderRadius: 8, padding: "20px 32px", fontSize: 16, fontWeight: 600,
             cursor: "pointer", textDecoration: "none",
-          }}>Check My AI Coverage →</a>
+          }}>Get My Free Insurance Review →</a>
         </div>
         <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, marginTop: 12, maxWidth: 600 }}>
-          Licensed in New Jersey. Free quotes, no obligation.
+          Licensed in New Jersey, Pennsylvania and Florida. Free review, no obligation.
         </p>
       </div>
       <style>{`
@@ -445,14 +442,14 @@ function SpecialtySection() {
 function WhatChangedSection() {
   const services = [
     { icon: "🔍", title: "AI Coverage Gap Audit", desc: "We review your entire commercial insurance portfolio (GL, E&O, D&O, Cyber, EPLI, and Products liability) to identify AI-related exclusions, sublimits, and endorsements that may have been added at your last renewal.", details: ["Full AI usage inventory across your organization", "Policy-by-policy exclusion analysis with form numbers cited", "Risk scenario mapping for your specific industry", "Governance recommendations to improve your underwriting profile"] },
-    { icon: "📄", title: "AI Liability Solutions", desc: "We connect you with specialty markets that most brokers can't access, including Lloyd's of London capacity and Munich Re-backed products, where licensed professionals can place affirmative AI coverage that fills the gaps traditional policies now exclude.", details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"] },
-    { icon: "🤝", title: "Broker Partnership Program", desc: "We partner with P&C brokers who want to offer AI coverage audits to their existing clients without building the specialty expertise in-house. You keep the client relationship — we provide the AI-specific analysis and market access.", details: ["White-label AI gap audit reports", "Specialty placement through Lloyd's and Munich Re", "Co-branded client presentations", "CE-eligible training on AI insurance exclusions"] },
+    { icon: "📄", title: "AI Liability Solutions", desc: "We connect you with specialty markets that most brokers can't access, where licensed professionals can place affirmative AI coverage that fills the gaps traditional policies now exclude.", details: ["Generative AI liability coverage", "AI-specific E&O and professional liability", "AI performance warranties for tech companies", "Supplemental D&O coverage for AI governance risk"] },
+    { icon: "🤝", title: "Broker Partnership Program", desc: "We partner with P&C brokers who want to offer AI coverage audits to their existing clients without building the specialty expertise in-house. You keep the client relationship — we provide the AI-specific analysis and market access.", details: ["White-label AI gap audit reports", "Specialty market placement", "Co-branded client presentations", "CE-eligible training on AI insurance exclusions"] },
   ];
   const steps = [
     { num: "01", title: "Check My AI Coverage", desc: "Complete our 60-second online assessment to identify your AI exposure level and preliminary coverage gaps.", time: "60 seconds" },
     { num: "02", title: "Coverage Review", desc: "Our team reviews your actual policy documents (endorsements, exclusions, and definitions) across all commercial lines.", time: "48 hours" },
     { num: "03", title: "Gap Analysis Report", desc: "You receive a detailed report showing every AI-related exclusion in your portfolio, mapped to your specific risk scenarios, with severity ratings.", time: "Delivered with review" },
-    { num: "04", title: "Coverage Solutions", desc: "Licensed insurance professionals access specialty AI liability markets to fill identified gaps with affirmative coverage, backed by Lloyd's and Munich Re capacity.", time: "1–2 weeks" },
+    { num: "04", title: "Coverage Solutions", desc: "Licensed insurance professionals access specialty AI liability markets to fill identified gaps with affirmative coverage.", time: "1–2 weeks" },
   ];
   return (
     <Section bg={WHITE} id="problem">
@@ -1420,7 +1417,7 @@ function QuoteSection() {
       <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
         <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>Get a Quote</div>
         <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Get a quote in minutes.</h2>
-        <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Pick your coverage line and start a quick online application. We'll shop it across our markets and get back to you with real options. Licensed in New Jersey.</p>
+        <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>Pick your coverage line and start a quick online application. We'll shop it across our markets and get back to you with real options. Licensed in New Jersey, Pennsylvania and Florida.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
           {lines.map((l) => (
             <a key={l.label} href={l.href} className="quote-btn" style={{
@@ -1614,7 +1611,7 @@ function ContactSection() {
               { label: "Platform & General Inquiries", value: "sal@theaiinsurancegroup.com" },
               { label: "Coverage Assessment", value: "IsYourAICovered.com" },
               { label: "Knowledge Base", value: "AIExclusion.com" },
-              { label: "Location", value: "Morganville, New Jersey | Licensed in New Jersey" },
+              { label: "Location", value: "Morganville, New Jersey | Licensed in NJ, PA & FL" },
             ].map((item, i) => (
               <div key={i} style={{ padding: "14px 0", borderBottom: `1px solid ${DIVIDER}` }}>
                 <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 4 }}>{item.label}</div>
@@ -1705,7 +1702,7 @@ function Footer({ onLegalPage }) {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
           <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, lineHeight: 1.6, maxWidth: 600 }}>
-            © 2026 The AI Insurance Group. All rights reserved. The AI Insurance Group is a licensed insurance producer, NJ License No. 3004245927. Licensed in New Jersey. Products and services vary by state.
+            © 2026 The AI Insurance Group. All rights reserved. The AI Insurance Group is a licensed insurance producer, NJ License No. 3004245927. Licensed in New Jersey, Pennsylvania and Florida. Products and services vary by state.
           </div>
           <div style={{ display: "flex", gap: 20 }}>
             {[
@@ -1731,7 +1728,11 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", margin: 0, paddingTop: "var(--banner-h, 0px)" }}>
-      <BreakingBanner />
+      {/* The AI news ticker is no longer rendered. It was the only thing that
+          set --banner-h, and both consumers fall back to 0px, so the fixed
+          header and the page offset collapse on their own. BreakingBanner is
+          left in the file: the blog still marks breaking posts, and restoring
+          the ticker is one line if it is ever wanted back. */}
       <Nav />
       <Hero />
       <StatsBand />
