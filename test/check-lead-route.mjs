@@ -274,6 +274,17 @@ expect('  read from the pathname, not a hash', app.includes('window.location.pat
 expect('  and carries the lead id through', app.includes("new URLSearchParams(window.location.search).get(\"lead\")"), true);
 expect('the form links there with the lead', form.includes('`/quote/${done.questionnaire_slug}?lead=${done.lead_id}`'), true);
 
+
+// vercel.json is schema-validated at deploy time and unknown keys fail the
+// build outright. A "comment" key inside the rewrite did exactly that, and the
+// failure only showed up as a deployment in ERROR state.
+console.log('\n--- vercel.json cannot carry keys Vercel rejects');
+{
+  const allowedRw = ['source', 'destination', 'has', 'missing', 'statusCode'];
+  const bad = (vercel.rewrites || []).flatMap((r) => Object.keys(r).filter((k) => !allowedRw.includes(k)));
+  expect('no unknown keys in any rewrite', bad.join(',') || 'none', 'none');
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 
 process.exit(fail ? 1 : 0);
