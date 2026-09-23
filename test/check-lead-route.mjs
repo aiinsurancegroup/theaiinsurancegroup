@@ -164,7 +164,7 @@ for (const [label, needle] of [
   ['autocomplete on names', 'autoComplete="given-name"'],
   ['autocomplete on postcode', 'autoComplete="postal-code"'],
   ['camera-friendly accept', 'image/*'],
-  ['a photo is offered explicitly', 'A clear photo works'],
+  ['a photo is offered explicitly', 'A clear photo of your declarations page works'],
 ]) expect(`  ${label}`, form.includes(needle), true);
 
 console.log('\n--- an upload failure never looks like a lost enquiry');
@@ -190,6 +190,39 @@ expect('  the write is guarded', /function write\(value\)[\s\S]{0,300}catch/.tes
 expect('  and fall back to memory', attrib.includes('let memo = null'), true);
 expect('gclid is carried', attrib.includes('"gclid"'), true);
 expect('direct traffic is recorded too', attrib.includes('is still worth recording'), true);
+
+// --- every non-uploader gets a secure link ---------------------------------
+console.log('\n--- a lead without a file is emailed a link, unasked');
+expect('the link path exists', src.includes('async function emailUploadLink'), true);
+expect('  fires when nothing was uploaded', src.includes('if (!upload?.path) {'), true);
+expect('  including when the upload failed', src.includes('covers the visitor who never picked one'), true);
+expect('  and logs UPLOAD_LINK_SENT', src.includes('"UPLOAD_LINK_SENT"'), true);
+expect('no extra button on the form', /skip this and we.ll email you a secure link/.test(form), true);
+
+console.log('\n--- the emailed token is a real portal credential');
+expect('32 crypto bytes', src.includes('crypto.randomBytes(32).toString("hex")'), true);
+expect('  never Math.random', /Math\.random\(\)[\s\S]{0,80}token/i.test(src), false);
+expect('  with a 90-day expiry', src.includes('TOKEN_TTL_DAYS = 90'), true);
+expect('  written to the audit row', src.includes('client_token_expires_at: expires.toISOString()'), true);
+expect('points at the portal, not this site', src.includes('const PORTAL_ORIGIN = "https://audit.theaiinsurancegroup.com"'), true);
+expect('the name is escaped into the email', src.includes('escapeHtml(lead.first_name'), true);
+
+console.log('\n--- the link step cannot cost a lead');
+expect('wrapped and swallowed', /if \(!upload\?\.path\) \{\s*try \{/.test(src), true);
+expect('  a missing RESEND key is logged loudly', src.includes('RESEND_API_KEY not set -- upload link'), true);
+expect('  and says the link still works', src.includes('The link exists and works; only the delivery is missing'), true);
+expect('no signed URL is minted without a file', src.includes('if (!fileName) return { audit_id: audit.id, upload: null };'), true);
+
+console.log('\n--- the confirmation says what happened');
+expect('scrolls itself into view', form.includes('scrollIntoView({ behavior: "smooth", block: "center" })'), true);
+expect('  because blank space reads as failure', form.includes('That reads as a failed submission'), true);
+expect('tells them a link was emailed', form.includes("We've emailed you a secure link so you can send your policy whenever it's handy."), true);
+expect('  only when nothing was uploaded', form.includes('const emailedLink = !done.uploaded'), true);
+expect('an upload still ends the flow', form.includes("There's nothing else you need to do"), true);
+
+console.log('\n--- the upload prompt names real places a policy lives');
+expect('phone, email or paper', form.includes('Have it on your phone, in your email, or on paper?'), true);
+expect('  a photo is the suggested route', form.includes('A clear photo of your declarations page works'), true);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 

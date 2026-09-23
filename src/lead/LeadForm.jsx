@@ -64,6 +64,16 @@ export default function LeadForm({ defaultProduct = "home", compact = false }) {
   const [error, setError] = useState("");
   const [done, setDone] = useState(null);
   const fileRef = useRef(null);
+  const rootRef = useRef(null);
+
+  // On a phone the form is tall enough that replacing it with a short
+  // confirmation leaves the viewport parked on blank space below where the
+  // content now ends. That reads as a failed submission, so the confirmation is
+  // scrolled to rather than merely rendered.
+  useEffect(() => {
+    if (!done || !rootRef.current) return;
+    rootRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [done]);
 
   // Captured on mount rather than at submit, so the campaign that brought
   // someone here survives them browsing before they convert.
@@ -159,35 +169,48 @@ export default function LeadForm({ defaultProduct = "home", compact = false }) {
   };
 
   if (done) {
+    // Everyone who did not upload is emailed a secure link, from the server,
+    // without being asked. Most people are on a phone and their policy is in a
+    // filing cabinet or a different inbox, so an upload button is the wrong
+    // question at this moment -- the right one is "where shall we send this".
+    const emailedLink = !done.uploaded;
     return (
-      <div style={{ background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+      <div ref={rootRef} tabIndex={-1} style={{ background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
         <div style={{ fontSize: 15, fontWeight: 700, color: GREEN, marginBottom: 8 }}>
           Thank you — we have your details.
         </div>
+
         {done.uploaded ? (
           <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>
             We've received your policy and a licensed agent will review it and be in touch shortly.
             There's nothing else you need to do.
           </p>
-        ) : done.uploadError ? (
-          <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>
-            Your document didn't finish uploading, but we have everything else. We'll email you a
-            secure link so you can send it across.
-          </p>
-        ) : done.next === "questionnaire" ? (
-          <>
-            <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: "0 0 14px" }}>
-              A few short questions and we can start the review. It takes about two minutes.
-            </p>
-            <a href={`/quote/${done.questionnaire_slug}?lead=${done.lead_id}`} style={{
-              display: "inline-block", background: GOLD, color: WHITE, textDecoration: "none",
-              padding: "14px 24px", borderRadius: 8, fontWeight: 700, fontSize: 16,
-            }}>Continue →</a>
-          </>
         ) : (
-          <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>
-            A licensed agent will be in touch shortly to go through your cover with you.
-          </p>
+          <>
+            {done.uploadError && (
+              <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: "0 0 10px" }}>
+                Your document didn't finish uploading, but we have everything else.
+              </p>
+            )}
+            <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: "0 0 14px" }}>
+              We've emailed you a secure link so you can send your policy whenever it's handy.
+            </p>
+            {done.next === "questionnaire" ? (
+              <>
+                <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: "0 0 14px" }}>
+                  Or answer a few short questions now and we can start without it — about two minutes.
+                </p>
+                <a href={`/quote/${done.questionnaire_slug}?lead=${done.lead_id}`} style={{
+                  display: "inline-block", background: GOLD, color: WHITE, textDecoration: "none",
+                  padding: "14px 24px", borderRadius: 8, fontWeight: 700, fontSize: 16,
+                }}>Continue →</a>
+              </>
+            ) : (
+              <p style={{ color: GRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>
+                A licensed agent will be in touch shortly to go through your cover with you.
+              </p>
+            )}
+          </>
         )}
       </div>
     );
@@ -256,11 +279,11 @@ export default function LeadForm({ defaultProduct = "home", compact = false }) {
           someone to know a term they have no reason to know. */}
       <div style={{ border: `1px dashed ${BORDER}`, borderRadius: 8, padding: 14, marginBottom: 16 }}>
         <label style={{ ...labelStyle, marginBottom: 4 }} htmlFor="lf-file">
-          Have your current policy handy?
+          Have it on your phone, in your email, or on paper?
         </label>
         <p style={{ color: GRAY, fontSize: 13.5, lineHeight: 1.5, margin: "0 0 10px" }}>
-          Upload it and we'll do most of the work for you — your declarations page or current policy
-          is usually enough to get started. A clear photo works.
+          A clear photo of your declarations page works. Attach it now and we'll do most of the work
+          for you — or skip this and we'll email you a secure link to send it later.
         </p>
         <input id="lf-file" ref={fileRef} type="file" accept={ACCEPT} onChange={pickFile}
                style={{ fontSize: 14, width: "100%" }} />
