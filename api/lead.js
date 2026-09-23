@@ -237,6 +237,13 @@ async function emailUploadLink(lead, auditId, serviceKey) {
     return false;
   }
 
+  // TEMPORARY DIAGNOSTIC -- remove once the key is confirmed. Logs NAMES and
+  // LENGTHS only, never a value, so it can distinguish "absent" from "present
+  // under a different name" without putting a secret in a log line.
+  console.log("[lead] env probe: mail-ish keys = " +
+    JSON.stringify(Object.keys(process.env).filter((k) => /RESEND|MAIL|SMTP/i.test(k))) +
+    ", RESEND_API_KEY length = " + (process.env.RESEND_API_KEY || "").length +
+    ", VERCEL_ENV = " + process.env.VERCEL_ENV);
   const key = process.env.RESEND_API_KEY;
   if (!key) {
     // The link exists and works; only the delivery is missing. Logged loudly
