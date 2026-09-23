@@ -121,6 +121,76 @@ console.log('\n--- Path A ends at Step 1');
 expect('an upload short-circuits the questionnaire', src.includes('next: upload?.path ? "uploaded"'), true);
 expect('  the reason is written down', src.includes('the declarations page carries what the questionnaire'), true);
 
+// --- the Step 1 form --------------------------------------------------------
+const form = fs.readFileSync('src/lead/LeadForm.jsx', 'utf8');
+const attrib = fs.readFileSync('src/lead/attribution.js', 'utf8');
+
+console.log('\n--- the consent shown matches the consent stored');
+// The server stores its own copy verbatim. If the two texts drift, a person
+// agreed to one thing and we recorded another.
+// Index-based rather than a regex. The first version built the pattern from a
+// template literal, where \s is not an escape -- it compiled as "=s*", matched
+// nothing, and the comparison silently had nothing to compare. A test that
+// cannot fail is worse than no test.
+const grabConst = (s, name) => {
+  const at = s.indexOf(`const ${name} =`);
+  if (at < 0) return null;
+  const open = s.indexOf('"', at);
+  const close = s.indexOf('"', open + 1);
+  return open < 0 || close < 0 ? null : s.slice(open + 1, close);
+};
+const shownTcpa = grabConst(form, 'TCPA_TEXT');
+const storedTcpa = grabConst(src, 'TCPA_CONSENT_TEXT');
+expect('TCPA text found in the form', typeof shownTcpa, 'string');
+expect('  and in the server', typeof storedTcpa, 'string');
+expect('  neither is empty', (shownTcpa || '').length > 200, true);
+expect('TCPA shown === TCPA stored', shownTcpa === storedTcpa, true);
+const shownDocs = grabConst(form, 'DOCS_TEXT');
+const storedDocs = grabConst(src, 'DOCS_CONSENT_TEXT');
+expect('docs shown === docs stored', shownDocs === storedDocs, true);
+
+console.log('\n--- consent gates the right things');
+expect('TCPA blocks submit', form.includes('if (!tcpa) {'), true);
+expect('docs consent only required with a file', form.includes('if (file && !docsOk)'), true);
+expect('  and the box only appears with one', form.includes('{file && ('), true);
+expect('docs consent clears when the file is removed', form.includes('if (!f) setDocsOk(false)'), true);
+
+console.log('\n--- mobile is the constraint, not a consideration');
+expect('16px inputs so iOS does not zoom', form.includes('fontSize: 16, // 16px: anything smaller'), true);
+for (const [label, needle] of [
+  ['numeric keypad for ZIP', 'inputMode="numeric"'],
+  ['tel keypad for mobile', 'type="tel"'],
+  ['email keyboard', 'inputMode="email"'],
+  ['autocomplete on names', 'autoComplete="given-name"'],
+  ['autocomplete on postcode', 'autoComplete="postal-code"'],
+  ['camera-friendly accept', 'image/*'],
+  ['a photo is offered explicitly', 'A clear photo works'],
+]) expect(`  ${label}`, form.includes(needle), true);
+
+console.log('\n--- an upload failure never looks like a lost enquiry');
+expect('the PUT is wrapped', /try \{[\s\S]{0,700}signed_url[\s\S]{0,700}\} catch/.test(form), true);
+expect('  and says what happens next', form.includes("didn't finish uploading"), true);
+expect('oversize is caught before submit', form.includes('That file is ${(f.size / 1048576).toFixed(1)} MB'), true);
+
+console.log('\n--- Path A ends here, Path B continues');
+expect('an upload ends the flow', form.includes("There's nothing else you need to do"), true);
+expect('  no questionnaire link when uploaded', /done\.uploaded \?/.test(form), true);
+expect('Path B links to the questionnaire', form.includes('`/quote/${done.questionnaire_slug}?lead=${done.lead_id}`'), true);
+expect('out-of-area still gets a human', form.includes('A licensed agent will be in touch shortly'), true);
+
+console.log('\n--- attribution is first touch, and survives browsing');
+expect('captured on mount, not at submit', form.includes('useEffect(() => { captureAttribution(); }, [])'), true);
+expect('existing attribution is never overwritten', attrib.includes('if (existing) {'), true);
+expect('  with a 90-day window', attrib.includes('TTL_DAYS = 90'), true);
+// Two guards, one per storage call. captureAttribution needs none of its own
+// because it only reaches storage through them.
+expect('every storage call is guarded', (attrib.match(/catch/g) || []).length, 2);
+expect('  the read is guarded', /function read\(\)[\s\S]{0,400}catch/.test(attrib), true);
+expect('  the write is guarded', /function write\(value\)[\s\S]{0,300}catch/.test(attrib), true);
+expect('  and fall back to memory', attrib.includes('let memo = null'), true);
+expect('gclid is carried', attrib.includes('"gclid"'), true);
+expect('direct traffic is recorded too', attrib.includes('is still worth recording'), true);
+
 console.log(`\n${pass} passed, ${fail} failed`);
 
 process.exit(fail ? 1 : 0);

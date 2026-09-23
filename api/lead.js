@@ -255,7 +255,14 @@ async function createAuditForLead(lead, serviceKey, fileName, fileSize) {
   const token = signed?.url ? new URLSearchParams(signed.url.split("?")[1] || "").get("token") : null;
   if (!token) return { audit_id: audit.id, upload: null };
 
-  return { audit_id: audit.id, upload: { path, upload_token: token } };
+  // The whole URL is returned, not its parts. This site carries no Supabase
+  // client library -- only React -- so the browser does a plain PUT, and
+  // assembling the URL there would mean hard-coding the storage host in the
+  // bundle and keeping it in step with this file by hand.
+  return {
+    audit_id: audit.id,
+    upload: { path, signed_url: `${SUPABASE_URL}/storage/v1${signed.url}` },
+  };
 }
 
 export default async function handler(req, res) {
