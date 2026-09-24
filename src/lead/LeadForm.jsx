@@ -52,7 +52,7 @@ const field = {
 };
 const labelStyle = { display: "block", fontSize: 13, fontWeight: 600, color: NAVY, marginBottom: 6 };
 
-export default function LeadForm({ defaultProduct = "home", compact = false }) {
+export default function LeadForm({ defaultProduct = "home", compact = false, onSuccess = null, hideProduct = false }) {
   const [product, setProduct] = useState(defaultProduct);
   const [values, setValues] = useState({
     first_name: "", last_name: "", email: "", mobile_phone: "", zip: "",
@@ -160,7 +160,15 @@ export default function LeadForm({ defaultProduct = "home", compact = false }) {
         }
       }
 
-      setDone({ ...data, uploaded, uploadError: file && !uploaded });
+      const result = { ...data, uploaded, uploadError: file && !uploaded };
+
+      // A caller can take over from here. The paid landing pages do, so a
+      // conversion is counted on a page load rather than a JavaScript event.
+      // Busy stays true on that path: the navigation is already in flight and
+      // re-enabling the button would invite a second submission.
+      if (onSuccess) { onSuccess(result); return; }
+
+      setDone(result);
       setBusy(false);
     } catch {
       setError("We couldn't reach the server. Please check your connection and try again.");
@@ -221,26 +229,33 @@ export default function LeadForm({ defaultProduct = "home", compact = false }) {
       {!compact && (
         <div style={{ fontSize: 18, fontWeight: 800, color: NAVY, marginBottom: 4 }}>Get your free insurance review</div>
       )}
-      <p style={{ color: GRAY, fontSize: 14, lineHeight: 1.55, margin: "0 0 18px" }}>
-        Tell us where to send it. No cost, and no obligation to change anything.
-      </p>
+      {!compact && (
+        <p style={{ color: GRAY, fontSize: 14, lineHeight: 1.55, margin: "0 0 18px" }}>
+          Tell us where to send it. No cost, and no obligation to change anything.
+        </p>
+      )}
 
-      <div style={{ marginBottom: 16 }}>
-        <span style={labelStyle}>What would you like reviewed?</span>
-        <div style={{ display: "flex", gap: 8 }}>
-          {PRODUCTS.map((p) => (
-            <button key={p.id} type="button" onClick={() => setProduct(p.id)}
-              aria-pressed={product === p.id}
-              style={{
-                flex: 1, padding: "12px 4px", fontSize: 15, fontWeight: 600, cursor: "pointer",
-                borderRadius: 8, fontFamily: "inherit",
-                border: `1.5px solid ${product === p.id ? GOLD : BORDER}`,
-                background: product === p.id ? "rgba(184,151,42,0.08)" : WHITE,
-                color: product === p.id ? NAVY : GRAY,
-              }}>{p.label}</button>
-          ))}
+      {/* Hidden on a landing page. /review/homeowners has already said what this
+          is about, so asking again spends a chunk of a phone screen re-asking a
+          question the visitor answered by clicking the ad. */}
+      {!hideProduct && (
+        <div style={{ marginBottom: 16 }}>
+          <span style={labelStyle}>What would you like reviewed?</span>
+          <div style={{ display: "flex", gap: 8 }}>
+            {PRODUCTS.map((p) => (
+              <button key={p.id} type="button" onClick={() => setProduct(p.id)}
+                aria-pressed={product === p.id}
+                style={{
+                  flex: 1, padding: "12px 4px", fontSize: 15, fontWeight: 600, cursor: "pointer",
+                  borderRadius: 8, fontFamily: "inherit",
+                  border: `1.5px solid ${product === p.id ? GOLD : BORDER}`,
+                  background: product === p.id ? "rgba(184,151,42,0.08)" : WHITE,
+                  color: product === p.id ? NAVY : GRAY,
+                }}>{p.label}</button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
         <div>

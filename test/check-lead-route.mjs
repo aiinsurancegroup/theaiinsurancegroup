@@ -270,8 +270,8 @@ expect('  and serves index.html', rw?.destination, '/index.html');
 // literal -- and each time produced a pattern matching nothing, which is a test
 // that can only fail. The slug group is distinctive enough on its own.
 expect('App routes /quote/:slug', app.includes('([a-z0-9-]{2,40})'), true);
-expect('  read from the pathname, not a hash', app.includes('window.location.pathname.match'), true);
-expect('  and carries the lead id through', app.includes("new URLSearchParams(window.location.search).get(\"lead\")"), true);
+expect('  read from the pathname, not a hash', app.includes('const path = window.location.pathname'), true);
+expect('  and carries the lead id through', app.includes('leadId: q.get("lead")'), true);
 expect('the form links there with the lead', form.includes('`/quote/${done.questionnaire_slug}?lead=${done.lead_id}`'), true);
 
 
@@ -284,6 +284,66 @@ console.log('\n--- vercel.json cannot carry keys Vercel rejects');
   const bad = (vercel.rewrites || []).flatMap((r) => Object.keys(r).filter((k) => !allowedRw.includes(k)));
   expect('no unknown keys in any rewrite', bad.join(',') || 'none', 'none');
 }
+
+
+// --- paid landing pages ----------------------------------------------------
+const landing = fs.readFileSync('src/lead/LandingPage.jsx', 'utf8');
+const thanks = fs.readFileSync('src/lead/ThanksPage.jsx', 'utf8');
+const claims = fs.readFileSync('src/lead/claims.js', 'utf8');
+
+console.log('\n--- a paid page has no way out except the legal footer');
+// Every link is a way to leave a page we paid to put someone on.
+const anchors = [...landing.matchAll(/<a\s[^>]*href=\{?["'`]([^"'`}]+)/g)].map((m) => m[1]);
+expect('no outbound anchors at all', anchors.length, 0);
+expect('  the wordmark is not a link', /<a[^>]*>\s*\{?\s*The AI Insurance Group/.test(landing), false);
+expect('legal opens in place, not away', landing.includes('onClick={() => onLegal?.(k)}'), true);
+expect('  and they are buttons, not anchors', landing.includes('<button key={k} type="button"'), true);
+expect('no site navigation is rendered', /<Nav\b|navLinks|nav-links/.test(landing), false);
+
+console.log('\n--- the form is above the fold on a phone');
+// The ordering IS the mechanism: headline, form, then everything else.
+expect('the copy block dissolves so children can reorder', landing.includes('.lp-copy { display: contents; }'), true);
+expect('  eyebrow first', /.lp-copy > div:first-child { order: 1;/.test(landing), true);
+expect('  headline second', /\.lp-h1 \{ order: 2;/.test(landing), true);
+expect('  FORM THIRD, before the explanation', /\.lp-form \{ order: 3; \}/.test(landing), true);
+expect('  subhead after the form', /\.lp-sub \{ order: 4;/.test(landing), true);
+expect('  proofs last', /\.lp-proofs \{ order: 5; \}/.test(landing), true);
+
+console.log('\n--- every insurance claim comes from the approval file');
+expect('headline is not written inline', landing.includes('{claims.headline.text}'), true);
+expect('subhead is not written inline', landing.includes('{claims.subhead.text}'), true);
+expect('proofs are not written inline', landing.includes('claims.proofs.map'), true);
+expect('licence line is not written inline', landing.includes('{claims.licence.text}'), true);
+// The page must not contain a hardcoded insurance assertion that bypassed review.
+expect('no stray licence number in the component', landing.includes('3004245927'), false);
+expect('every claim carries its basis', (claims.match(/basis:/g) || []).length >= 8, true);
+expect('  and its risk', (claims.match(/risk:/g) || []).length >= 8, true);
+expect('claims are marked unapproved', claims.includes('AWAITING APPROVAL'), true);
+
+console.log('\n--- no timeframe is promised anywhere on a paid page');
+for (const t of ['about a day', 'within a day', '24 hours', '48 hours', 'two business days', 'same day']) {
+  expect(`  no "${t}"`, landing.includes(t) || claims.includes(`text:\n      "${t}`) , false);
+}
+
+console.log('\n--- the conversion fires on a page load');
+expect('the form hands off instead of confirming inline', landing.includes('onSuccess={goToThanks}'), true);
+expect('  by navigating to a real URL', landing.includes('window.location.assign(`/thanks/${variant}'), true);
+expect('  carrying what the page must report', landing.includes('params.set("next"'), true);
+expect('LeadForm supports the handoff', form.includes('onSuccess = null'), true);
+expect('  and stays busy so it cannot double-submit', form.includes('if (onSuccess) { onSuccess(result); return; }'), true);
+expect('the thanks page writes nothing', /fetch\(/.test(thanks), false);
+expect('  so a refresh cannot duplicate a lead', thanks.includes('a visitor who reloads'), true);
+
+console.log('\n--- the thanks page says what actually happened');
+expect('upload path ends there', thanks.includes("There's nothing else you need to do"), true);
+expect('non-upload path mentions the emailed link', thanks.includes("We've emailed you a secure link"), true);
+expect('  and offers the questionnaire when there is one', thanks.includes('Continue →'), true);
+expect('out-of-area still gets a human', thanks.includes('A licensed agent will be in touch shortly'), true);
+expect('no dead end: a phone number is always shown', thanks.includes('917-981-0245'), true);
+
+console.log('\n--- an unknown ad destination does not render an empty shell');
+expect('only real variants match', app.includes('(homeowners|auto)'), true);
+expect('  the reason is written down', app.includes('a broken ad destination is a paid click that buys nothing'), true);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 
