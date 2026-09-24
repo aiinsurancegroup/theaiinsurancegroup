@@ -227,8 +227,16 @@ function Nav() {
     { label: "For Agents", href: "#agents" },
     { label: "FAQ", href: "#faq" },
     { label: "Blog", href: "#blog" },
+    { label: "About", href: "/about" },
     { label: "Contact", href: "#contact" },
   ];
+
+  // This nav was written when there was one page, so every section link was a
+  // bare hash. /about renders it too, where "#quote" scrolls to nothing and the
+  // logo's preventDefault traps you on the page. Off the homepage, send hashes
+  // to the homepage and let the logo be a real link home.
+  const onHome = typeof window === "undefined" || window.location.pathname === "/";
+  const to = (href) => (href.startsWith("#") && !onHome ? "/" + href : href);
 
   return (
     <nav style={{
@@ -240,7 +248,12 @@ function Nav() {
       padding: scrolled ? "12px 24px" : "20px 24px",
     }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); setMenuOpen(false); }} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}>
+        <a href="/" onClick={(e) => {
+          if (!onHome) return;                      // let the browser navigate home
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setMenuOpen(false);
+        }} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}>
           <div style={{ width: 36, height: 36, borderRadius: 8, background: WHITE, border: "1.5px solid " + NAVY, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 12, letterSpacing: -0.3, fontFamily: "Arial, sans-serif" }}>
             <span style={{ color: GOLD }}>AI</span>
             <span style={{ color: GOLD, margin: "0 1px" }}>·</span>
@@ -258,7 +271,7 @@ function Nav() {
             background: GOLD, color: WHITE, padding: "9px 14px", borderRadius: 6, fontSize: 12, fontWeight: 700,
             textDecoration: "none", letterSpacing: 0.2, whiteSpace: "nowrap",
           }}>Check Coverage</a>
-          <a href="#faq" className="nav-faq-mobile" style={{
+          <a href={to("#faq")} className="nav-faq-mobile" style={{
             display: "none",
             color: GOLD, fontSize: 12, fontWeight: 700, textDecoration: "none",
             padding: "9px 10px", borderRadius: 6, border: "1px solid " + GOLD,
@@ -271,11 +284,14 @@ function Nav() {
           </div>
         </div>
 
-        <div className="nav-links" style={{ display: "flex", gap: 28, alignItems: "center" }}>
+        {/* gap 18, not the old 28: eight links plus two buttons need 1045px of
+            the 1080px row, and nowrap means there is nowhere for a long label
+            like "Get a Quote" to fold. */}
+        <div className="nav-links" style={{ display: "flex", gap: 18, alignItems: "center" }}>
           {links.map(l => (
-            <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500 }}>{l.label}</a>
+            <a key={l.label} href={to(l.href)} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500, whiteSpace: "nowrap" }}>{l.label}</a>
           ))}
-          <a href="#quote" style={{
+          <a href={to("#quote")} style={{
             background: GOLD, color: WHITE, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700,
             textDecoration: "none", letterSpacing: 0.3
           }}>Get My Free Insurance Review →</a>
@@ -283,7 +299,10 @@ function Nav() {
         </div>
       </div>
       <style>{`
-        @media (max-width: 768px) {
+        /* 1024, not 768: the desktop row needs ~1045px, so between 769 and
+           1024 it used to run off the side of the screen. The hamburger now
+           covers tablets, which is where that overflow lived. */
+        @media (max-width: 1024px) {
           .mobile-menu-btn { display: flex !important; }
           .nav-cta-mobile { display: inline-block !important; padding: 9px 12px !important; font-size: 12px !important; }
           .nav-faq-mobile { display: inline-block !important; }
@@ -1369,6 +1388,157 @@ function BlogSection() {
   );
 }
 
+// The site had no About anywhere. The only "About" was a heading inside the
+// Disclosures panel, and the hero has been promising "One agent. 100+ carriers"
+// without ever showing the agent.
+//
+// WHAT IS AND IS NOT WRITTEN HERE. Every sentence below is either a fact already
+// asserted elsewhere on this site (independent agency, 100+ markets, licensed in
+// NJ/PA/FL, Morganville) or a statement about our own process that the audit
+// tool actually enforces in code. Nothing about Sal's history -- years in the
+// business, what he did before, why he started -- appears anywhere, because
+// nobody but Sal can source it and an About page is the worst place on a
+// regulated site to guess. Those sentences are his to write.
+//
+// The producer licence number is deliberately not repeated here. The footer
+// carries it on every page that renders the footer, and /about does.
+
+function AboutSection() {
+  return (
+    <section id="about" style={{ background: WHITE, padding: "80px 24px" }}>
+      <div className="about-grid" style={{
+        maxWidth: 1080, margin: "0 auto", display: "grid",
+        gridTemplateColumns: "300px 1fr", gap: 56, alignItems: "center",
+      }}>
+        <div>
+          <img
+            src="/sal-portrait-360.webp"
+            srcSet="/sal-portrait-360.webp 360w, /sal-portrait-720.webp 720w"
+            sizes="(max-width: 860px) 240px, 300px"
+            width={300} height={300} loading="lazy" decoding="async"
+            alt="Sal Martorano, founder of The AI Insurance Group"
+            style={{ width: "100%", height: "auto", display: "block", borderRadius: 16, border: `1px solid ${BORDER}` }}
+          />
+          <div style={{ color: NAVY, fontSize: 15, fontWeight: 700, marginTop: 14 }}>Sal Martorano</div>
+          <div style={{ color: GRAY, fontSize: 14, marginTop: 2 }}>Founder</div>
+        </div>
+        <div>
+          <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>Who you're dealing with</div>
+          <h2 style={{ color: NAVY, fontSize: "clamp(26px, 3.4vw, 36px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>There's a person behind the technology.</h2>
+          <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 0 16px" }}>The AI Insurance Group is a full-service independent agency founded by Sal Martorano. Independent means no carrier sets our recommendations — your coverage goes in front of 100+ markets and we bring back what actually fits.</p>
+          <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 0 26px" }}>AI reads the policy. A licensed agent decides what it means. Every finding in a coverage review is checked by hand before it reaches you.</p>
+          <a href="/about" style={{ color: NAVY, fontSize: 16, fontWeight: 700, textDecoration: "none", borderBottom: `2px solid ${GOLD}`, paddingBottom: 3 }}>More about the agency →</a>
+        </div>
+      </div>
+      <style>{`
+        @media (max-width: 860px) {
+          .about-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+          .about-grid > div:first-child { max-width: 240px; margin: 0 auto; text-align: center; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+function AboutPage({ onLegal }) {
+  const facts = [
+    { k: "Founder", v: "Sal Martorano" },
+    { k: "Agency", v: "Full-service independent — home, auto, business and specialty lines" },
+    { k: "Licensed in", v: "New Jersey, Pennsylvania and Florida" },
+    { k: "Based in", v: "Morganville, New Jersey" },
+    { k: "Markets", v: "100+ national, regional and specialty carriers" },
+  ];
+
+  return (
+    <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", margin: 0 }}>
+      <Nav />
+
+      {/* The nav is white-on-transparent until you scroll, so the top of any
+          page it sits over has to be dark or the links vanish. */}
+      <section style={{ background: NAVY, padding: "140px 24px 72px" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 14, textTransform: "uppercase" }}>About</div>
+          <h1 style={{ color: WHITE, fontSize: "clamp(30px, 5vw, 46px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 18px", letterSpacing: -0.8 }}>Read the policy before the claim, not after it.</h1>
+          <p style={{ color: "rgba(255,255,255,0.72)", fontSize: 18, lineHeight: 1.7, margin: 0, maxWidth: 640 }}>The AI Insurance Group is a full-service independent insurance agency, founded by Sal Martorano and licensed in New Jersey, Pennsylvania and Florida.</p>
+        </div>
+      </section>
+
+      <section style={{ background: WHITE, padding: "72px 24px" }}>
+        <div className="about-page-grid" style={{
+          maxWidth: 1000, margin: "0 auto", display: "grid",
+          gridTemplateColumns: "400px 1fr", gap: 56, alignItems: "start",
+        }}>
+          <div>
+            <img
+              src="/sal-about-440.webp"
+              srcSet="/sal-about-440.webp 440w, /sal-about-880.webp 880w"
+              sizes="(max-width: 900px) 300px, 400px"
+              width={440} height={550} decoding="async"
+              alt="Sal Martorano, founder of The AI Insurance Group"
+              style={{ width: "100%", height: "auto", display: "block", borderRadius: 16, border: `1px solid ${BORDER}` }}
+            />
+            <div style={{ color: NAVY, fontSize: 16, fontWeight: 700, marginTop: 16 }}>Sal Martorano</div>
+            <div style={{ color: GRAY, fontSize: 14, marginTop: 3 }}>Founder, The AI Insurance Group</div>
+          </div>
+          <div>
+            <h2 style={{ color: NAVY, fontSize: "clamp(24px, 3vw, 32px)", fontWeight: 800, lineHeight: 1.2, margin: "0 0 18px", letterSpacing: -0.5 }}>Who you'll be dealing with</h2>
+            <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.75, margin: "0 0 16px" }}>Our homepage says one agent, 100+ carriers. Sal Martorano is that agent. He founded The AI Insurance Group and runs it as an independent agency.</p>
+            <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.75, margin: "0 0 16px" }}>Independent is the part that matters when you're deciding who to call. A captive agent sells their own company's product, so the recommendation is settled before you ask the question. We aren't tied to a carrier — your coverage goes in front of more than a hundred national, regional and specialty markets, and we bring back what fits.</p>
+            <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.75, margin: 0 }}>It's also why the first thing we ask for is your current policy rather than your details. A quote form tells us what you'd like to buy. The policy tells us what you already have, and whether it does what you think it does.</p>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ background: LIGHT, padding: "72px 24px" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>How the review works</div>
+          <h2 style={{ color: NAVY, fontSize: "clamp(24px, 3.4vw, 34px)", fontWeight: 800, lineHeight: 1.2, margin: "0 0 18px", letterSpacing: -0.5 }}>AI reads the policy. A licensed agent decides what it means.</h2>
+          <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.75, margin: "0 0 16px" }}>A coverage review reads your actual documents — declarations, endorsements and exclusions — rather than a quote form. The software does the reading. It does not do the deciding: every finding is reviewed by a licensed agent before it reaches you, and a report cannot be finalised while anything in it is still unreviewed.</p>
+          <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.75, margin: 0 }}>The review is free and there's no obligation. If your coverage is right, we'll tell you that.</p>
+
+          <div style={{ background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "8px 28px", marginTop: 40 }}>
+            {facts.map((f, i) => (
+              <div key={f.k} className="about-fact" style={{
+                display: "grid", gridTemplateColumns: "150px 1fr", gap: 20, padding: "18px 0",
+                borderTop: i === 0 ? "none" : `1px solid ${DIVIDER}`, alignItems: "baseline",
+              }}>
+                <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>{f.k}</div>
+                <div style={{ color: DGRAY, fontSize: 16, lineHeight: 1.6 }}>{f.v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ background: WHITE, padding: "72px 24px 88px", textAlign: "center" }}>
+        <div style={{ maxWidth: 620, margin: "0 auto" }}>
+          <h2 style={{ color: NAVY, fontSize: "clamp(24px, 3.4vw, 34px)", fontWeight: 800, lineHeight: 1.2, margin: "0 0 16px", letterSpacing: -0.5 }}>Start with a free review of the insurance you already have.</h2>
+          <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 0 32px" }}>Send us your current policy and we'll tell you what it covers, what it doesn't, and whether the price still matches.</p>
+          <a href="/#quote" style={{
+            display: "inline-block", background: GOLD, color: WHITE, borderRadius: 8, padding: "19px 44px",
+            fontSize: 18, fontWeight: 700, textDecoration: "none", boxShadow: "0 4px 24px rgba(184,151,42,0.3)", letterSpacing: 0.3,
+          }}>Get My Free Insurance Review →</a>
+          <p style={{ color: GRAY, fontSize: 14, lineHeight: 1.7, margin: "22px 0 0" }}>
+            Or reach Sal directly — <a href="mailto:sal@theaiinsurancegroup.com" style={{ color: NAVY, fontWeight: 600 }}>sal@theaiinsurancegroup.com</a> · <a href="tel:9179810245" style={{ color: NAVY, fontWeight: 600 }}>917-981-0245</a>
+          </p>
+        </div>
+      </section>
+
+      <Footer onLegalPage={onLegal} />
+
+      <style>{`
+        @media (max-width: 900px) {
+          .about-page-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .about-page-grid > div:first-child { max-width: 300px; margin: 0 auto; text-align: center; }
+        }
+        @media (max-width: 560px) {
+          .about-fact { grid-template-columns: 1fr !important; gap: 6px !important; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 function CTASection() {
   return (
     <section style={{ background: WHITE, padding: "80px 24px", textAlign: "center" }}>
@@ -1766,6 +1936,8 @@ function routeFromPath() {
   const review = path.match(/^\/review\/(homeowners|auto)\/?$/i);
   if (review) return { kind: "review", variant: review[1].toLowerCase() };
 
+  if (/^\/about\/?$/i.test(path)) return { kind: "about" };
+
   const thanks = path.match(/^\/thanks\/([a-z0-9-]{2,40})\/?$/i);
   if (thanks) {
     return {
@@ -1799,6 +1971,10 @@ export default function App() {
     return <LandingPage variant={route.variant} onLegal={setLegalPage} />;
   }
 
+  if (route?.kind === "about") {
+    return <AboutPage onLegal={setLegalPage} />;
+  }
+
   if (route?.kind === "thanks") {
     return (
       <ThanksPage slug={route.slug} next={route.next}
@@ -1824,6 +2000,7 @@ export default function App() {
       <IndustriesSection />
       <ResourcesSection />
       <BlogSection />
+      <AboutSection />
       <CTASection />
       <AgentsSection />
       <ContactSection />
