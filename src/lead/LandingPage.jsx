@@ -1,6 +1,8 @@
 import React from "react";
 import LeadForm from "./LeadForm";
 import { HOMEOWNERS_CLAIMS, AUTO_CLAIMS } from "./claims";
+import { AGENCY_PHONE, AGENCY_PHONE_HREF, AGENCY_EMAIL } from "../contact";
+import PhoneIcon from "../PhoneIcon";
 
 // Paid-traffic landing pages: /review/homeowners and /review/auto.
 //
@@ -64,8 +66,22 @@ export default function LandingPage({ variant, onLegal }) {
       {/* Wordmark, deliberately not a link. On a page bought with ad money the
           logo is the most-clicked route back out of the funnel. */}
       <div className="lp-head" style={{ background: NAVY, padding: "14px 20px" }}>
-        <div style={{ maxWidth: 1040, margin: "0 auto", color: WHITE, fontSize: 15, fontWeight: 700, letterSpacing: 0.2 }}>
-          The AI Insurance Group
+        <div style={{
+          maxWidth: 1040, margin: "0 auto", display: "flex",
+          justifyContent: "space-between", alignItems: "center", gap: 14,
+        }}>
+          <div style={{ color: WHITE, fontSize: 15, fontWeight: 700, letterSpacing: 0.2 }}>
+            The AI Insurance Group
+          </div>
+          {/* The one link in this header, and it is not a way out of the funnel:
+              a caller is a better outcome than a form fill, not a worse one. It
+              rides the bar that was already here, so the fold does not move. */}
+          <a href={AGENCY_PHONE_HREF} style={{
+            color: WHITE, fontSize: 15, fontWeight: 700, textDecoration: "none",
+            whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6,
+          }}>
+            <PhoneIcon size={14} style={{ color: GOLD }} />{AGENCY_PHONE}
+          </a>
         </div>
       </div>
 
@@ -105,7 +121,7 @@ export default function LandingPage({ variant, onLegal }) {
         <div style={{ maxWidth: 1040, margin: "0 auto", color: GRAY, fontSize: 12.5, lineHeight: 1.7 }}>
           <div style={{ marginBottom: 6 }}>{claims.licence}</div>
           <div style={{ marginBottom: 6 }}>
-            The AI Insurance Group · Monmouth County, New Jersey · sal@theaiinsurancegroup.com · 917-981-0245
+            The AI Insurance Group · Monmouth County, New Jersey · {AGENCY_EMAIL} · {AGENCY_PHONE}
           </div>
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             {["privacy", "terms", "disclosures"].map((k) => (

@@ -385,7 +385,47 @@ expect('upload path ends there', thanks.includes("There's nothing else you need 
 expect('non-upload path mentions the emailed link', thanks.includes("We've emailed you a secure link"), true);
 expect('  and offers the questionnaire when there is one', thanks.includes('Continue →'), true);
 expect('out-of-area still gets a human', thanks.includes('A licensed agent will be in touch shortly'), true);
-expect('no dead end: a phone number is always shown', thanks.includes('917-981-0245'), true);
+expect('no dead end: a phone number is always shown', thanks.includes('AGENCY_PHONE'), true);
+
+console.log('\n--- one contact number, and it is the agency line');
+// It used to be typed by hand in five places here and three more in the audit
+// tool, and the number typed was a personal mobile. These check the constant is
+// the only source and that the old number is gone for good.
+const contact = fs.readFileSync('src/contact.js', 'utf8');
+expect('the agency number is the one in the module', contact.includes('732-314-1093'), true);
+expect('  the tel: href is E.164', contact.includes('tel:+17323141093'), true);
+
+const everySource = ['src/App.jsx', 'src/contact.js', 'src/lead/LandingPage.jsx',
+  'src/lead/ThanksPage.jsx', 'src/lead/Questionnaire.jsx', 'src/lead/LeadForm.jsx']
+  .map((f) => fs.readFileSync(f, 'utf8')).join('\n');
+expect('the personal mobile appears nowhere', everySource.includes('917-981-0245'), false);
+expect('  nor unformatted in an href', everySource.includes('9179810245'), false);
+expect('no page hardcodes the number instead of importing it',
+  everySource.split('732-314-1093').length - 1, 1);
+
+console.log('\n--- every page a lead can land on offers a tappable number');
+for (const [name, body] of [['landing', landing], ['thanks', thanks], ['questionnaire', qui]]) {
+  expect(`${name} imports the shared contact details`, body.includes('from "../contact"'), true);
+  expect(`  ${name} renders it as a tel: link`, body.includes('AGENCY_PHONE_HREF'), true);
+}
+expect('the site nav carries it too', app.includes('AGENCY_PHONE_HREF'), true);
+
+console.log('\n--- the disclosures describe what the site actually shows');
+// The panel used to disclose a list of FINRA Series licences "as referenced on
+// our Sites" that were displayed nowhere on it.
+expect('no securities licences are listed', /Series 7, 24, 55, 63/.test(app), false);
+expect('  a background disclosure stands in its place', app.includes('Financial Services Background'), true);
+expect('  and it disclaims securities services', app.includes('is not a broker-dealer or an investment adviser'), true);
+
+console.log('\n--- the About copy is the approved text, unedited');
+expect('paragraph 1 verbatim',
+  app.includes('insurance should be reviewed, not simply renewed year after year'), true);
+expect('paragraph 2 verbatim',
+  app.includes('more than 30 years of experience in financial services, technology, and business leadership'), true);
+expect('paragraph 3 verbatim',
+  app.includes("combines modern technology with a licensed professional's judgment"), true);
+expect('  the homepage teaser reuses it rather than restating it',
+  app.includes('{ABOUT_BIO[0]}'), true);
 
 console.log('\n--- an unknown ad destination does not render an empty shell');
 expect('only real variants match', app.includes('(homeowners|auto)'), true);

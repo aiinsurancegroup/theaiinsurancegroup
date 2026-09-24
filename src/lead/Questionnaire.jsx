@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { AGENCY_PHONE, AGENCY_PHONE_HREF } from "../contact";
+import PhoneIcon from "../PhoneIcon";
 
 // Path B: the declarations-level questionnaire.
 //
@@ -180,7 +182,15 @@ export default function Questionnaire({ slug, leadId }) {
 
   return (
     <div style={wrap}>
-      <a href="/" style={{ color: GRAY, fontSize: 13, textDecoration: "none" }}>← The AI Insurance Group</a>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 14 }}>
+        <a href="/" style={{ color: GRAY, fontSize: 13, textDecoration: "none" }}>← The AI Insurance Group</a>
+        {/* Someone stuck on a declarations-page question should be able to ask
+            rather than abandon the form. */}
+        <a href={AGENCY_PHONE_HREF} style={{
+          color: NAVY, fontSize: 13, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap",
+          display: "flex", alignItems: "center", gap: 5,
+        }}><PhoneIcon size={13} style={{ color: GOLD }} />{AGENCY_PHONE}</a>
+      </div>
 
       <h1 style={{ color: NAVY, fontSize: "clamp(22px, 4vw, 28px)", fontWeight: 800, margin: "16px 0 6px", letterSpacing: -0.4 }}>
         {state.data.title || "A few quick questions"}

@@ -3,6 +3,8 @@ import LeadForm from "./lead/LeadForm";
 import Questionnaire from "./lead/Questionnaire";
 import LandingPage from "./lead/LandingPage";
 import ThanksPage from "./lead/ThanksPage";
+import { AGENCY_PHONE, AGENCY_PHONE_HREF, AGENCY_EMAIL } from "./contact";
+import PhoneIcon from "./PhoneIcon";
 
 const NAVY = "#0F2847";
 const GOLD = "#B8972A";
@@ -196,8 +198,14 @@ function Disclosures({ onClose }) {
       <LegalH2>Carrier and Product References</LegalH2>
       <LegalP>References to specific insurance carriers, products, endorsement forms (such as Verisk ISO forms CG 40 47, CG 40 48, and CG 35 08), and carrier actions are based on publicly available filings, industry publications, and press releases. These references are provided for educational purposes. Carrier practices, forms, and availability are subject to change. Mention of any carrier or product does not constitute an endorsement or guarantee of availability.</LegalP>
 
-      <LegalH2>FINRA Licensing</LegalH2>
-      <LegalP>FINRA Series 7, 24, 55, 63, and 99 licenses referenced on our Sites are held by Sal Martorano individually and pertain to securities industry qualifications. These licenses are referenced to demonstrate financial services expertise and are separate from property and casualty insurance licensing.</LegalP>
+      {/* Was "FINRA Licensing", and it disclosed a list of Series licences "as
+          referenced on our Sites" that had not appeared anywhere on the site for
+          some time -- a disclosure describing something that was not there. The
+          securities qualifications are no longer named or displayed. What does
+          appear is the reference to financial services experience in Sal's
+          About copy, so that is what this now covers. */}
+      <LegalH2>Financial Services Background</LegalH2>
+      <LegalP>Where our Sites refer to experience in financial services, technology, or business leadership, those references describe professional background only. The AI Insurance Group is a licensed insurance agency. It is not a broker-dealer or an investment adviser, does not offer, sell, or advise on securities, and does not provide investment, tax, or legal advice. No securities or investment advisory services are offered through The AI Insurance Group. Any securities industry qualifications held individually by our personnel are separate from property and casualty insurance licensing.</LegalP>
 
       <LegalH2>Lead Generation Disclosure</LegalH2>
       <LegalP>Information submitted through our assessment tools and contact forms may be shared with licensed insurance professionals, including brokers, agents, and agencies, for the purpose of providing you with insurance coverage options and quotes. By submitting your information, you consent to being contacted by licensed insurance professionals regarding coverage solutions relevant to your assessment results.</LegalP>
@@ -247,7 +255,10 @@ function Nav() {
       transition: "all 0.3s ease",
       padding: scrolled ? "12px 24px" : "20px 24px",
     }}>
-      <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+      {/* 1200, not the 1080 the page content uses. With the phone number added
+          the row needs 1139px, and a nav that clips is worse than a logo
+          sitting 60px wide of the content edge. */}
+      <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
         <a href="/" onClick={(e) => {
           if (!onHome) return;                      // let the browser navigate home
           e.preventDefault();
@@ -271,6 +282,15 @@ function Nav() {
             background: GOLD, color: WHITE, padding: "9px 14px", borderRadius: 6, fontSize: 12, fontWeight: 700,
             textDecoration: "none", letterSpacing: 0.2, whiteSpace: "nowrap",
           }}>Check Coverage</a>
+          {/* Mobile keeps the icon only -- at 390px the row already carries a
+              CTA, FAQ and the menu button, and the full number does not fit.
+              The number itself is the first item inside the open menu. */}
+          <a href={AGENCY_PHONE_HREF} className="nav-call-mobile" aria-label={`Call ${AGENCY_PHONE}`} style={{
+            display: "none", alignItems: "center", gap: 5,
+            color: GOLD, fontSize: 12, fontWeight: 700, textDecoration: "none",
+            padding: "9px 11px", borderRadius: 6, border: "1px solid " + GOLD,
+            letterSpacing: 0.3, whiteSpace: "nowrap",
+          }}><PhoneIcon size={12} />Call</a>
           <a href={to("#faq")} className="nav-faq-mobile" style={{
             display: "none",
             color: GOLD, fontSize: 12, fontWeight: 700, textDecoration: "none",
@@ -284,10 +304,16 @@ function Nav() {
           </div>
         </div>
 
-        {/* gap 18, not the old 28: eight links plus two buttons need 1045px of
-            the 1080px row, and nowrap means there is nowhere for a long label
-            like "Get a Quote" to fold. */}
-        <div className="nav-links" style={{ display: "flex", gap: 18, alignItems: "center" }}>
+        {/* gap 14, not the old 28: the phone number, eight links and two buttons
+            need 1139px of the 1200px row, and nowrap means there is nowhere for
+            a long label like "Get a Quote" to fold. */}
+        <div className="nav-links" style={{ display: "flex", gap: 14, alignItems: "center" }}>
+          <a href={AGENCY_PHONE_HREF} style={{
+            color: WHITE, fontSize: 14, fontWeight: 700, textDecoration: "none",
+            whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6,
+          }}>
+            <PhoneIcon size={14} style={{ color: GOLD }} />{AGENCY_PHONE}
+          </a>
           {links.map(l => (
             <a key={l.label} href={to(l.href)} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500, whiteSpace: "nowrap" }}>{l.label}</a>
           ))}
@@ -299,12 +325,14 @@ function Nav() {
         </div>
       </div>
       <style>{`
-        /* 1024, not 768: the desktop row needs ~1045px, so between 769 and
-           1024 it used to run off the side of the screen. The hamburger now
-           covers tablets, which is where that overflow lived. */
-        @media (max-width: 1024px) {
+        /* 1240, not 768: the desktop row needs 1139px plus padding, so
+           everything below ~1190 used to run off the side of the screen. The
+           hamburger now covers tablets and small laptops, which is where that
+           overflow always lived. */
+        @media (max-width: 1240px) {
           .mobile-menu-btn { display: flex !important; }
           .nav-cta-mobile { display: inline-block !important; padding: 9px 12px !important; font-size: 12px !important; }
+          .nav-call-mobile { display: inline-flex !important; }
           .nav-faq-mobile { display: inline-block !important; }
           .nav-brand-text { display: none; }
           .nav-links {
@@ -1403,6 +1431,16 @@ function BlogSection() {
 // The producer licence number is deliberately not repeated here. The footer
 // carries it on every page that renders the footer, and /about does.
 
+// Sal's own words, approved 2026-09-24 and used verbatim. The first paragraph
+// doubles as the homepage teaser, which is why it lives in an array rather than
+// inline: the homepage and /about render the same approved sentence, and there
+// is no second copy to fall out of sync.
+const ABOUT_BIO = [
+  "Sal Martorano founded The AI Insurance Group on a simple belief: insurance should be reviewed, not simply renewed year after year.",
+  "He is a licensed insurance professional with more than 30 years of experience in financial services, technology, and business leadership, including serving as CEO and President, building financial technology businesses, and developing technology-driven solutions for complex markets.",
+  "Today he combines modern technology with a licensed professional's judgment to help individuals and businesses identify potential coverage gaps, evaluate costs, and make better-informed decisions about their insurance.",
+];
+
 function AboutSection() {
   return (
     <section id="about" style={{ background: WHITE, padding: "80px 24px" }}>
@@ -1425,7 +1463,7 @@ function AboutSection() {
         <div>
           <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>Who you're dealing with</div>
           <h2 style={{ color: NAVY, fontSize: "clamp(26px, 3.4vw, 36px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>There's a person behind the technology.</h2>
-          <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 0 16px" }}>The AI Insurance Group is a full-service independent agency founded by Sal Martorano. Independent means no carrier sets our recommendations — your coverage goes in front of 100+ markets and we bring back what actually fits.</p>
+          <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 0 16px" }}>{ABOUT_BIO[0]}</p>
           <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 0 26px" }}>AI reads the policy. A licensed agent decides what it means. Every finding in a coverage review is checked by hand before it reaches you.</p>
           <a href="/about" style={{ color: NAVY, fontSize: 16, fontWeight: 700, textDecoration: "none", borderBottom: `2px solid ${GOLD}`, paddingBottom: 3 }}>More about the agency →</a>
         </div>
@@ -1482,9 +1520,13 @@ function AboutPage({ onLegal }) {
           </div>
           <div>
             <h2 style={{ color: NAVY, fontSize: "clamp(24px, 3vw, 32px)", fontWeight: 800, lineHeight: 1.2, margin: "0 0 18px", letterSpacing: -0.5 }}>Who you'll be dealing with</h2>
-            <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.75, margin: "0 0 16px" }}>Our homepage says one agent, 100+ carriers. Sal Martorano is that agent. He founded The AI Insurance Group and runs it as an independent agency.</p>
-            <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.75, margin: "0 0 16px" }}>Independent is the part that matters when you're deciding who to call. A captive agent sells their own company's product, so the recommendation is settled before you ask the question. We aren't tied to a carrier — your coverage goes in front of more than a hundred national, regional and specialty markets, and we bring back what fits.</p>
-            <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.75, margin: 0 }}>It's also why the first thing we ask for is your current policy rather than your details. A quote form tells us what you'd like to buy. The policy tells us what you already have, and whether it does what you think it does.</p>
+            {/* APPROVED 2026-09-24, verbatim. Do not edit these three paragraphs
+                without Sal saying so -- they are the only biographical claims on
+                the site and he is their source. My drafted stand-in text is gone
+                rather than merged, so what renders is what he approved. */}
+            {ABOUT_BIO.map((para) => (
+              <p key={para.slice(0, 24)} style={{ color: GRAY, fontSize: 17, lineHeight: 1.75, margin: "0 0 16px" }}>{para}</p>
+            ))}
           </div>
         </div>
       </section>
@@ -1519,7 +1561,7 @@ function AboutPage({ onLegal }) {
             fontSize: 18, fontWeight: 700, textDecoration: "none", boxShadow: "0 4px 24px rgba(184,151,42,0.3)", letterSpacing: 0.3,
           }}>Get My Free Insurance Review →</a>
           <p style={{ color: GRAY, fontSize: 14, lineHeight: 1.7, margin: "22px 0 0" }}>
-            Or reach Sal directly — <a href="mailto:sal@theaiinsurancegroup.com" style={{ color: NAVY, fontWeight: 600 }}>sal@theaiinsurancegroup.com</a> · <a href="tel:9179810245" style={{ color: NAVY, fontWeight: 600 }}>917-981-0245</a>
+            Or call us on <a href={AGENCY_PHONE_HREF} style={{ color: NAVY, fontWeight: 600 }}>{AGENCY_PHONE}</a> · <a href={`mailto:${AGENCY_EMAIL}`} style={{ color: NAVY, fontWeight: 600 }}>{AGENCY_EMAIL}</a>
           </p>
         </div>
       </section>
@@ -1806,6 +1848,7 @@ function ContactSection() {
           <BodyText text="Whether you need a quick quote, run an AI-driven company that needs specialty coverage, want your current policies checked for AI gaps, or you're a licensed agent interested in producing with us — we're here to help." />
           <div style={{ marginTop: 32 }}>
             {[
+              { label: "Phone", value: AGENCY_PHONE, href: AGENCY_PHONE_HREF },
               { label: "Insurance Business / Quotes", value: "sal@theaiinsurancegroup.com" },
               { label: "Platform & General Inquiries", value: "sal@theaiinsurancegroup.com" },
               { label: "Coverage Assessment", value: "IsYourAICovered.com" },
@@ -1814,7 +1857,9 @@ function ContactSection() {
             ].map((item, i) => (
               <div key={i} style={{ padding: "14px 0", borderBottom: `1px solid ${DIVIDER}` }}>
                 <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 4 }}>{item.label}</div>
-                <div style={{ color: NAVY, fontSize: 16, fontWeight: 500 }}>{item.value}</div>
+                <div style={{ color: NAVY, fontSize: 16, fontWeight: 500 }}>
+                  {item.href ? <a href={item.href} style={{ color: NAVY, fontWeight: 600 }}>{item.value}</a> : item.value}
+                </div>
               </div>
             ))}
           </div>

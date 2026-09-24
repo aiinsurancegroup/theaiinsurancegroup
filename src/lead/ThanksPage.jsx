@@ -1,4 +1,6 @@
 import React from "react";
+import { AGENCY_PHONE, AGENCY_PHONE_HREF } from "../contact";
+import PhoneIcon from "../PhoneIcon";
 
 // /thanks/:slug — the conversion page.
 //
@@ -35,8 +37,19 @@ export default function ThanksPage({ slug, next, leadId, questionnaireSlug }) {
   return (
     <div style={{ background: LIGHT, minHeight: "100vh", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
       <div style={{ background: NAVY, padding: "14px 20px" }}>
-        <div style={{ maxWidth: 640, margin: "0 auto", color: WHITE, fontSize: 15, fontWeight: 700 }}>
-          The AI Insurance Group
+        <div style={{
+          maxWidth: 640, margin: "0 auto", display: "flex",
+          justifyContent: "space-between", alignItems: "center", gap: 14,
+        }}>
+          <div style={{ color: WHITE, fontSize: 15, fontWeight: 700 }}>
+            The AI Insurance Group
+          </div>
+          <a href={AGENCY_PHONE_HREF} style={{
+            color: WHITE, fontSize: 15, fontWeight: 700, textDecoration: "none",
+            whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6,
+          }}>
+            <PhoneIcon size={14} style={{ color: GOLD }} />{AGENCY_PHONE}
+          </a>
         </div>
       </div>
 
@@ -84,7 +97,8 @@ export default function ThanksPage({ slug, next, leadId, questionnaireSlug }) {
         </div>
 
         <p style={{ color: GRAY, fontSize: 13.5, lineHeight: 1.65, textAlign: "center", margin: "22px 0 0" }}>
-          Anything urgent? Reply to the email we've just sent, or call 917-981-0245.
+          Anything urgent? Reply to the email we've just sent, or call{" "}
+          <a href={AGENCY_PHONE_HREF} style={{ color: NAVY, fontWeight: 600 }}>{AGENCY_PHONE}</a>.
         </p>
       </div>
     </div>
