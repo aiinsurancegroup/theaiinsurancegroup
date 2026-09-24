@@ -3,7 +3,7 @@ import LeadForm from "./lead/LeadForm";
 import Questionnaire from "./lead/Questionnaire";
 import LandingPage from "./lead/LandingPage";
 import ThanksPage from "./lead/ThanksPage";
-import { AGENCY_PHONE, AGENCY_PHONE_HREF, AGENCY_EMAIL } from "./contact";
+import { AGENCY_PHONE, AGENCY_PHONE_HREF, AGENCY_EMAIL, AUTHOR_BIO } from "./contact";
 import PhoneIcon from "./PhoneIcon";
 import { applyMeta } from "./meta";
 import { Hero, CoverageBoxes } from "./home";
@@ -1275,7 +1275,7 @@ function BlogSection() {
                       </div>
                     ))}
                     <div style={{ marginTop: 28, paddingTop: 20, borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || "Sal Martorano is the founder of The AI Insurance Group, an informational platform focused on AI liability coverage and risk advisory."}</p>
+                      <p style={{ color: GRAY, fontSize: 13, fontStyle: "italic", margin: 0 }}>{post.author_bio || AUTHOR_BIO}</p>
                     </div>
                     {isAdmin && (
                       <div style={{ marginTop: 16, display: "flex", gap: 10 }}>

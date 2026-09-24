@@ -424,6 +424,24 @@ for (const [name, body] of [['landing', landing], ['thanks', thanks], ['question
 }
 expect('the site nav carries it too', app.includes('AGENCY_PHONE_HREF'), true);
 
+console.log('\n--- the blog byline matches the database default');
+// Pinned byte for byte, the same way the consent text is. The other copy is the
+// default on public.blog_posts.author_bio (migration 13, ai-policy-audit-tool).
+// They live in different repositories, so nothing but this test notices a drift
+// -- and the string carries the producer licence number, so a drift is a
+// regulated sentence going out under a published article.
+const EXPECTED_AUTHOR_BIO =
+  'Sal Martorano is the founder of The AI Insurance Group, a licensed independent ' +
+  'insurance agency in New Jersey, Pennsylvania and Florida. NJ Producer License No. 3004245927.';
+const { AUTHOR_BIO } = await import('../src/contact.js');
+expect('the byline is exactly the approved sentence', AUTHOR_BIO, EXPECTED_AUTHOR_BIO);
+expect('  it names a licensed agency, not a platform',
+  /an informational platform/.test(AUTHOR_BIO), false);
+expect('  the old wording is gone from the blog section',
+  /informational platform focused on AI liability/.test(app), false);
+expect('  and the fallback reads the constant rather than a literal',
+  app.includes('post.author_bio || AUTHOR_BIO'), true);
+
 console.log('\n--- the disclosures describe what the site actually shows');
 // The panel used to disclose a list of FINRA Series licences "as referenced on
 // our Sites" that were displayed nowhere on it.
