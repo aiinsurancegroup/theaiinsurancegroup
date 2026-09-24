@@ -200,7 +200,17 @@ expect('the link path exists', src.includes('async function emailUploadLink'), t
 expect('  fires when nothing was uploaded', src.includes('if (!upload?.path) {'), true);
 expect('  including when the upload failed', src.includes('covers the visitor who never picked one'), true);
 expect('  and logs UPLOAD_LINK_SENT', src.includes('"UPLOAD_LINK_SENT"'), true);
-expect('no extra button on the form', /skip this and we.ll email you a secure link/.test(form), true);
+// The form is now upload-first, so there IS a second button -- "No policy
+// handy? Answer a few questions", which Sal asked for. What must not come back
+// is a second SUBMIT: the emailed link still fires server-side for any lead
+// with no file (asserted just above), and the skip path only collapses the
+// button and swaps a helper line.
+expect('the skip path still promises the emailed link',
+  /we.ll email you a secure link to send it later/.test(form), true);
+expect('  and skipping changes nothing about what is submitted',
+  form.includes('It does not change what gets submitted'), true);
+expect('  there is still exactly one submit button',
+  (form.match(/type="submit"/g) || []).length, 1);
 
 console.log('\n--- the emailed token is a real portal credential');
 expect('32 crypto bytes', src.includes('crypto.randomBytes(32).toString("hex")'), true);
@@ -225,6 +235,10 @@ expect('an upload still ends the flow', form.includes("There's nothing else you 
 
 console.log('\n--- the upload prompt names real places a policy lives');
 expect('phone, email or paper', form.includes('Have it on your phone, in your email, or on paper?'), true);
+expect('  upload is the primary control, in gold with navy text',
+  /Upload my policy \(PDF\)/.test(form) && /background: GOLD, color: NAVY/.test(form), true);
+expect('  and the questions path is the outlined secondary',
+  /No policy handy\? Answer a few questions/.test(form), true);
 expect('  a photo is the suggested route', form.includes('A clear photo of your declarations page works'), true);
 
 
@@ -447,8 +461,8 @@ expect('the old positioning is gone from the title', /AI Liability Coverage/i.te
 expect('  and from the description', /lawyers|physicians|wealth managers/i.test(shellDesc), false);
 expect('the homepage title leads with the offer', shellTitle.includes('Free Insurance Policy Review'), true);
 expect('  the description names the licensed states',
-  /licensed in New Jersey, Pennsylvania and Florida/.test(shellDesc), true);
-expect('  and says what the review actually does', shellDesc.includes('tell you what it actually covers'), true);
+  /NJ, PA and FL|New Jersey, Pennsylvania and Florida/.test(shellDesc), true);
+expect('  and says who checks the findings', /a licensed agent checks it/i.test(shellDesc), true);
 expect('  and is a sensible length for a snippet', shellDesc.length > 80 && shellDesc.length < 200, true);
 
 expect('a canonical is declared', shell.includes('rel="canonical"'), true);
