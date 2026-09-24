@@ -424,6 +424,63 @@ for (const [name, body] of [['landing', landing], ['thanks', thanks], ['question
 }
 expect('the site nav carries it too', app.includes('AGENCY_PHONE_HREF'), true);
 
+console.log('\n--- the hero paragraph is the compliance-approved wording');
+const home = fs.readFileSync('src/home.jsx', 'utf8');
+
+// Absence checks run against code with comments removed. The source comment
+// beside this paragraph quotes the rejected phrasing in order to warn against
+// it, so a check against the raw file would match that warning and pass or fail
+// on prose. Only whole-line comments are stripped, which leaves the "https://"
+// inside string literals intact.
+const codeOnly = (s) => s
+  // Block comments first, and this is the one that matters: the warning beside
+  // the paragraph is a JSX comment, {/* ... */}, whose middle lines start with
+  // ordinary words. A line-based filter leaves those behind and the check then
+  // matches the warning instead of the copy.
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .split(/\r?\n/)
+  .filter((l) => !/^\s*\/\//.test(l))   // whole-line // only, so https:// survives
+  .join('\n');
+const homeCode = codeOnly(home);
+
+const HERO_PARAGRAPH =
+  'We have access to 100+ carriers. Our AI reads the policy you already have, screens the ' +
+  'carriers that write your kind of risk, and ranks the best fits. A licensed agent quotes ' +
+  'them and checks every detail, so you get more protection for every dollar.';
+// Compared with whitespace collapsed: the sentence is wrapped across JSX lines,
+// so the file never contains it as one run of characters.
+const flat = homeCode.replace(/\s+/g, ' ');
+expect('the paragraph is present verbatim', flat.includes(HERO_PARAGRAPH), true);
+expect('  it says "screens", which is what actually happens',
+  flat.includes('screens the carriers that write your kind of risk'), true);
+expect('  and never "scans", which overstates it', /scans\s+100\+/.test(flat), false);
+expect('  the reason is written down beside it',
+  /compliance/i.test(home) && /substantiated/.test(home), true);
+
+console.log('\n--- the SAMPLE chip is a compliance control, not decoration');
+expect('the chip is rendered', flat.includes('>\n          SAMPLE\n        <'.replace(/\s+/g, ' ')), true);
+expect('  next to the panel header', flat.includes('YOUR REVIEW'), true);
+
+// "Static" is the actual requirement: invented percentages that animate read as
+// live output. These assert the panel has no motion of any kind in it.
+// From the row data, not from the component: the percentages live in
+// SAMPLE_ROWS above SamplePanel, so a slice starting at the function excluded
+// exactly the literals this is meant to pin.
+const panelStart = homeCode.indexOf('const SAMPLE_ROWS = [');
+const panelEnd = homeCode.indexOf('export function Hero(');
+const panel = homeCode.slice(panelStart, panelEnd);
+expect('the panel body was found', panelStart > -1 && panelEnd > panelStart, true);
+for (const moving of ['animation', 'transition', '@keyframes', 'setInterval', 'setTimeout', 'useState']) {
+  expect(`  no ${moving} inside the panel`, panel.includes(moving), false);
+}
+expect('  its rows are static data', homeCode.includes('const SAMPLE_ROWS = ['), true);
+for (const pct of ['96', '91', '88']) {
+  expect(`  Carrier bar ${pct}% is a fixed literal`, panel.includes(`pct: ${pct}`), true);
+}
+for (const row of ['Policy read', 'Gap flagged', 'Markets screened and ranked', 'Licensed agent review']) {
+  expect(`  row "${row}"`, homeCode.includes(row), true);
+}
+
 console.log('\n--- the blog byline matches the database default');
 // Pinned byte for byte, the same way the consent text is. The other copy is the
 // default on public.blog_posts.author_bio (migration 13, ai-policy-audit-tool).
