@@ -5,10 +5,14 @@ import LandingPage from "./lead/LandingPage";
 import ThanksPage from "./lead/ThanksPage";
 import { AGENCY_PHONE, AGENCY_PHONE_HREF, AGENCY_EMAIL, AUTHOR_BIO } from "./contact";
 import PhoneIcon from "./PhoneIcon";
+import BrandLogo from "./BrandLogo";
 import { applyMeta } from "./meta";
-import { Hero, CoverageBoxes } from "./home";
+import { Hero, Ticker, CoverageBoxes } from "./home";
 
 const NAVY = "#0F2847";
+// The brand navy from the logo artwork. NAVY above is the older page navy,
+// still used by every section below the hero.
+const NAVY_DEEP = "#121E2D";
 const GOLD = "#B8972A";
 const DARK = "#0F1923";
 const WHITE = "#FFFFFF";
@@ -252,94 +256,85 @@ function Nav() {
   return (
     <nav style={{
       position: "fixed", top: "var(--banner-h, 0px)", left: 0, right: 0, zIndex: 999,
-      background: scrolled || menuOpen ? "rgba(15,25,35,0.97)" : "transparent",
-      backdropFilter: scrolled || menuOpen ? "blur(12px)" : "none",
-      borderBottom: scrolled ? "1px solid rgba(184,151,42,0.15)" : "none",
-      transition: "all 0.3s ease",
-      padding: scrolled ? "12px 24px" : "20px 24px",
+      background: WHITE,
+      borderBottom: `1px solid ${scrolled ? "#E5E7EB" : "rgba(18,30,45,0.08)"}`,
+      boxShadow: scrolled ? "0 1px 12px rgba(18,30,45,0.06)" : "none",
+      transition: "box-shadow 0.25s ease, border-color 0.25s ease, padding 0.25s ease",
+      padding: scrolled ? "10px 24px" : "14px 24px",
     }}>
-      {/* 1200, not the 1080 the page content uses. With the phone number added
-          the row needs 1139px, and a nav that clips is worse than a logo
-          sitting 60px wide of the content edge. */}
+      {/* White, navy type. The hero behind it is #F6F4EF now, so the old
+          transparent-over-photo treatment had nothing dark to sit on -- white
+          links on sand were invisible. */}
       <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
         <a href="/" onClick={(e) => {
           if (!onHome) return;                      // let the browser navigate home
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: "smooth" });
           setMenuOpen(false);
-        }} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 8, background: WHITE, border: "1.5px solid " + NAVY, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 12, letterSpacing: -0.3, fontFamily: "Arial, sans-serif" }}>
-            <span style={{ color: GOLD }}>AI</span>
-            <span style={{ color: GOLD, margin: "0 1px" }}>·</span>
-            <span style={{ color: NAVY }}>IG</span>
-          </div>
-          <div className="nav-brand-text">
-            <span style={{ color: WHITE, fontWeight: 700, fontSize: 16, letterSpacing: -0.3 }}>The AI Insurance</span>
-            <span style={{ color: GOLD, fontWeight: 700, fontSize: 16 }}> Group</span>
-          </div>
+        }} style={{ display: "flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}>
+          {/* The supplied artwork, light-background version: the wordmark inks
+              navy. Replaces the hand-drawn AI-IG box that approximated it. */}
+          <span className="nav-logo" style={{ display: "block" }}>
+            <BrandLogo tone="light" width={172} style={{ display: "block" }} />
+          </span>
         </a>
 
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-          {/* "Check Coverage" (isyouraicovered.com) and "FAQ" are gone from
-              here: FAQ moved to the footer with the rest, and Check Coverage
-              was the old positioning's call to action. Call stays -- with the
-              row down to one button plus the menu, it now carries the number
-              rather than just the word. */}
           <a href={AGENCY_PHONE_HREF} className="nav-call-mobile" style={{
             display: "none", alignItems: "center", gap: 6,
-            color: GOLD, fontSize: 13, fontWeight: 700, textDecoration: "none",
-            padding: "9px 13px", borderRadius: 6, border: "1px solid " + GOLD,
+            color: NAVY_DEEP, fontSize: 13, fontWeight: 700, textDecoration: "none",
+            padding: "9px 13px", borderRadius: 6, border: `1px solid ${NAVY_DEEP}`,
             letterSpacing: 0.2, whiteSpace: "nowrap",
           }}><PhoneIcon size={13} />{AGENCY_PHONE}</a>
           <div onClick={() => setMenuOpen(!menuOpen)} style={{ display: "none", cursor: "pointer", flexDirection: "column", gap: 5, padding: 8 }} className="mobile-menu-btn">
-            <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
-            <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
-            <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
+            <div style={{ width: 24, height: 2, background: NAVY_DEEP, borderRadius: 1 }} />
+            <div style={{ width: 24, height: 2, background: NAVY_DEEP, borderRadius: 1 }} />
+            <div style={{ width: 24, height: 2, background: NAVY_DEEP, borderRadius: 1 }} />
           </div>
         </div>
 
-        {/* gap 14, not the old 28: the phone number, eight links and two buttons
-            need 1139px of the 1200px row, and nowrap means there is nowhere for
-            a long label like "Get a Quote" to fold. */}
-        <div className="nav-links" style={{ display: "flex", gap: 14, alignItems: "center" }}>
+        <div className="nav-links" style={{ display: "flex", gap: 18, alignItems: "center" }}>
           {links.map(l => (
-            <a key={l.label} href={to(l.href)} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500, whiteSpace: "nowrap" }}>{l.label}</a>
+            <a key={l.label} href={to(l.href)} onClick={() => setMenuOpen(false)} style={{ color: NAVY_DEEP, textDecoration: "none", fontSize: 14, fontWeight: 500, whiteSpace: "nowrap" }}>{l.label}</a>
           ))}
           <a href={AGENCY_PHONE_HREF} style={{
-            color: WHITE, fontSize: 14, fontWeight: 700, textDecoration: "none",
+            color: NAVY_DEEP, fontSize: 14, fontWeight: 700, textDecoration: "none",
             whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6,
           }}>
-            <PhoneIcon size={14} style={{ color: GOLD }} />{AGENCY_PHONE}
+            <PhoneIcon size={14} />{AGENCY_PHONE}
           </a>
           <a href={to("#quote")} style={{
-            background: GOLD, color: WHITE, padding: "10px 20px", borderRadius: 6, fontSize: 13.5, fontWeight: 700,
-            textDecoration: "none", letterSpacing: 0.3, whiteSpace: "nowrap",
+            background: NAVY_DEEP, color: WHITE, padding: "11px 22px", borderRadius: 6, fontSize: 13.5, fontWeight: 600,
+            textDecoration: "none", letterSpacing: 0.2, whiteSpace: "nowrap",
           }}>Free review</a>
         </div>
       </div>
       <style>{`
-        /* 1240, not 768: the desktop row needs 1139px plus padding, so
-           everything below ~1190 used to run off the side of the screen. The
-           hamburger now covers tablets and small laptops, which is where that
-           overflow always lived. */
         @media (max-width: 1240px) {
           .mobile-menu-btn { display: flex !important; }
           .nav-call-mobile { display: inline-flex !important; }
-          .nav-brand-text { display: none; }
           .nav-links {
             ${menuOpen ? `
               display: flex !important;
               flex-direction: column;
+              align-items: flex-start;
               position: absolute;
               top: 100%;
               left: 0;
               right: 0;
-              background: rgba(15,25,35,0.98);
-              padding: 20px 24px;
-              gap: 20px;
-              border-top: 1px solid rgba(184,151,42,0.15);
+              background: ${WHITE};
+              padding: 18px 24px 22px;
+              gap: 18px;
+              border-top: 1px solid #E5E7EB;
+              box-shadow: 0 10px 24px rgba(18,30,45,0.08);
             ` : `display: none !important;`}
           }
+        }
+        @media (max-width: 460px) {
+          /* Scoped to .nav-logo, not "nav svg": that wider selector also caught
+             the handset icon inside the call button and rendered it 132px wide.
+             Both are svgs in the nav; only one is the logo. */
+          .nav-logo svg { width: 132px !important; height: auto !important; }
         }
       `}</style>
     </nav>
@@ -1178,8 +1173,20 @@ function BreakingBanner() {
 
 const BLOG_PREVIEW = 3;
 
-function BlogSection() {
+function BlogSection({ openPost = null }) {
   const [expandedPost, setExpandedPost] = useState(null);
+
+  // Opened from the ticker. Posts have no URLs of their own, so the id arrives
+  // as a prop; scrolling is deferred a frame so the post has expanded and the
+  // element is at its final height before we scroll to it.
+  useEffect(() => {
+    if (!openPost) return;
+    setExpandedPost(openPost);
+    const id = requestAnimationFrame(() => {
+      document.getElementById(`post-${openPost}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [openPost]);
   const [showAllPosts, setShowAllPosts] = useState(false);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -1247,7 +1254,7 @@ function BlogSection() {
             const content = typeof post.content === "string" ? JSON.parse(post.content) : post.content;
             if (editing === post.id) return <BlogEditor key={post.id} post={post} onSave={handleSaved} onCancel={() => setEditing(null)} adminPassword={adminPassword} />;
             return (
-              <div key={post.id} style={{ background: WHITE, borderRadius: 16, border: `1px solid ${BORDER}`, overflow: "hidden", marginBottom: 20 }}>
+              <div key={post.id} id={`post-${post.id}`} style={{ background: WHITE, borderRadius: 16, border: `1px solid ${BORDER}`, overflow: "hidden", marginBottom: 20 }}>
                 <button onClick={() => setExpandedPost(isOpen ? null : post.id)} style={{
                   width: "100%", textAlign: "left", padding: "32px", background: "none", border: "none",
                   cursor: "pointer", fontFamily: "inherit",
@@ -1905,6 +1912,10 @@ export default function App() {
   // one start form rather than opening a second one, so there is a single
   // place where a lead is actually created.
   const [startLine, setStartLine] = useState(null);
+  // A ticker title is a link to its post, and posts expand in place rather than
+  // having their own URLs -- so the id travels down to BlogSection, which opens
+  // that post and scrolls to it.
+  const [openPost, setOpenPost] = useState(null);
   const route = routeFromPath();
 
   // One index.html serves every path, so without this each route would keep
@@ -1950,6 +1961,7 @@ export default function App() {
           the ticker is one line if it is ever wanted back. */}
       <Nav />
       <Hero onPick={setStartLine} />
+      <Ticker onOpenPost={setOpenPost} />
       <CoverageBoxes onPick={setStartLine} />
       <QuoteSection line={startLine} />
       <CoverageSection />
@@ -1957,7 +1969,7 @@ export default function App() {
       <WhatChangedSection />
       <IndustriesSection />
       <ResourcesSection />
-      <BlogSection />
+      <BlogSection openPost={openPost} />
       <AboutSection />
       <CTASection />
       <AgentsSection />
