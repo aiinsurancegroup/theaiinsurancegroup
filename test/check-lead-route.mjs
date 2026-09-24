@@ -433,6 +433,9 @@ console.log('\n--- page metadata matches the current positioning');
 // for lawyers and physicians -- two positionings ago.
 const shell = fs.readFileSync('index.html', 'utf8');
 const meta = fs.readFileSync('src/meta.js', 'utf8');
+// The apex redirects to www, so www is the only host that should appear in a
+// canonical, an og:url or the sitemap.
+const HOST = 'https://www.theaiinsurancegroup.com';
 
 // Read the actual tag values, not the file. Both of these first matched the
 // HTML comment that explains what the old wording was, so they were green on
@@ -477,7 +480,21 @@ expect('  and excludes the funnel pages',
   locs.some((l) => l.includes('/thanks') || l.includes('/quote')), false);
 expect('  every listed page is a route the app serves',
   locs.every((l) => ['/', '/about', '/review/homeowners', '/review/auto']
-    .includes(l.replace('https://theaiinsurancegroup.com', '') || '/')), true);
+    .includes(l.replace(HOST, '') || '/')), true);
+
+console.log('\n--- one host, spelled the way the site answers');
+// The apex 307-redirects to www and Search Console is verified on the www
+// property, so a sitemap of apex URLs returned "Couldn't fetch". Canonical,
+// og:url and the sitemap have to agree on the host or they argue.
+expect('sitemap uses www on every entry', locs.every((l) => l.startsWith(HOST)), true);
+expect('  and none of them is a bare apex URL',
+  locs.some((l) => /^https:\/\/theaiinsurancegroup\.com/.test(l)), false);
+expect('the canonical in the shell is www', shell.includes(`rel="canonical" href="${HOST}/"`), true);
+expect('  og:url agrees with it', shell.includes(`property="og:url" content="${HOST}/"`), true);
+expect('  og:image too, so an unfurler is not redirected',
+  shell.includes(`${HOST}/og-card.png`), true);
+expect('runtime canonicals use the same host', meta.includes(`"${HOST}"`), true);
+expect('robots.txt points at the www sitemap', robots.includes(`Sitemap: ${HOST}/sitemap.xml`), true);
 
 console.log('\n--- an unknown ad destination does not render an empty shell');
 expect('only real variants match', app.includes('(homeowners|auto)'), true);

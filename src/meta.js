@@ -20,7 +20,12 @@ import { HOMEOWNERS_CLAIMS, AUTO_CLAIMS } from "./lead/claims";
 // will not. Truly static per-page metadata needs either prerendering at build
 // or separate HTML entry points, which is a bigger change than this one.
 
-const SITE = "https://theaiinsurancegroup.com";
+// www, with the host spelled the way the site actually answers. The apex
+// redirects to www, so an apex canonical pointed at a URL that is itself a
+// redirect -- and Search Console is verified on the www property, which could
+// not fetch a sitemap listing apex URLs. Canonical, og:url and the sitemap all
+// have to name the same host or they argue with each other.
+const SITE = "https://www.theaiinsurancegroup.com";
 
 const HOME = {
   title: "The AI Insurance Group | Free Insurance Policy Review",

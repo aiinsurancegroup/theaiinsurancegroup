@@ -6,4 +6,4 @@ Allow: /
 Disallow: /thanks/
 Disallow: /quote/
 
-Sitemap: https://theaiinsurancegroup.com/sitemap.xml
+Sitemap: https://www.theaiinsurancegroup.com/sitemap.xml
