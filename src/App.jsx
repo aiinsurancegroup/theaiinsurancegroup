@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import LeadForm from "./lead/LeadForm";
 import Questionnaire from "./lead/Questionnaire";
+import LandingPage from "./lead/LandingPage";
+import ThanksPage from "./lead/ThanksPage";
 
 const NAVY = "#0F2847";
 const GOLD = "#B8972A";
@@ -1752,10 +1754,27 @@ function Footer({ onLegalPage }) {
 // pages land, not before.
 function routeFromPath() {
   if (typeof window === "undefined") return null;
-  const m = window.location.pathname.match(/^\/quote\/([a-z0-9-]{2,40})\/?$/i);
-  if (!m) return null;
-  const lead = new URLSearchParams(window.location.search).get("lead");
-  return { kind: "quote", slug: m[1].toLowerCase(), leadId: lead };
+  const path = window.location.pathname;
+  const q = new URLSearchParams(window.location.search);
+
+  const quote = path.match(/^\/quote\/([a-z0-9-]{2,40})\/?$/i);
+  if (quote) return { kind: "quote", slug: quote[1].toLowerCase(), leadId: q.get("lead") };
+
+  // Paid traffic. Only variants that exist are matched: an unknown /review/*
+  // path falls through to the homepage rather than rendering an empty shell,
+  // because a broken ad destination is a paid click that buys nothing.
+  const review = path.match(/^\/review\/(homeowners|auto)\/?$/i);
+  if (review) return { kind: "review", variant: review[1].toLowerCase() };
+
+  const thanks = path.match(/^\/thanks\/([a-z0-9-]{2,40})\/?$/i);
+  if (thanks) {
+    return {
+      kind: "thanks", slug: thanks[1].toLowerCase(),
+      next: q.get("next"), leadId: q.get("lead"), questionnaireSlug: q.get("q"),
+    };
+  }
+
+  return null;
 }
 
 export default function App() {
@@ -1770,9 +1789,22 @@ export default function App() {
     );
   }
 
+  // The legal panels are checked before the landing page so its footer links
+  // work: they are the only outbound links a paid page is allowed.
   if (legalPage === "privacy") return <PrivacyPolicy onClose={() => setLegalPage(null)} />;
   if (legalPage === "terms") return <TermsOfService onClose={() => setLegalPage(null)} />;
   if (legalPage === "disclosures") return <Disclosures onClose={() => setLegalPage(null)} />;
+
+  if (route?.kind === "review") {
+    return <LandingPage variant={route.variant} onLegal={setLegalPage} />;
+  }
+
+  if (route?.kind === "thanks") {
+    return (
+      <ThanksPage slug={route.slug} next={route.next}
+                  leadId={route.leadId} questionnaireSlug={route.questionnaireSlug} />
+    );
+  }
 
   return (
     <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", margin: 0, paddingTop: "var(--banner-h, 0px)" }}>
