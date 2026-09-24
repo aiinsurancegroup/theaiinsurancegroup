@@ -306,7 +306,11 @@ expect('no site navigation is rendered', /<Nav\b|navLinks|nav-links/.test(landin
 console.log('\n--- the form is above the fold on a phone');
 // The ordering IS the mechanism: headline, form, then everything else.
 expect('the copy block dissolves so children can reorder', landing.includes('.lp-copy { display: contents; }'), true);
-expect('  eyebrow first', /.lp-copy > div:first-child { order: 1;/.test(landing), true);
+// The eyebrow is hidden on a phone: it repeated what the headline says, and on
+// a screen where every pixel above the form pushes the submit button lower,
+// saying the same thing twice is not worth a line of height.
+expect('  eyebrow hidden on mobile', landing.includes('.lp-copy > div:first-child { display: none !important; }'), true);
+expect('  but still shown on desktop', landing.includes('{cfg.eyebrow}'), true);
 expect('  headline second', /\.lp-h1 \{ order: 2;/.test(landing), true);
 expect('  FORM THIRD, before the explanation', /\.lp-form \{ order: 3; \}/.test(landing), true);
 expect('  subhead after the form', /\.lp-sub \{ order: 4;/.test(landing), true);
@@ -351,7 +355,7 @@ const liveClaimText = [
   HOMEOWNERS_CLAIMS.licence, ...HOMEOWNERS_CLAIMS.proofs,
   AUTO_CLAIMS.headline, AUTO_CLAIMS.subhead,
   AUTO_CLAIMS.licence, ...AUTO_CLAIMS.proofs,
-].join('   ');
+].join(' | ');
 
 expect('no unsourced market claim', liveClaimText.includes("Most policies haven't"), false);
 expect('no state-specific claim on a three-state page', liveClaimText.includes('New Jersey lets you buy'), false);

@@ -126,14 +126,14 @@ export default function LandingPage({ variant, onLegal }) {
           /* Form above the fold. The headline earns the scroll, the form takes
              the action, and the explanation waits below for whoever wants it.
              Ordering the copy block after the form is the whole trick. */
-          .lp-grid { grid-template-columns: 1fr !important; gap: 14px !important; padding: 14px 18px 40px !important; }
+          .lp-grid { grid-template-columns: 1fr !important; gap: 10px !important; padding: 10px 16px 36px !important; }
           /* Every pixel above the form is a pixel of form pushed below the
              fold, so the furniture is tightened on a phone rather than the
              consent text, which is the one thing that must not shrink. */
-          .lp-head { padding: 9px 18px !important; }
+          .lp-head { padding: 7px 16px !important; }
           .lp-copy { display: contents; }
-          .lp-copy > div:first-child { order: 1; margin-bottom: 7px !important; font-size: 11.5px !important; }
-          .lp-h1 { order: 2; font-size: 24px !important; line-height: 1.15 !important; margin-bottom: 10px !important; }
+          .lp-copy > div:first-child { display: none !important; }
+          .lp-h1 { order: 2; font-size: 22px !important; line-height: 1.16 !important; margin-bottom: 8px !important; }
           .lp-form { order: 3; }
           .lp-sub { order: 4; margin-top: 4px !important; }
           .lp-proofs { order: 5; }

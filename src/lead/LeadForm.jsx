@@ -50,7 +50,7 @@ const field = {
   border: `1px solid ${BORDER}`, borderRadius: 8,    // makes iOS zoom on focus
   fontFamily: "inherit", color: NAVY, background: WHITE, boxSizing: "border-box",
 };
-const labelStyle = { display: "block", fontSize: 13, fontWeight: 600, color: NAVY, marginBottom: 6 };
+const labelStyle = { display: "block", fontSize: 12.5, fontWeight: 600, color: NAVY, marginBottom: 4 };
 
 export default function LeadForm({ defaultProduct = "home", compact = false, onSuccess = null, hideProduct = false }) {
   const [product, setProduct] = useState(defaultProduct);
@@ -225,7 +225,7 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
   }
 
   return (
-    <form onSubmit={submit} style={{ background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: compact ? 20 : 24 }}>
+    <form onSubmit={submit} style={{ background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: compact ? 16 : 24 }}>
       {!compact && (
         <div style={{ fontSize: 18, fontWeight: 800, color: NAVY, marginBottom: 4 }}>Get your free insurance review</div>
       )}
@@ -257,7 +257,7 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
         </div>
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
         <div>
           <label style={labelStyle} htmlFor="lf-first">First name</label>
           <input id="lf-first" style={field} value={values.first_name} onChange={set("first_name")}
@@ -276,7 +276,7 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
                autoComplete="email" inputMode="email" required />
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12, marginBottom: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 10, marginBottom: 12 }}>
         <div>
           <label style={labelStyle} htmlFor="lf-phone">Mobile</label>
           <input id="lf-phone" type="tel" style={field} value={values.mobile_phone} onChange={set("mobile_phone")}
@@ -292,11 +292,11 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
 
       {/* Consumer language, deliberately. "Upload your declarations page" asks
           someone to know a term they have no reason to know. */}
-      <div style={{ border: `1px dashed ${BORDER}`, borderRadius: 8, padding: 14, marginBottom: 16 }}>
+      <div style={{ border: `1px dashed ${BORDER}`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
         <label style={{ ...labelStyle, marginBottom: 4 }} htmlFor="lf-file">
           Have it on your phone, in your email, or on paper?
         </label>
-        <p style={{ color: GRAY, fontSize: 13.5, lineHeight: 1.5, margin: "0 0 10px" }}>
+        <p style={{ color: GRAY, fontSize: 13, lineHeight: 1.45, margin: "0 0 8px" }}>
           A clear photo of your declarations page works. Attach it now and we'll do most of the work
           for you — or skip this and we'll email you a secure link to send it later.
         </p>
@@ -311,7 +311,7 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
         )}
       </div>
 
-      <label style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 16, cursor: "pointer" }}>
+      <label style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 12, cursor: "pointer" }}>
         <input type="checkbox" checked={tcpa} onChange={(e) => setTcpa(e.target.checked)}
                style={{ marginTop: 3, width: 18, height: 18, flexShrink: 0 }} />
         <span style={{ fontSize: 12.5, color: GRAY, lineHeight: 1.5 }}>{TCPA_TEXT}</span>
