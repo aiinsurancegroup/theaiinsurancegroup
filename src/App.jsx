@@ -5,6 +5,7 @@ import LandingPage from "./lead/LandingPage";
 import ThanksPage from "./lead/ThanksPage";
 import { AGENCY_PHONE, AGENCY_PHONE_HREF, AGENCY_EMAIL } from "./contact";
 import PhoneIcon from "./PhoneIcon";
+import { applyMeta } from "./meta";
 
 const NAVY = "#0F2847";
 const GOLD = "#B8972A";
@@ -1997,6 +1998,11 @@ function routeFromPath() {
 export default function App() {
   const [legalPage, setLegalPage] = useState(null);
   const route = routeFromPath();
+
+  // One index.html serves every path, so without this each route would keep
+  // the homepage's title and description. Keyed on the route so a client-side
+  // move between pages updates the head too.
+  useEffect(() => { applyMeta(route); }, [route?.kind, route?.variant, route?.slug]);
 
   if (route?.kind === "quote") {
     return (

@@ -427,6 +427,58 @@ expect('paragraph 3 verbatim',
 expect('  the homepage teaser reuses it rather than restating it',
   app.includes('{ABOUT_BIO[0]}'), true);
 
+console.log('\n--- page metadata matches the current positioning');
+// One index.html serves every route, so the shell's title was being shown for
+// /about and both paid landing pages too. It described AI liability coverage
+// for lawyers and physicians -- two positionings ago.
+const shell = fs.readFileSync('index.html', 'utf8');
+const meta = fs.readFileSync('src/meta.js', 'utf8');
+
+// Read the actual tag values, not the file. Both of these first matched the
+// HTML comment that explains what the old wording was, so they were green on
+// the comment and would have stayed green if the tags themselves were wrong.
+const shellTitle = (shell.match(/<title>([^<]*)<\/title>/) || [])[1] || '';
+const shellDesc = (shell.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+
+expect('the old positioning is gone from the title', /AI Liability Coverage/i.test(shellTitle), false);
+expect('  and from the description', /lawyers|physicians|wealth managers/i.test(shellDesc), false);
+expect('the homepage title leads with the offer', shellTitle.includes('Free Insurance Policy Review'), true);
+expect('  the description names the licensed states',
+  /licensed in New Jersey, Pennsylvania and Florida/.test(shellDesc), true);
+expect('  and says what the review actually does', shellDesc.includes('tell you what it actually covers'), true);
+expect('  and is a sensible length for a snippet', shellDesc.length > 80 && shellDesc.length < 200, true);
+
+expect('a canonical is declared', shell.includes('rel="canonical"'), true);
+expect('open graph tags exist at all', shell.includes('property="og:title"'), true);
+expect('  with an image for the unfurl', shell.includes('og-card.png'), true);
+expect('  sized, so the card renders large', shell.includes('og:image:width'), true);
+expect('a favicon is linked', shell.includes('favicon.svg'), true);
+
+expect('every route gets its own metadata', app.includes('applyMeta(route)'), true);
+for (const k of ['about', 'review:homeowners', 'review:auto', 'quote', 'thanks']) {
+  expect(`  ${k} has an entry`, meta.includes(`"${k}"`) || meta.includes(`${k}:`), true);
+}
+// The paid pages must not carry a second, unreviewed wording of an approved claim.
+expect('paid descriptions come from the approved claims, not a retype',
+  meta.includes('HOMEOWNERS_CLAIMS.subhead') && meta.includes('AUTO_CLAIMS.subhead'), true);
+expect('the conversion page is noindex', /thanks:[\s\S]{0,260}noindex/.test(meta), true);
+expect('  so is the questionnaire', /quote:[\s\S]{0,260}noindex/.test(meta), true);
+
+const robots = fs.readFileSync('public/robots.txt', 'utf8');
+expect('robots.txt keeps /thanks out of search', robots.includes('Disallow: /thanks/'), true);
+expect('  and /quote', robots.includes('Disallow: /quote/'), true);
+expect('  and points at the sitemap', robots.includes('sitemap.xml'), true);
+
+const sitemap = fs.readFileSync('public/sitemap.xml', 'utf8');
+// The <loc> values, not the file -- the comment in it names the excluded paths.
+const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+expect('sitemap lists the indexable pages', locs.length, 4);
+expect('  and excludes the funnel pages',
+  locs.some((l) => l.includes('/thanks') || l.includes('/quote')), false);
+expect('  every listed page is a route the app serves',
+  locs.every((l) => ['/', '/about', '/review/homeowners', '/review/auto']
+    .includes(l.replace('https://theaiinsurancegroup.com', '') || '/')), true);
+
 console.log('\n--- an unknown ad destination does not render an empty shell');
 expect('only real variants match', app.includes('(homeowners|auto)'), true);
 expect('  the reason is written down', app.includes('a broken ad destination is a paid click that buys nothing'), true);

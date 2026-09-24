@@ -1,0 +1,9 @@
+# The funnel pages are not search results. /thanks is the conversion page --
+# a visit to it is counted as a conversion, so it must never be something
+# someone arrives at from Google. /quote carries a lead id in the query.
+User-agent: *
+Allow: /
+Disallow: /thanks/
+Disallow: /quote/
+
+Sitemap: https://theaiinsurancegroup.com/sitemap.xml

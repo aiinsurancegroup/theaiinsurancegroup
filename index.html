@@ -3,15 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The AI Insurance Group | AI Liability Coverage & Risk Advisory</title>
-    <meta name="description" content="Specialized AI liability coverage and risk advisory for lawyers, physicians, wealth managers, and corporate directors." />
+
+    <!-- These are the HOMEPAGE values, and the fallback for anything that reads
+         the shell without running JavaScript. One index.html serves every
+         route, so without the per-route pass in src/meta.js, /about and both
+         paid landing pages inherit whatever is written here. Change a page's
+         wording in meta.js, not in this file.
+
+         What was here described AI liability coverage for lawyers, physicians
+         and wealth managers -- two positionings ago, and it was what Google
+         showed for every page on the site. -->
+    <title>The AI Insurance Group | Free Insurance Policy Review</title>
+    <meta name="description" content="Independent insurance agency licensed in New Jersey, Pennsylvania and Florida. We read your current home, auto or business policy and tell you what it actually covers. Free, no obligation." />
+    <link rel="canonical" href="https://theaiinsurancegroup.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="The AI Insurance Group" />
+    <meta property="og:title" content="The AI Insurance Group | Free Insurance Policy Review" />
+    <meta property="og:description" content="Independent insurance agency licensed in New Jersey, Pennsylvania and Florida. We read your current home, auto or business policy and tell you what it actually covers." />
+    <meta property="og:url" content="https://theaiinsurancegroup.com/" />
+    <meta property="og:image" content="https://theaiinsurancegroup.com/og-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font-family: 'Inter', -apple-system, sans-serif; }
-      /* Anchor jumps must clear the fixed ticker (--banner-h, set by BreakingBanner)
-         plus the fixed nav (76px unscrolled / 60px scrolled). */
+      /* Anchor jumps must clear the fixed nav (76px unscrolled / 60px scrolled).
+         --banner-h stays in the calc because the ticker that set it can come
+         back; with the ticker gone it falls back to 0px. */
       html { scroll-padding-top: calc(var(--banner-h, 0px) + 76px); }
     </style>
   </head>

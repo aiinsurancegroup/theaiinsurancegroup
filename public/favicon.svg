@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- The same AI·IG mark the nav and footer draw in HTML, so a tab, a
+       bookmark and the header all show one thing. There was no favicon at
+       all before this, which meant a blank page icon in every tab. -->
+  <rect width="64" height="64" rx="12" fill="#FFFFFF"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="10.5" fill="none" stroke="#0F2847" stroke-width="3"/>
+  <text x="32" y="41" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700"
+        letter-spacing="-0.5">
+    <tspan fill="#B8972A">AI&#183;</tspan><tspan fill="#0F2847">IG</tspan>
+  </text>
+</svg>
