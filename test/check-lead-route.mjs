@@ -1,6 +1,9 @@
 // The lead route's pure logic, exercised for real: ZIP -> state, and
 // state + product -> where the visitor goes next.
 import { stateFromZip, routeFor } from '../api/lead.js';
+// Imported rather than grepped: the approved wording is checked as data, so a
+// change to the text fails the test rather than a change to its formatting.
+import { HOMEOWNERS_CLAIMS, AUTO_CLAIMS } from '../src/lead/claims.js';
 import fs from 'node:fs';
 
 let pass = 0, fail = 0;
@@ -318,7 +321,26 @@ expect('licence line is not written inline', landing.includes('{claims.licence.t
 expect('no stray licence number in the component', landing.includes('3004245927'), false);
 expect('every claim carries its basis', (claims.match(/basis:/g) || []).length >= 8, true);
 expect('  and its risk', (claims.match(/risk:/g) || []).length >= 8, true);
-expect('claims are marked unapproved', claims.includes('AWAITING APPROVAL'), true);
+expect('claims are marked approved', claims.includes('APPROVED 2026-09-24'), true);
+// The two sentences rewritten in review must not creep back into LIVE text.
+// Both still appear in the basis and status fields, which is deliberate -- the
+// record of what was rejected is worth keeping -- so the check reads only the
+// rendered strings rather than the whole file.
+const liveClaimText = [
+  HOMEOWNERS_CLAIMS.headline.text, HOMEOWNERS_CLAIMS.subhead.text,
+  HOMEOWNERS_CLAIMS.licence.text, ...HOMEOWNERS_CLAIMS.proofs.map((p) => p.text),
+  AUTO_CLAIMS.headline.text, AUTO_CLAIMS.subhead.text,
+  AUTO_CLAIMS.licence.text, ...AUTO_CLAIMS.proofs.map((p) => p.text),
+].join('   ');
+
+expect('no unsourced market claim', liveClaimText.includes("Most policies haven't"), false);
+expect('no state-specific claim on a three-state page', liveClaimText.includes('New Jersey lets you buy'), false);
+expect('  the NJ variant is recorded as deferred', claims.includes('/review/auto-nj'), true);
+expect('homeowners headline is the approved question', HOMEOWNERS_CLAIMS.headline.text, 'Is your home insured for what it would cost to rebuild today?');
+expect('homeowners subhead has no dangling antecedent', liveClaimText.includes('since then'), false);
+expect('auto subhead is state-neutral', AUTO_CLAIMS.subhead.text.startsWith('A basic auto policy can cover far less'), true);
+// The licence line is still exact, and is the one place the number may appear.
+expect('licence line unchanged', HOMEOWNERS_CLAIMS.licence.text.includes('NJ Producer License No. 3004245927'), true);
 
 console.log('\n--- no timeframe is promised anywhere on a paid page');
 for (const t of ['about a day', 'within a day', '24 hours', '48 hours', 'two business days', 'same day']) {

@@ -9,7 +9,14 @@
 // the components. The test is: could a regulator or a disappointed client hold
 // us to this sentence? If yes, it goes here.
 //
-// STATUS: every entry is AWAITING APPROVAL. Nothing below has shipped.
+// STATUS: every entry APPROVED 2026-09-24. Entries changed during review carry
+// a status line saying what changed and why; the rest shipped as drafted.
+//
+// Deferred: a /review/auto-nj variant carrying the sharper New Jersey wording
+// ("New Jersey lets you buy a policy that covers a fraction of what most
+// drivers assume"), to be built when the auto campaign is NJ-only targeted.
+// It is true of NJ and untrue of PA and FL, so it needs its own page rather
+// than a footnote on a shared one.
 //
 // Each entry carries:
 //   text      what appears on the page
@@ -19,9 +26,13 @@
 
 export const HOMEOWNERS_CLAIMS = {
   headline: {
-    text: "Your home is insured for what it was worth when you bought the policy.",
+    text: "Is your home insured for what it would cost to rebuild today?",
+    status: "APPROVED 2026-09-24. Replaced the drafted assertion with a question: " +
+      "a statement about a policy we have not seen is the exact error the audit " +
+      "tool exists to prevent, and a question invites the reader to check rather " +
+      "than telling them they are wrong.",
     basis:
-      "WEAK. Most homeowners policies insure the dwelling on a replacement-cost " +
+      "The drafted version was WEAK. Most homeowners policies insure the dwelling on a replacement-cost " +
       "basis, not market value, and many carry an inflation-guard endorsement " +
       "that raises Coverage A each year. As written this states something about " +
       "the reader's own policy that is frequently untrue.",
@@ -35,10 +46,13 @@ export const HOMEOWNERS_CLAIMS = {
 
   subhead: {
     text:
-      "Rebuilding costs have moved a long way since then. Most policies haven't. " +
-      "A free review tells you what yours would actually pay — before you need it to.",
+      "Rebuilding costs have risen sharply in recent years. A free review tells you " +
+      "what your policy would actually pay — before you need it to.",
+    status: "APPROVED 2026-09-24. Two changes. 'Since then' pointed at the old " +
+      "headline and dangled once that became a question. 'Most policies haven't' " +
+      "was an empirical claim about the market with no source behind it.",
     basis:
-      "MIXED. Construction cost inflation since 2020 is well documented and " +
+      "The drafted version was MIXED. Construction cost inflation since 2020 is well documented and " +
       "defensible. \"Most policies haven't\" is an empirical claim about the " +
       "market that we have no source for.",
     risk:
@@ -89,10 +103,15 @@ export const AUTO_CLAIMS = {
 
   subhead: {
     text:
-      "New Jersey lets you buy a policy that covers a fraction of what most " +
-      "drivers assume. A free review tells you what yours does — in writing.",
+      "A basic auto policy can cover far less than most drivers assume. A free " +
+      "review tells you what yours does — in writing.",
+    status: "APPROVED 2026-09-24, option (a). The drafted NJ wording was accurate " +
+      "for New Jersey and untrue for a Pennsylvania or Florida reader, and this " +
+      "page is served to all three. The sharper NJ line is deferred to a future " +
+      "/review/auto-nj, to be built when the auto campaign is deliberately " +
+      "NJ-only targeted.",
     basis:
-      "DEFENSIBLE but state-specific. New Jersey's Basic Policy carries no " +
+      "The drafted version was DEFENSIBLE but state-specific. New Jersey's Basic Policy carries no " +
       "bodily injury liability as standard, which is genuinely far below what " +
       "most drivers assume they hold. It is accurate for NJ and wrong for a " +
       "Pennsylvania or Florida reader, and this page will be served to all three.",
