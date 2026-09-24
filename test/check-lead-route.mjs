@@ -447,8 +447,8 @@ expect('the old positioning is gone from the title', /AI Liability Coverage/i.te
 expect('  and from the description', /lawyers|physicians|wealth managers/i.test(shellDesc), false);
 expect('the homepage title leads with the offer', shellTitle.includes('Free Insurance Policy Review'), true);
 expect('  the description names the licensed states',
-  /licensed in New Jersey, Pennsylvania and Florida/.test(shellDesc), true);
-expect('  and says what the review actually does', shellDesc.includes('tell you what it actually covers'), true);
+  /NJ, PA and FL|New Jersey, Pennsylvania and Florida/.test(shellDesc), true);
+expect('  and says who checks the findings', /a licensed agent checks it/i.test(shellDesc), true);
 expect('  and is a sensible length for a snippet', shellDesc.length > 80 && shellDesc.length < 200, true);
 
 expect('a canonical is declared', shell.includes('rel="canonical"'), true);

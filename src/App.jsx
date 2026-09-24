@@ -6,6 +6,7 @@ import ThanksPage from "./lead/ThanksPage";
 import { AGENCY_PHONE, AGENCY_PHONE_HREF, AGENCY_EMAIL } from "./contact";
 import PhoneIcon from "./PhoneIcon";
 import { applyMeta } from "./meta";
+import { Hero, CoverageBoxes } from "./home";
 
 const NAVY = "#0F2847";
 const GOLD = "#B8972A";
@@ -229,15 +230,16 @@ function Nav() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
+  // Five links, then the phone, then one button. Get a Quote, For Agents,
+  // Blog, FAQ and the Audit Portal moved to the footer: they are all real
+  // destinations, but none of them is what a first-time visitor came for, and
+  // eleven items in a row is how the nav ran out of width.
   const links = [
-    { label: "Get a Quote", href: "#quote" },
-    { label: "Coverage", href: "#coverage" },
-    { label: "AI Specialty", href: "#specialty" },
-    { label: "For Agents", href: "#agents" },
-    { label: "FAQ", href: "#faq" },
-    { label: "Blog", href: "#blog" },
+    { label: "Personal", href: "#coverage-boxes" },
+    { label: "Business", href: "#coverage-boxes" },
+    { label: "AI Risk", href: "#specialty" },
+    { label: "How It Works", href: "#coverage" },
     { label: "About", href: "/about" },
-    { label: "Contact", href: "#contact" },
   ];
 
   // This nav was written when there was one page, so every section link was a
@@ -309,20 +311,19 @@ function Nav() {
             need 1139px of the 1200px row, and nowrap means there is nowhere for
             a long label like "Get a Quote" to fold. */}
         <div className="nav-links" style={{ display: "flex", gap: 14, alignItems: "center" }}>
+          {links.map(l => (
+            <a key={l.label} href={to(l.href)} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500, whiteSpace: "nowrap" }}>{l.label}</a>
+          ))}
           <a href={AGENCY_PHONE_HREF} style={{
             color: WHITE, fontSize: 14, fontWeight: 700, textDecoration: "none",
             whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6,
           }}>
             <PhoneIcon size={14} style={{ color: GOLD }} />{AGENCY_PHONE}
           </a>
-          {links.map(l => (
-            <a key={l.label} href={to(l.href)} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", fontSize: 14, fontWeight: 500, whiteSpace: "nowrap" }}>{l.label}</a>
-          ))}
           <a href={to("#quote")} style={{
-            background: GOLD, color: WHITE, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700,
-            textDecoration: "none", letterSpacing: 0.3
-          }}>Get My Free Insurance Review →</a>
-          <a href="https://audit.theaiinsurancegroup.com" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: GOLD, padding: "10px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700, textDecoration: "none", letterSpacing: 0.3, border: "1px solid #B8972A" }}>Audit Portal</a>
+            background: GOLD, color: WHITE, padding: "10px 20px", borderRadius: 6, fontSize: 13.5, fontWeight: 700,
+            textDecoration: "none", letterSpacing: 0.3, whiteSpace: "nowrap",
+          }}>Free review</a>
         </div>
       </div>
       <style>{`
@@ -353,87 +354,6 @@ function Nav() {
         }
       `}</style>
     </nav>
-  );
-}
-
-function Hero() {
-  return (
-    <section className="hero-bg" style={{
-      backgroundImage: `linear-gradient(135deg, rgba(15,25,35,0.85) 0%, rgba(15,40,71,0.62) 55%, rgba(22,52,92,0.45) 100%), url(/hero.jpg)`,
-      backgroundSize: "cover", backgroundPosition: "center right",
-      minHeight: "520px",
-      display: "flex", flexDirection: "column", justifyContent: "center",
-      padding: "88px 24px 56px", position: "relative", overflow: "hidden",
-    }}>
-      <div style={{
-        position: "absolute", top: "10%", right: "-5%", width: 500, height: 500,
-        borderRadius: "50%", background: `radial-gradient(circle, rgba(220,38,38,0.08) 0%, transparent 70%)`,
-      }} />
-      <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <div style={{
-          display: "inline-block", background: "rgba(220,38,38,0.12)", border: `1px solid rgba(220,38,38,0.35)`,
-          borderRadius: 20, padding: "6px 16px", color: "#F87171", fontSize: 12, fontWeight: 700, letterSpacing: 1.2, marginBottom: 20,
-        }}>
-          ● INDEPENDENT INSURANCE AGENCY · LICENSED IN NJ, PA & FL
-        </div>
-        <h1 className="hero-title" style={{
-          color: WHITE, fontSize: "clamp(36px, 5.5vw, 60px)", fontWeight: 800,
-          lineHeight: 1.08, margin: "0 0 16px", letterSpacing: -1.5, maxWidth: 900,
-        }}>
-          One agent. 100+ carriers.<br />
-          Every line of coverage.<br />
-          <span style={{ color: GOLD }}>That's what independent means.</span>
-        </h1>
-        <p className="hero-sub" style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.6, maxWidth: 680, margin: "0 0 28px" }}>
-          A full-service independent agency — home, auto, business, and more. We shop 100+ carriers so you don't have to. Start with a free review of the insurance you already have: we'll read your current policy and tell you what it covers, what it doesn't, and whether the price still matches.
-        </p>
-        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-          <a href="#quote" style={{
-            background: GOLD, color: WHITE, border: "none", borderRadius: 8, padding: "20px 40px",
-            fontSize: 18, fontWeight: 700, cursor: "pointer", textDecoration: "none",
-            boxShadow: "0 4px 28px rgba(184,151,42,0.35)", letterSpacing: 0.2,
-          }}>Get a Quote →</a>
-          <a href="#quote" style={{
-            background: "transparent", color: WHITE, border: `1px solid rgba(255,255,255,0.25)`,
-            borderRadius: 8, padding: "20px 32px", fontSize: 16, fontWeight: 600,
-            cursor: "pointer", textDecoration: "none",
-          }}>Get My Free Insurance Review →</a>
-        </div>
-        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, marginTop: 12, maxWidth: 600 }}>
-          Licensed in New Jersey, Pennsylvania and Florida. Free review, no obligation.
-        </p>
-      </div>
-      <style>{`
-        @media (max-width: 768px) {
-          /* A shorter hero means "cover" scales the 16:9 photo down, so more
-             of the room fits across a narrow viewport. */
-          .hero-bg { background-position: center center !important; padding: 72px 20px 40px !important; }
-          .hero-title { font-size: 30px !important; letter-spacing: -0.8px !important; }
-          .hero-sub { font-size: 15px !important; margin-bottom: 22px !important; }
-        }
-      `}</style>
-    </section>
-  );
-}
-
-function StatsBand() {
-  const stats = [
-    { big: "100+", small: "Carriers and markets we shop for you" },
-    { big: "All lines", small: "Personal, commercial & specialty" },
-    { big: "Independent", small: "We work for you, not a carrier" },
-    { big: "Fast", small: "AI-powered quoting, real options quickly" },
-  ];
-  return (
-    <section style={{ background: WHITE, padding: "40px 24px" }}>
-      <div style={{ maxWidth: 1080, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 24 }}>
-        {stats.map((s) => (
-          <div key={s.big}>
-            <div style={{ color: NAVY, fontSize: 24, fontWeight: 800, lineHeight: 1.1, letterSpacing: -0.5, marginBottom: 8 }}>{s.big}</div>
-            <div style={{ color: GRAY, fontSize: 13, lineHeight: 1.5 }}>{s.small}</div>
-          </div>
-        ))}
-      </div>
-    </section>
   );
 }
 
@@ -1595,33 +1515,7 @@ function CTASection() {
   );
 }
 
-function CarriersSection() {
-  const proof = [
-    { title: "Independent, not captive", desc: "We answer to you, not a single insurer." },
-    { title: "AI-powered shopping", desc: "Our tools compare markets fast, so you're not waiting days for one quote." },
-    { title: "One relationship for everything", desc: "Home, auto, business, and specialty under a single agent." },
-  ];
-  return (
-    <section id="carriers" style={{ background: LIGHT, padding: "80px 24px" }}>
-      <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
-        <div style={{ color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>THE WHOLE MARKET, ONE AGENT</div>
-        <h2 style={{ color: NAVY, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: "0 0 16px", letterSpacing: -0.5 }}>Why shop one carrier when we shop 100+?</h2>
-        <p style={{ color: GRAY, fontSize: 17, lineHeight: 1.7, margin: "0 auto 40px", maxWidth: 620 }}>A captive agent sells you their company's product. As an independent agency, we work for you — not a carrier. We put your coverage in front of 100+ national, regional, and specialty markets across personal, commercial, and specialty lines, then bring you the best fit and price. And we use AI to do it faster, so you get real options in less time.</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-          {proof.map((p) => (
-            <div key={p.title} style={{ background: WHITE, borderRadius: 16, padding: 32, border: `1px solid ${BORDER}` }}>
-              <h3 style={{ color: NAVY, fontSize: 18, fontWeight: 700, margin: "0 0 8px" }}>{p.title}</h3>
-              <p style={{ color: DGRAY, fontSize: 15, lineHeight: 1.6, margin: 0 }}>{p.desc}</p>
-            </div>
-          ))}
-        </div>
-        {/* LOGO WALL GOES HERE */}
-      </div>
-    </section>
-  );
-}
-
-function QuoteSection() {
+function QuoteSection({ line = null }) {
   // The three lines the Step 1 selector does not cover. They still go to the
   // existing application host until /quote/:slug lands, and stay as a quiet
   // secondary row rather than being removed -- they work today, and dropping
@@ -1663,7 +1557,10 @@ function QuoteSection() {
           </p>
         </div>
 
-        <LeadForm defaultProduct="home" />
+        {/* key remounts the form when a box picks a different line, so the
+            selector actually moves. Without it defaultProduct is only read on
+            first mount and every box would land on Home. */}
+        <LeadForm key={line || "home"} defaultProduct={line || "home"} />
       </div>
       <style>{`
         @media (max-width: 860px) {
@@ -1933,6 +1830,24 @@ function Footer({ onLegalPage }) {
             <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.6, maxWidth: 300 }}>A full-service independent insurance agency — home, auto, business, and specialty lines. We shop 100+ carriers so you don't have to. Specialists in coverage for AI-driven companies.</p>
           </div>
           <div>
+            {/* Moved out of the nav in the design pass. Real destinations, but
+                not what a first-time visitor came for. */}
+            <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>MORE</div>
+            {[
+              { label: "Get a Quote", href: "#quote" },
+              { label: "FAQ", href: "#faq" },
+              { label: "Blog", href: "#blog" },
+              { label: "For Agents", href: "#agents" },
+              { label: "Audit Portal", href: "https://audit.theaiinsurancegroup.com", external: true },
+            ].map((l) => (
+              <div key={l.label} style={{ fontSize: 13, marginBottom: 8 }}>
+                <a href={l.href}
+                   {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                   style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>{l.label}</a>
+              </div>
+            ))}
+          </div>
+          <div>
             <div style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>RESOURCES</div>
             {["Free AI Coverage Assessment", "Industry Research", "Blog", "AI Exclusion Knowledge Base", "Healthcare AI Risk", "Wealth Management AI Risk", "Broker Partnership Program"].map((l, i) => (
               <div key={i} style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, marginBottom: 8, cursor: "pointer" }}>{l === "Industry Research" ? <a href="#research" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>{l}</a> : l === "Blog" ? <a href="#blog" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>{l}</a> : l}</div>
@@ -1997,6 +1912,10 @@ function routeFromPath() {
 
 export default function App() {
   const [legalPage, setLegalPage] = useState(null);
+  // Which line a coverage box or hero button picked. It is passed down to the
+  // one start form rather than opening a second one, so there is a single
+  // place where a lead is actually created.
+  const [startLine, setStartLine] = useState(null);
   const route = routeFromPath();
 
   // One index.html serves every path, so without this each route would keep
@@ -2041,10 +1960,9 @@ export default function App() {
           left in the file: the blog still marks breaking posts, and restoring
           the ticker is one line if it is ever wanted back. */}
       <Nav />
-      <Hero />
-      <StatsBand />
-      <CarriersSection />
-      <QuoteSection />
+      <Hero onPick={setStartLine} />
+      <CoverageBoxes onPick={setStartLine} />
+      <QuoteSection line={startLine} />
       <CoverageSection />
       <SpecialtySection />
       <WhatChangedSection />

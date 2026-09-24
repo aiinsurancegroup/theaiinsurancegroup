@@ -28,11 +28,9 @@ import { HOMEOWNERS_CLAIMS, AUTO_CLAIMS } from "./lead/claims";
 const SITE = "https://www.theaiinsurancegroup.com";
 
 const HOME = {
-  title: "The AI Insurance Group | Free Insurance Policy Review",
+  title: "Free Insurance Policy Review | The AI Insurance Group",
   description:
-    "Independent insurance agency licensed in New Jersey, Pennsylvania and Florida. " +
-    "We read your current home, auto or business policy and tell you what it actually " +
-    "covers. Free, no obligation.",
+    "Licensed agency in NJ, PA and FL. Send your current home, auto or business policy: AI reads every page, a licensed agent checks it, you decide.",
   path: "/",
 };
 
