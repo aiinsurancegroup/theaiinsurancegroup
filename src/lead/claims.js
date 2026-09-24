@@ -1,159 +1,101 @@
 // EVERY INSURANCE-SUBSTANTIVE SENTENCE ON THE PAID LANDING PAGES.
 //
-// These pages carry a producer licence number, so anything that asserts how
-// insurance works, what a policy does, or what a review will find belongs in
-// this file rather than scattered through JSX. One file to approve, one file to
-// change, and a diff that shows exactly which claim moved.
+// These pages carry a producer licence number, so anything asserting how
+// insurance works, what a policy does, or what a review will find lives here
+// rather than scattered through JSX. One file to approve, one file to change,
+// and a diff that shows exactly which claim moved.
 //
-// Marketing copy that makes no claim about insurance is NOT here -- it lives in
-// the components. The test is: could a regulator or a disappointed client hold
-// us to this sentence? If yes, it goes here.
+// Marketing copy making no claim about insurance is NOT here -- it lives in the
+// components. The test: could a regulator or a disappointed client hold us to
+// this sentence? If yes, it belongs in this file.
 //
-// STATUS: every entry APPROVED 2026-09-24. Entries changed during review carry
-// a status line saying what changed and why; the rest shipped as drafted.
+// WHY THE REASONING IS IN COMMENTS AND NOT IN THE DATA
+// It used to be structured fields -- basis, risk, status -- alongside each
+// string, and that shipped. Vite bundles an exported object whole, so our own
+// assessment that a drafted claim was "WEAK", or "an empirical claim we have no
+// source for", sat in the public JavaScript readable by anyone who opened the
+// bundle. An internal review note about the strength of our own marketing is
+// the last thing that should be published. Comments are stripped at build, so
+// the reasoning stays beside the claim in source and never reaches a browser.
+// Only the approved sentences below are data.
 //
-// Deferred: a /review/auto-nj variant carrying the sharper New Jersey wording
-// ("New Jersey lets you buy a policy that covers a fraction of what most
-// drivers assume"), to be built when the auto campaign is NJ-only targeted.
-// It is true of NJ and untrue of PA and FL, so it needs its own page rather
-// than a footnote on a shared one.
+// STATUS: all entries APPROVED 2026-09-24.
+
+// ---------------------------------------------------------------- homeowners
 //
-// Each entry carries:
-//   text      what appears on the page
-//   basis     why it is defensible, or why it is not
-//   risk      what happens if it is wrong
-//   alt       a safer wording where I think the drafted one overreaches
+// HEADLINE -- approved 2026-09-24, rewritten during review.
+//   Drafted: "Your home is insured for what it was worth when you bought the
+//   policy." Rejected because most dwellings are written on replacement cost
+//   rather than market value, and many carry inflation guard raising Coverage A
+//   each year, so the drafted line told readers something frequently untrue
+//   about a document we have not seen -- the exact error the audit tool exists
+//   to prevent. A question invites them to check instead.
+//
+// SUBHEAD -- approved 2026-09-24, rewritten during review.
+//   Drafted: "Rebuilding costs have moved a long way since then. Most policies
+//   haven't. A free review tells you what yours would actually pay -- before
+//   you need it to." Two faults: "since then" pointed at the old headline and
+//   dangled once that became a question, and the middle sentence was a claim
+//   about the market with no source behind it. Construction cost inflation is
+//   itself well documented and survives.
+//
+// PROOFS -- approved as drafted. All three are verifiable. The second is the
+//   strongest sentence on either page because it is enforced in code: the audit
+//   tool refuses to finalize a report while any finding is unreviewed.
+//
+// LICENCE -- factual, and the only place the producer number appears in a
+//   rendered page. A test fails if it shows up anywhere else.
 
 export const HOMEOWNERS_CLAIMS = {
-  headline: {
-    text: "Is your home insured for what it would cost to rebuild today?",
-    status: "APPROVED 2026-09-24. Replaced the drafted assertion with a question: " +
-      "a statement about a policy we have not seen is the exact error the audit " +
-      "tool exists to prevent, and a question invites the reader to check rather " +
-      "than telling them they are wrong.",
-    basis:
-      "The drafted version was WEAK. Most homeowners policies insure the dwelling on a replacement-cost " +
-      "basis, not market value, and many carry an inflation-guard endorsement " +
-      "that raises Coverage A each year. As written this states something about " +
-      "the reader's own policy that is frequently untrue.",
-    risk:
-      "A reader whose policy does carry replacement cost and inflation guard is " +
-      "being told something false about a document we have not seen. It is also " +
-      "the headline, so it is the sentence most likely to be quoted back.",
-    alt:
-      "Is your home insured for what it would cost to rebuild today?",
-  },
+  headline: "Is your home insured for what it would cost to rebuild today?",
 
-  subhead: {
-    text:
-      "Rebuilding costs have risen sharply in recent years. A free review tells you " +
-      "what your policy would actually pay — before you need it to.",
-    status: "APPROVED 2026-09-24. Two changes. 'Since then' pointed at the old " +
-      "headline and dangled once that became a question. 'Most policies haven't' " +
-      "was an empirical claim about the market with no source behind it.",
-    basis:
-      "The drafted version was MIXED. Construction cost inflation since 2020 is well documented and " +
-      "defensible. \"Most policies haven't\" is an empirical claim about the " +
-      "market that we have no source for.",
-    risk:
-      "The second sentence is the exposed one. The first and third are fine.",
-    alt:
-      "Rebuilding costs have risen sharply since then. A free review tells you " +
-      "what your policy would actually pay — before you need it to.",
-  },
+  subhead:
+    "Rebuilding costs have risen sharply in recent years. A free review tells you " +
+    "what your policy would actually pay — before you need it to.",
 
   proofs: [
-    {
-      text: "We read your actual policy, not a quote form. Have it handy and it takes two minutes.",
-      basis: "TRUE and verifiable. It is what the tool does.",
-      risk: "None identified.",
-      alt: null,
-    },
-    {
-      text: "A licensed agent reviews every finding before you see it.",
-      basis:
-        "TRUE and enforced in code. The audit tool refuses to finalize a report " +
-        "while any finding is unreviewed.",
-      risk: "None identified. This is the strongest claim on the page.",
-      alt: null,
-    },
-    {
-      text: "No obligation. If your coverage is right, we'll tell you that.",
-      basis: "TRUE, and a commitment the agency controls.",
-      risk: "None identified.",
-      alt: null,
-    },
+    "We read your actual policy, not a quote form. Have it handy and it takes two minutes.",
+    "A licensed agent reviews every finding before you see it.",
+    "No obligation. If your coverage is right, we'll tell you that.",
   ],
 
-  licence: {
-    text: "Licensed in New Jersey, Pennsylvania and Florida · NJ Producer License No. 3004245927",
-    basis: "Factual. Matches the homepage and the audit tool.",
-    risk: "Wrong only if the licensed states change.",
-    alt: null,
-  },
+  licence: "Licensed in New Jersey, Pennsylvania and Florida · NJ Producer License No. 3004245927",
 };
+
+// ---------------------------------------------------------------------- auto
+//
+// HEADLINE -- approved as drafted. A question, so nothing to substantiate.
+//
+// SUBHEAD -- approved 2026-09-24 as option (a), rewritten during review.
+//   The drafted line named New Jersey and was accurate for its Basic Policy,
+//   which carries no bodily injury liability as standard. But /review/auto is
+//   served to all three licensed states and the page cannot know which one a
+//   reader is in until they type a ZIP -- by which point they have read the
+//   headline. The generic wording is true in all three.
+//
+//   DEFERRED: a /review/auto-nj variant carrying the sharper New Jersey line,
+//   to be built when the auto campaign is deliberately NJ-only targeted. It
+//   needs its own page rather than a footnote on a shared one.
+//
+// PROOFS and LICENCE -- identical to homeowners, approved as drafted.
 
 export const AUTO_CLAIMS = {
-  headline: {
-    text: "Is your car insurance actually protecting you?",
-    basis: "A question, not an assertion. Nothing to substantiate.",
-    risk: "None identified.",
-    alt: null,
-  },
+  headline: "Is your car insurance actually protecting you?",
 
-  subhead: {
-    text:
-      "A basic auto policy can cover far less than most drivers assume. A free " +
-      "review tells you what yours does — in writing.",
-    status: "APPROVED 2026-09-24, option (a). The drafted NJ wording was accurate " +
-      "for New Jersey and untrue for a Pennsylvania or Florida reader, and this " +
-      "page is served to all three. The sharper NJ line is deferred to a future " +
-      "/review/auto-nj, to be built when the auto campaign is deliberately " +
-      "NJ-only targeted.",
-    basis:
-      "The drafted version was DEFENSIBLE but state-specific. New Jersey's Basic Policy carries no " +
-      "bodily injury liability as standard, which is genuinely far below what " +
-      "most drivers assume they hold. It is accurate for NJ and wrong for a " +
-      "Pennsylvania or Florida reader, and this page will be served to all three.",
-    risk:
-      "A PA or FL visitor is told something about their state that is not true " +
-      "of it. The ad targeting can be set to NJ, but the page itself does not know.",
-    alt:
-      "A basic auto policy can cover far less than most drivers assume. A free " +
-      "review tells you what yours does — in writing.",
-  },
+  subhead:
+    "A basic auto policy can cover far less than most drivers assume. A free " +
+    "review tells you what yours does — in writing.",
 
   proofs: [
-    {
-      text: "We read your actual policy, not a quote form. Have it handy and it takes two minutes.",
-      basis: "TRUE and verifiable.",
-      risk: "None identified.",
-      alt: null,
-    },
-    {
-      text: "A licensed agent reviews every finding before you see it.",
-      basis: "TRUE and enforced in code.",
-      risk: "None identified.",
-      alt: null,
-    },
-    {
-      text: "No obligation. If your coverage is right, we'll tell you that.",
-      basis: "TRUE.",
-      risk: "None identified.",
-      alt: null,
-    },
+    "We read your actual policy, not a quote form. Have it handy and it takes two minutes.",
+    "A licensed agent reviews every finding before you see it.",
+    "No obligation. If your coverage is right, we'll tell you that.",
   ],
 
-  licence: {
-    text: "Licensed in New Jersey, Pennsylvania and Florida · NJ Producer License No. 3004245927",
-    basis: "Factual.",
-    risk: "Wrong only if the licensed states change.",
-    alt: null,
-  },
+  licence: "Licensed in New Jersey, Pennsylvania and Florida · NJ Producer License No. 3004245927",
 };
 
-// The turnaround commitment, removed from the drafted copy on instruction:
-// "in about a day" became "within two business days" and then was dropped
-// entirely, because every finding is reviewed by hand and a number on an ad
-// landing page is a promise the review has to keep. Nothing below promises a
-// timeframe, and nothing should be added that does.
+// NO TIMEFRAME IS PROMISED ANYWHERE, and none should be added. The drafted copy
+// said "in about a day", which became "within two business days" and was then
+// dropped entirely: every finding is reviewed by hand, and a number printed on
+// an ad landing page is a promise the review has to keep.

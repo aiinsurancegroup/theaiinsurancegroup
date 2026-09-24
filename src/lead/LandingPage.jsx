@@ -82,15 +82,15 @@ export default function LandingPage({ variant, onLegal }) {
             color: NAVY, fontSize: "clamp(27px, 4.4vw, 40px)", fontWeight: 800,
             lineHeight: 1.12, letterSpacing: -0.8, margin: "0 0 14px",
           }}>
-            {claims.headline.text}
+            {claims.headline}
           </h1>
 
           <p className="lp-sub" style={{ color: GRAY, fontSize: "clamp(15.5px, 2vw, 17.5px)", lineHeight: 1.65, margin: "0 0 22px" }}>
-            {claims.subhead.text}
+            {claims.subhead}
           </p>
 
           <ul className="lp-proofs" style={{ color: GRAY, fontSize: 15.5, lineHeight: 1.7, margin: "0 0 20px", paddingLeft: 20 }}>
-            {claims.proofs.map((p) => <li key={p.text} style={{ marginBottom: 6 }}>{p.text}</li>)}
+            {claims.proofs.map((p) => <li key={p} style={{ marginBottom: 6 }}>{p}</li>)}
           </ul>
         </div>
 
@@ -103,7 +103,7 @@ export default function LandingPage({ variant, onLegal }) {
           navigating away. */}
       <footer style={{ borderTop: `1px solid ${BORDER}`, background: WHITE, padding: "22px 20px 30px" }}>
         <div style={{ maxWidth: 1040, margin: "0 auto", color: GRAY, fontSize: 12.5, lineHeight: 1.7 }}>
-          <div style={{ marginBottom: 6 }}>{claims.licence.text}</div>
+          <div style={{ marginBottom: 6 }}>{claims.licence}</div>
           <div style={{ marginBottom: 6 }}>
             The AI Insurance Group · Monmouth County, New Jersey · sal@theaiinsurancegroup.com · 917-981-0245
           </div>

@@ -313,34 +313,54 @@ expect('  subhead after the form', /\.lp-sub \{ order: 4;/.test(landing), true);
 expect('  proofs last', /\.lp-proofs \{ order: 5; \}/.test(landing), true);
 
 console.log('\n--- every insurance claim comes from the approval file');
-expect('headline is not written inline', landing.includes('{claims.headline.text}'), true);
-expect('subhead is not written inline', landing.includes('{claims.subhead.text}'), true);
+expect('headline is not written inline', landing.includes('{claims.headline}'), true);
+expect('subhead is not written inline', landing.includes('{claims.subhead}'), true);
 expect('proofs are not written inline', landing.includes('claims.proofs.map'), true);
-expect('licence line is not written inline', landing.includes('{claims.licence.text}'), true);
+expect('licence line is not written inline', landing.includes('{claims.licence}'), true);
 // The page must not contain a hardcoded insurance assertion that bypassed review.
 expect('no stray licence number in the component', landing.includes('3004245927'), false);
-expect('every claim carries its basis', (claims.match(/basis:/g) || []).length >= 8, true);
-expect('  and its risk', (claims.match(/risk:/g) || []).length >= 8, true);
+// The review reasoning must be comments, never exported data: an exported
+// object ships whole, and our own note that a claim was "WEAK" has no business
+// in a public bundle. Plain-string claims are the mechanism that guarantees it.
+expect('reasoning lives in comments', claims.includes('// HEADLINE'), true);
+expect('  every claim is a plain string', typeof HOMEOWNERS_CLAIMS.headline, 'string');
+expect('  proofs too', typeof HOMEOWNERS_CLAIMS.proofs[0], 'string');
+expect('no basis field is exported', claims.includes('basis:'), false);
+expect('no risk field is exported', claims.includes('risk:'), false);
+// Built output is where it actually matters -- this is the file a visitor gets.
+{
+  const dir = 'dist/assets';
+  const built = fs.existsSync(dir)
+    ? fs.readdirSync(dir).filter((f) => f.endsWith('.js')).map((f) => fs.readFileSync(`${dir}/${f}`, 'utf8')).join('')
+    : '';
+  if (built) {
+    expect('the built bundle leaks no rejected wording', built.includes("Most policies haven't"), false);
+    expect('  nor our assessment of it', built.includes('no source for') || built.includes('WEAK'), false);
+    expect('  but does carry the approved copy', built.includes(HOMEOWNERS_CLAIMS.headline), true);
+  } else {
+    console.log('SKIP  built-bundle checks: run npm run build first');
+  }
+}
 expect('claims are marked approved', claims.includes('APPROVED 2026-09-24'), true);
 // The two sentences rewritten in review must not creep back into LIVE text.
 // Both still appear in the basis and status fields, which is deliberate -- the
 // record of what was rejected is worth keeping -- so the check reads only the
 // rendered strings rather than the whole file.
 const liveClaimText = [
-  HOMEOWNERS_CLAIMS.headline.text, HOMEOWNERS_CLAIMS.subhead.text,
-  HOMEOWNERS_CLAIMS.licence.text, ...HOMEOWNERS_CLAIMS.proofs.map((p) => p.text),
-  AUTO_CLAIMS.headline.text, AUTO_CLAIMS.subhead.text,
-  AUTO_CLAIMS.licence.text, ...AUTO_CLAIMS.proofs.map((p) => p.text),
+  HOMEOWNERS_CLAIMS.headline, HOMEOWNERS_CLAIMS.subhead,
+  HOMEOWNERS_CLAIMS.licence, ...HOMEOWNERS_CLAIMS.proofs,
+  AUTO_CLAIMS.headline, AUTO_CLAIMS.subhead,
+  AUTO_CLAIMS.licence, ...AUTO_CLAIMS.proofs,
 ].join('   ');
 
 expect('no unsourced market claim', liveClaimText.includes("Most policies haven't"), false);
 expect('no state-specific claim on a three-state page', liveClaimText.includes('New Jersey lets you buy'), false);
 expect('  the NJ variant is recorded as deferred', claims.includes('/review/auto-nj'), true);
-expect('homeowners headline is the approved question', HOMEOWNERS_CLAIMS.headline.text, 'Is your home insured for what it would cost to rebuild today?');
+expect('homeowners headline is the approved question', HOMEOWNERS_CLAIMS.headline, 'Is your home insured for what it would cost to rebuild today?');
 expect('homeowners subhead has no dangling antecedent', liveClaimText.includes('since then'), false);
-expect('auto subhead is state-neutral', AUTO_CLAIMS.subhead.text.startsWith('A basic auto policy can cover far less'), true);
+expect('auto subhead is state-neutral', AUTO_CLAIMS.subhead.startsWith('A basic auto policy can cover far less'), true);
 // The licence line is still exact, and is the one place the number may appear.
-expect('licence line unchanged', HOMEOWNERS_CLAIMS.licence.text.includes('NJ Producer License No. 3004245927'), true);
+expect('licence line unchanged', HOMEOWNERS_CLAIMS.licence.includes('NJ Producer License No. 3004245927'), true);
 
 console.log('\n--- no timeframe is promised anywhere on a paid page');
 for (const t of ['about a day', 'within a day', '24 hours', '48 hours', 'two business days', 'same day']) {
