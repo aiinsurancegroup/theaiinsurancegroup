@@ -280,26 +280,17 @@ function Nav() {
         </a>
 
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-          <a href="https://isyouraicovered.com?new=1" className="nav-cta-mobile" style={{
-            display: "none",
-            background: GOLD, color: WHITE, padding: "9px 14px", borderRadius: 6, fontSize: 12, fontWeight: 700,
-            textDecoration: "none", letterSpacing: 0.2, whiteSpace: "nowrap",
-          }}>Check Coverage</a>
-          {/* Mobile keeps the icon only -- at 390px the row already carries a
-              CTA, FAQ and the menu button, and the full number does not fit.
-              The number itself is the first item inside the open menu. */}
-          <a href={AGENCY_PHONE_HREF} className="nav-call-mobile" aria-label={`Call ${AGENCY_PHONE}`} style={{
-            display: "none", alignItems: "center", gap: 5,
-            color: GOLD, fontSize: 12, fontWeight: 700, textDecoration: "none",
-            padding: "9px 11px", borderRadius: 6, border: "1px solid " + GOLD,
-            letterSpacing: 0.3, whiteSpace: "nowrap",
-          }}><PhoneIcon size={12} />Call</a>
-          <a href={to("#faq")} className="nav-faq-mobile" style={{
-            display: "none",
-            color: GOLD, fontSize: 12, fontWeight: 700, textDecoration: "none",
-            padding: "9px 10px", borderRadius: 6, border: "1px solid " + GOLD,
-            letterSpacing: 0.3, whiteSpace: "nowrap",
-          }}>FAQ</a>
+          {/* "Check Coverage" (isyouraicovered.com) and "FAQ" are gone from
+              here: FAQ moved to the footer with the rest, and Check Coverage
+              was the old positioning's call to action. Call stays -- with the
+              row down to one button plus the menu, it now carries the number
+              rather than just the word. */}
+          <a href={AGENCY_PHONE_HREF} className="nav-call-mobile" style={{
+            display: "none", alignItems: "center", gap: 6,
+            color: GOLD, fontSize: 13, fontWeight: 700, textDecoration: "none",
+            padding: "9px 13px", borderRadius: 6, border: "1px solid " + GOLD,
+            letterSpacing: 0.2, whiteSpace: "nowrap",
+          }}><PhoneIcon size={13} />{AGENCY_PHONE}</a>
           <div onClick={() => setMenuOpen(!menuOpen)} style={{ display: "none", cursor: "pointer", flexDirection: "column", gap: 5, padding: 8 }} className="mobile-menu-btn">
             <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
             <div style={{ width: 24, height: 2, background: WHITE, borderRadius: 1 }} />
@@ -333,9 +324,7 @@ function Nav() {
            overflow always lived. */
         @media (max-width: 1240px) {
           .mobile-menu-btn { display: flex !important; }
-          .nav-cta-mobile { display: inline-block !important; padding: 9px 12px !important; font-size: 12px !important; }
           .nav-call-mobile { display: inline-flex !important; }
-          .nav-faq-mobile { display: inline-block !important; }
           .nav-brand-text { display: none; }
           .nav-links {
             ${menuOpen ? `

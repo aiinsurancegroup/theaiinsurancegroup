@@ -58,6 +58,9 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
     first_name: "", last_name: "", email: "", mobile_phone: "", zip: "",
   });
   const [file, setFile] = useState(null);
+  // Set by "No policy handy?" -- it only collapses the secondary button and
+  // swaps the helper line. It does not change what gets submitted.
+  const [skipUpload, setSkipUpload] = useState(false);
   const [tcpa, setTcpa] = useState(false);
   const [docsOk, setDocsOk] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -257,6 +260,68 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
         </div>
       )}
 
+      {/* UPLOAD FIRST. This block used to sit below the contact fields as a
+          dashed box with a bare "Choose File" input, which made the upload --
+          the thing that makes a review possible without a questionnaire -- the
+          least prominent control on the form. It is now the first choice on the
+          form and the only gold control above the submit button.
+
+          Both paths still submit the same form: choosing "answer a few
+          questions" does not branch to a different flow, it collapses this
+          block and moves to the fields, and a submission with no file already
+          triggers the emailed secure upload link. */}
+      <div style={{ marginBottom: 14 }}>
+        <input id="lf-file" ref={fileRef} type="file" accept={ACCEPT} onChange={pickFile}
+               style={{ display: "none" }} />
+
+        {file ? (
+          <div style={{
+            border: `1.5px solid ${GREEN}`, borderRadius: 8, padding: "12px 14px",
+            display: "flex", alignItems: "center", gap: 10,
+          }}>
+            <span aria-hidden="true" style={{ color: GREEN, fontWeight: 800 }}>✓</span>
+            <span style={{ flex: 1, minWidth: 0, fontSize: 14, color: NAVY, fontWeight: 600,
+                           overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {file.name}
+            </span>
+            <button type="button" onClick={() => { setFile(null); setDocsOk(false); if (fileRef.current) fileRef.current.value = ""; }}
+              style={{ background: "none", border: "none", padding: 0, cursor: "pointer",
+                       color: GRAY, fontSize: 13, fontWeight: 600, textDecoration: "underline", fontFamily: "inherit" }}>
+              Remove
+            </button>
+          </div>
+        ) : (
+          <>
+            <button type="button" onClick={() => fileRef.current?.click()} style={{
+              width: "100%", background: GOLD, color: NAVY, border: "none", borderRadius: 8,
+              padding: "16px 20px", fontSize: 16.5, fontWeight: 700, cursor: "pointer",
+              fontFamily: "inherit", marginBottom: 8,
+            }}>
+              Upload my policy (PDF)
+            </button>
+
+            {!skipUpload && (
+              <button type="button" onClick={() => { setSkipUpload(true); document.getElementById("lf-first")?.focus(); }}
+                style={{
+                  width: "100%", background: WHITE, color: NAVY, border: `1.5px solid ${BORDER}`,
+                  borderRadius: 8, padding: "13px 20px", fontSize: 14.5, fontWeight: 600,
+                  cursor: "pointer", fontFamily: "inherit",
+                }}>
+                No policy handy? Answer a few questions
+              </button>
+            )}
+
+            {/* Consumer language, deliberately. "Upload your declarations page"
+                asks someone to know a term they have no reason to know. */}
+            <p style={{ color: GRAY, fontSize: 12.5, lineHeight: 1.5, margin: "8px 0 0" }}>
+              {skipUpload
+                ? "No problem — fill these in and we'll email you a secure link to send it later."
+                : "Have it on your phone, in your email, or on paper? A clear photo of your declarations page works."}
+            </p>
+          </>
+        )}
+      </div>
+
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
         <div>
           <label style={labelStyle} htmlFor="lf-first">First name</label>
@@ -290,26 +355,15 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
         </div>
       </div>
 
-      {/* Consumer language, deliberately. "Upload your declarations page" asks
-          someone to know a term they have no reason to know. */}
-      <div style={{ border: `1px dashed ${BORDER}`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
-        <label style={{ ...labelStyle, marginBottom: 4 }} htmlFor="lf-file">
-          Have it on your phone, in your email, or on paper?
+      {/* The documents consent stays attached to the act of sending a document,
+          so it only appears once there is one. */}
+      {file && (
+        <label style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 12, cursor: "pointer" }}>
+          <input type="checkbox" checked={docsOk} onChange={(e) => setDocsOk(e.target.checked)}
+                 style={{ marginTop: 3, width: 18, height: 18, flexShrink: 0 }} />
+          <span style={{ fontSize: 12.5, color: GRAY, lineHeight: 1.5 }}>{DOCS_TEXT}</span>
         </label>
-        <p style={{ color: GRAY, fontSize: 13, lineHeight: 1.45, margin: "0 0 8px" }}>
-          A clear photo of your declarations page works. Attach it now and we'll do most of the work
-          for you — or skip this and we'll email you a secure link to send it later.
-        </p>
-        <input id="lf-file" ref={fileRef} type="file" accept={ACCEPT} onChange={pickFile}
-               style={{ fontSize: 14, width: "100%" }} />
-        {file && (
-          <label style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 12, cursor: "pointer" }}>
-            <input type="checkbox" checked={docsOk} onChange={(e) => setDocsOk(e.target.checked)}
-                   style={{ marginTop: 3, width: 18, height: 18, flexShrink: 0 }} />
-            <span style={{ fontSize: 12.5, color: GRAY, lineHeight: 1.5 }}>{DOCS_TEXT}</span>
-          </label>
-        )}
-      </div>
+      )}
 
       <label style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 12, cursor: "pointer" }}>
         <input type="checkbox" checked={tcpa} onChange={(e) => setTcpa(e.target.checked)}
