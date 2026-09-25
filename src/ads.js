@@ -92,7 +92,18 @@ export function loadGtag() {
   document.head.appendChild(s);
 
   gtag("js", new Date());
-  gtag("config", CONVERSION_ID);
+  // allow_ad_personalization_signals: false turns off remarketing and
+  // personalised-advertising signals, leaving conversion measurement.
+  //
+  // It is here to match the privacy policy. That policy tells visitors Google
+  // "may set cookies that let us see whether that visit led to a form
+  // submission" -- measurement, and nothing about building audiences to follow
+  // them around. Left on, the tag was firing remarketing hits on every page,
+  // which is a thing the policy does not describe.
+  //
+  // If remarketing campaigns are ever wanted, this flag comes off AND the
+  // policy gains a sentence, in the same change.
+  gtag("config", CONVERSION_ID, { allow_ad_personalization_signals: false });
   return true;
 }
 

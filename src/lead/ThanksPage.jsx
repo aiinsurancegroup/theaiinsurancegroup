@@ -93,7 +93,10 @@ export default function ThanksPage({ slug, next, leadId, questionnaireSlug }) {
                   </p>
                   <a href={`/quote/${questionnaireSlug}${leadId ? `?lead=${encodeURIComponent(leadId)}` : ""}`}
                      style={{
-                       display: "inline-block", background: GOLD, color: WHITE, textDecoration: "none",
+                       // Navy on gold, not white on gold: white text on #B8972A
+                       // is about 2.1:1, under the 4.5:1 WCAG AA minimum for
+                       // body-sized text. Navy on the same gold is ~8:1.
+                       display: "inline-block", background: GOLD, color: NAVY, textDecoration: "none",
                        padding: "15px 26px", borderRadius: 8, fontWeight: 700, fontSize: 16.5,
                      }}>
                     Continue →

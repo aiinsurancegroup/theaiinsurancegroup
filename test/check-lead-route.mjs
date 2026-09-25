@@ -645,6 +645,30 @@ expect('  the form only records the id, never fires',
 expect('the id travels in sessionStorage, not the URL',
   /sessionStorage/.test(adsSrc) && !/location\.search/.test(adsSrc), true);
 
+// The tag measures conversions and does not build remarketing audiences, which
+// is what the privacy policy describes. If this is ever turned back on, the
+// policy needs a sentence in the same change.
+// Checked against code with comments stripped: the comment beside this flag
+// names it in order to explain it, so a raw-file regex matched the explanation
+// and stayed green with the flag removed. Found by mutation check, not review.
+// Stripped inline rather than with codeOnly(), which is declared further down
+// this file and would be in the temporal dead zone here.
+const adsCode = adsSrc
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .split(/\r?\n/).filter((l) => !/^\s*\/\//.test(l)).join('\n');
+expect('ad personalization signals are off',
+  /allow_ad_personalization_signals:\s*false/.test(adsCode), true);
+expect('  set on the config call, not somewhere inert',
+  /gtag\("config", CONVERSION_ID, \{ allow_ad_personalization_signals: false \}\)/.test(adsCode), true);
+
+// Gold buttons carry navy text. White on #B8972A is ~2.1:1, below WCAG AA.
+{
+  const thanks = fs.readFileSync('src/lead/ThanksPage.jsx', 'utf8').replace(/\s+/g, ' ');
+  expect('the Continue button is navy on gold',
+    thanks.includes('background: GOLD, color: NAVY'), true);
+  expect('  and not white on gold', /background: GOLD, color: WHITE/.test(thanks), false);
+}
+
 console.log('\n--- the advertising disclosure matches the tag we actually run');
 // Approved 2026-09-25 and pinned verbatim. It ships with the Google Ads tag:
 // a policy that does not name the advertising partner describes a site we no
