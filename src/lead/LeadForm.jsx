@@ -164,7 +164,10 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
         }
       }
 
-      const result = { ...data, uploaded, uploadError: file && !uploaded };
+      // product is carried out with the result so the caller can build the
+      // thanks URL from the line the visitor actually picked, without having
+      // to reach back into this component for it.
+      const result = { ...data, product, uploaded, uploadError: file && !uploaded };
 
       // The lead exists, so this is the moment a conversion became real. The id
       // goes where /thanks can read it; the event itself fires there, on a page

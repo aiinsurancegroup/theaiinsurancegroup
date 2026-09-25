@@ -386,9 +386,33 @@ for (const t of ['about a day', 'within a day', '24 hours', '48 hours', 'two bus
 }
 
 console.log('\n--- the conversion fires on a page load');
-expect('the form hands off instead of confirming inline', landing.includes('onSuccess={goToThanks}'), true);
-expect('  by navigating to a real URL', landing.includes('window.location.assign(`/thanks/${variant}'), true);
-expect('  carrying what the page must report', landing.includes('params.set("next"'), true);
+// ONE redirect, used by every form. It was inline in LandingPage, so only the
+// paid pages redirected: the homepage form had no onSuccess, showed an inline
+// confirmation, never reached /thanks and never fired a conversion. Every
+// homepage lead was invisible to Google Ads while sitting in the database.
+const redirect = fs.readFileSync('src/lead/goToThanks.js', 'utf8');
+expect('the redirect lives in one module', redirect.includes('export function goToThanks'), true);
+expect('  the url is built by a pure function', redirect.includes('export function thanksUrl'), true);
+expect('  which returns a real /thanks path', redirect.includes('return `/thanks/${slug}?${params.toString()}`'), true);
+expect('  and goToThanks navigates to exactly that',
+  redirect.includes('window.location.assign(thanksUrl(result, slug))'), true);
+expect('  carrying what the page must report', redirect.includes('params.set("next"'), true);
+
+expect('the landing pages use it', landing.includes('goToThanks(result, variant)'), true);
+expect('  and hand it to the form', landing.includes('onSuccess={onSuccess}'), true);
+expect('the HOMEPAGE form uses it too', app.includes('goToThanks(result, slugForProduct(result.product))'), true);
+expect('  so no form is left without an onSuccess',
+  (app.match(/<LeadForm/g) || []).length === 1 && app.includes('onSuccess={'), true);
+expect('  neither file re-implements the redirect',
+  /location\.assign\(`\/thanks/.test(landing + app), false);
+
+// The slug must be the line the visitor picked, not a guess.
+expect('LeadForm reports the chosen product', form.includes('const result = { ...data, product,'), true);
+for (const [product, slug] of [['home', 'home'], ['auto', 'auto'], ['business', 'business']]) {
+  expect(`  ${product} -> /thanks/${slug}`, redirect.includes(`${product}: "${slug}"`), true);
+}
+expect('  an unknown product falls back rather than building /thanks/undefined',
+  /SLUGS\[product\] \|\| "review"/.test(redirect), true);
 expect('LeadForm supports the handoff', form.includes('onSuccess = null'), true);
 expect('  and stays busy so it cannot double-submit', form.includes('if (onSuccess) { onSuccess(result); return; }'), true);
 expect('the thanks page writes nothing', /fetch\(/.test(thanks), false);

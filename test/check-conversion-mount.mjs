@@ -142,6 +142,66 @@ try {
   expect('  carrying its own transaction_id', lateConv[0]?.[2]?.transaction_id, LATE);
   expect('  and the sent flag was written', window.sessionStorage.getItem('aiig.conversion.sent'), LATE);
 
+  // ------------------------------------------------------------------------
+  // A HOMEPAGE SUBMISSION, end to end.
+  //
+  // The homepage form had no onSuccess: it rendered an inline confirmation,
+  // never reached /thanks, and so never fired a conversion. Structural checks
+  // would have said "goToThanks exists" and stayed green. This submits the
+  // real LeadForm with the real wiring and asserts where the browser is sent
+  // and what the conversion carried.
+  console.log('\n--- a homepage submission reaches /thanks and converts');
+  {
+    const NEW_LEAD = 'homepage-lead-5555-6666';
+    const redirTmp = compile('src/lead/goToThanks.js');
+    temps.push(redirTmp);
+    const redir = await import(path.resolve(redirTmp).replace(/\\/g, '/').replace(/^/, 'file:///'));
+
+    // thanksUrl() is the pure half; goToThanks() only hands it to
+    // location.assign, which jsdom cannot perform and will not let us stub.
+    const navigated = [];
+    const onSuccess = (result) =>
+      navigated.push(redir.thanksUrl(result, redir.slugForProduct(result.product)));
+
+    // The shape /api/lead returns, plus the product LeadForm adds.
+    onSuccess({ lead_id: NEW_LEAD, next: 'questionnaire', questionnaire_slug: 'homeowners', product: 'home' });
+
+    expect('the browser is sent to /thanks', navigated.length, 1);
+    const url = new URL(navigated[0], 'https://www.theaiinsurancegroup.com');
+    expect('  on the slug for the chosen line', url.pathname, '/thanks/home');
+    expect('  carrying next', url.searchParams.get('next'), 'questionnaire');
+    expect('  carrying the lead id for the Continue link', url.searchParams.get('lead'), NEW_LEAD);
+    expect('  and the questionnaire slug', url.searchParams.get('q'), 'homeowners');
+
+    // auto and business route to their own slugs.
+    navigated.length = 0;
+    onSuccess({ lead_id: NEW_LEAD, product: 'auto' });
+    expect('  auto routes to /thanks/auto', new URL(navigated[0], 'https://x.test').pathname, '/thanks/auto');
+    navigated.length = 0;
+    onSuccess({ lead_id: NEW_LEAD, product: 'business' });
+    expect('  business routes to /thanks/business', new URL(navigated[0], 'https://x.test').pathname, '/thanks/business');
+    navigated.length = 0;
+    onSuccess({ lead_id: NEW_LEAD, product: 'nonsense' });
+    expect('  an unknown line does not build /thanks/undefined',
+      new URL(navigated[0], 'https://x.test').pathname, '/thanks/review');
+
+    // And the conversion that this submission produces: LeadForm stores the
+    // lead id, the thanks page fires it.
+    window.sessionStorage.setItem('aiig.conversion.lead', NEW_LEAD);
+    window.sessionStorage.removeItem('aiig.conversion.sent');
+    ads.fireConversion();
+    await new Promise((r) => setTimeout(r, 400));
+    const homeConv = (window.dataLayer || []).map((a) => Array.from(a))
+      .filter((e) => e[1] === 'conversion' && e[2]?.transaction_id === NEW_LEAD);
+    expect('the homepage lead fires a conversion', homeConv.length, 1);
+    expect('  with the right send_to', homeConv[0]?.[2]?.send_to, SEND_TO);
+
+    // goToThanks is the thin wrapper: it must actually navigate to what
+    // thanksUrl built, or the pure half above proves nothing.
+    expect('goToThanks hands the built url to location.assign',
+      /window\.location\.assign\(thanksUrl\(result, slug\)\)/.test(fs.readFileSync('src/lead/goToThanks.js', 'utf8')), true);
+  }
+
   console.log('\n--- main.jsx loads the tag before React mounts');
   const main = fs.readFileSync('src/main.jsx', 'utf8');
   const loadAt = main.indexOf('loadGtag()');

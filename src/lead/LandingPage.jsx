@@ -2,6 +2,7 @@ import React from "react";
 import LeadForm from "./LeadForm";
 import { HOMEOWNERS_CLAIMS, AUTO_CLAIMS } from "./claims";
 import { AGENCY_PHONE, AGENCY_PHONE_HREF, AGENCY_EMAIL } from "../contact";
+import { goToThanks } from "./goToThanks";
 import PhoneIcon from "../PhoneIcon";
 
 // Paid-traffic landing pages: /review/homeowners and /review/auto.
@@ -53,13 +54,9 @@ export default function LandingPage({ variant, onLegal }) {
   // a confirmation. Google Ads should count a conversion on a page load, not a
   // JavaScript event: a page load is far harder to get wrong, it survives the
   // form being rewritten, and it gives the ad platform a URL to match on.
-  const goToThanks = (result) => {
-    const params = new URLSearchParams();
-    params.set("next", result.next || "manual");
-    if (result.lead_id) params.set("lead", result.lead_id);
-    if (result.questionnaire_slug) params.set("q", result.questionnaire_slug);
-    window.location.assign(`/thanks/${variant}?${params.toString()}`);
-  };
+  // Shared with the homepage form -- see src/lead/goToThanks.js. It was inline
+  // here, which is why the homepage never redirected and never converted.
+  const onSuccess = (result) => goToThanks(result, variant);
 
   return (
     <div style={{ background: LIGHT, minHeight: "100vh", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
@@ -134,7 +131,7 @@ export default function LandingPage({ variant, onLegal }) {
         </div>
 
         <div className="lp-form">
-          <LeadForm defaultProduct={cfg.product} onSuccess={goToThanks} hideProduct compact />
+          <LeadForm defaultProduct={cfg.product} onSuccess={onSuccess} hideProduct compact />
         </div>
       </div>
 

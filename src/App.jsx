@@ -7,6 +7,7 @@ import { AGENCY_PHONE, AGENCY_PHONE_HREF, AGENCY_EMAIL, AUTHOR_BIO } from "./con
 import PhoneIcon from "./PhoneIcon";
 import BrandLogo from "./BrandLogo";
 import { applyMeta } from "./meta";
+import { goToThanks, slugForProduct } from "./lead/goToThanks";
 import { Hero, Ticker, CoverageBoxes } from "./home";
 
 const NAVY = "#0F2847";
@@ -1574,8 +1575,18 @@ function QuoteSection({ line = null }) {
 
         {/* key remounts the form when a box picks a different line, so the
             selector actually moves. Without it defaultProduct is only read on
-            first mount and every box would land on Home. */}
-        <LeadForm key={line || "home"} defaultProduct={line || "home"} />
+            first mount and every box would land on Home.
+
+            onSuccess is the SAME redirect the paid pages use. Without it this
+            form swapped itself for an inline confirmation, never reached
+            /thanks, and so never fired a conversion -- every homepage lead was
+            invisible to Google Ads while sitting in the database. The slug is
+            the line the visitor picked: /thanks/home, /auto or /business. */}
+        <LeadForm
+          key={line || "home"}
+          defaultProduct={line || "home"}
+          onSuccess={(result) => goToThanks(result, slugForProduct(result.product))}
+        />
       </div>
       <style>{`
         @media (max-width: 860px) {
