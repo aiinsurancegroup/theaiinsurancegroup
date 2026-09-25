@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AGENCY_PHONE, AGENCY_PHONE_HREF } from "../contact";
 import PhoneIcon from "../PhoneIcon";
+import { fireConversion } from "../ads";
 
 // /thanks/:slug — the conversion page.
 //
@@ -29,6 +30,17 @@ const BORDER = "#E5E7EB";
 const GREEN = "#2F6B4F";
 
 export default function ThanksPage({ slug, next, leadId, questionnaireSlug }) {
+  // The conversion, and the only place it fires. On mount, once, keyed on the
+  // lead id held in sessionStorage by the form that created it.
+  //
+  // Not from the `lead` query parameter, even though one is right there: a
+  // conversion keyed on a URL counts every copy of that URL -- a shared link, a
+  // bookmark, a QA visit. The query parameter stays for the questionnaire
+  // "Continue" link below, which is a navigation rather than a measurement.
+  //
+  // A direct visit to /thanks has no stored id and fires nothing.
+  useEffect(() => { fireConversion(); }, []);
+
   // Path A: they attached a policy, so there is nothing else to ask for.
   const uploaded = next === "uploaded";
   // Path B: a questionnaire exists for their state and product.

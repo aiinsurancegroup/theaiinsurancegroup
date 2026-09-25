@@ -424,6 +424,245 @@ for (const [name, body] of [['landing', landing], ['thanks', thanks], ['question
 }
 expect('the site nav carries it too', app.includes('AGENCY_PHONE_HREF'), true);
 
+console.log('\n--- the Google Ads conversion fires once, with a transaction id');
+// Behavioural, not textual: a stub window is installed, fireConversion() is
+// called for real, and what landed in gtag is inspected. A grep for
+// "transaction_id" would pass against a line that never runs.
+const ads = await import('../src/ads.js');
+const adsSource = fs.readFileSync('src/ads.js', 'utf8');
+
+const makeWindow = () => {
+  const store = new Map();
+  const sent = [];
+  return {
+    sent,
+    store,
+    win: {
+      sessionStorage: {
+        getItem: (k) => (store.has(k) ? store.get(k) : null),
+        setItem: (k, v) => store.set(k, String(v)),
+      },
+      gtag: (...args) => sent.push(args),
+      document: { head: { appendChild() {} }, createElement: () => ({}) },
+    },
+  };
+};
+// Stubs `document` as well as `window`: loadGtag() reaches for the bare global
+// `document`, the way browser code does, so a window-only stub threw.
+const withWindow = (win, fn) => {
+  const hadW = 'window' in globalThis, prevW = globalThis.window;
+  const hadD = 'document' in globalThis, prevD = globalThis.document;
+  globalThis.window = win;
+  if (win.document) globalThis.document = win.document;
+  try {
+    return fn();
+  } finally {
+    hadW ? (globalThis.window = prevW) : delete globalThis.window;
+    hadD ? (globalThis.document = prevD) : delete globalThis.document;
+  }
+};
+
+const configured = ads.isConfigured();
+
+// Behavioural and deliberately unconditional: the module is rebuilt with ids
+// that are KNOWN BAD and must report itself unconfigured.
+//
+// This replaced a structural check that only asserted the placeholder regex
+// appeared in the file. Rewriting isConfigured to `() => true` left that text
+// in place further down, so the check passed and the mutation went unnoticed --
+// the same "green against the file, not the behaviour" failure CLAUDE.md warns
+// about, found by mutation-checking rather than by reading.
+{
+  // [name, id, label, mayLoadTag] -- the tag loader needs only a valid id, so a
+  // missing label must NOT stop attribution while it still stops the event.
+  const cases = [
+    ['both placeholders', '"AW-__________"', '"__________"', false],
+    ['label still unset', '"AW-18472526290"', '"__________"', true],
+    ['id not an AW- id', '"G-ABC123"', '"TeStLaBeL123"', false],
+    ['label empty string', '"AW-18472526290"', '""', true],
+  ];
+  for (const [label, id, lbl, mayLoad] of cases) {
+    const tmp = 'src/.ads.bad.mjs';
+    fs.writeFileSync(tmp, adsSource
+      .replace(/CONVERSION_ID = "[^"]*"/, `CONVERSION_ID = ${id}`)
+      .replace(/CONVERSION_LABEL = "[^"]*"/, `CONVERSION_LABEL = ${lbl}`));
+    try {
+      const bad = await import(`../src/.ads.bad.mjs?c=${label.replace(/\W/g, '')}`);
+      expect(`no conversion: ${label}`, bad.canFireConversion(), false);
+      expect(`  tag loader ${mayLoad ? 'still runs' : 'also blocked'}: ${label}`, bad.canLoadTag(), mayLoad);
+      const w = makeWindow();
+      w.win.sessionStorage.setItem('aiig.conversion.lead', 'lead-x');
+      const r = withWindow(w.win, () => bad.fireConversion());
+      expect(`  fires nothing: ${label}`, w.sent.length, 0);
+      expect(`  and says why: ${label}`, r.reason, 'not-configured');
+    } finally {
+      fs.unlinkSync(tmp);
+    }
+  }
+}
+
+// loadGtag()'s BEHAVIOUR, not just the predicate it consults. Pointing the
+// loader back at canFireConversion() would silently stop the tag loading while
+// the label is missing -- the regression this split exists to prevent -- and
+// nothing noticed until a mutation check asked.
+{
+  const tmp = 'src/.ads.loader.mjs';
+  fs.writeFileSync(tmp, adsSource
+    .replace(/CONVERSION_ID = "[^"]*"/, 'CONVERSION_ID = "AW-18472526290"')
+    .replace(/CONVERSION_LABEL = "[^"]*"/, 'CONVERSION_LABEL = "__________"'));
+  try {
+    const m = await import('../src/.ads.loader.mjs');
+    const injected = [];
+    const w = makeWindow();
+    w.win.document = {
+      head: { appendChild: (el) => injected.push(el) },
+      createElement: () => ({ set src(v) { this._src = v; }, get src() { return this._src; } }),
+    };
+    const loaded = withWindow(w.win, () => m.loadGtag());
+    expect('a valid id loads the tag even with no label', loaded, true);
+    expect('  a script element was injected', injected.length, 1);
+    expect('  pointing at the real conversion id',
+      /googletagmanager\.com\/gtag\/js\?id=AW-18472526290/.test(injected[0]?.src || ''), true);
+    // loadGtag installs its own window.gtag, which pushes into dataLayer -- so
+    // the config call lands there, not in the stub's array.
+    const layer = [...(w.win.dataLayer || [])].map((a) => Array.from(a));
+    expect('  gtag config was called with the id',
+      layer.some((e) => e[0] === 'config' && e[1] === 'AW-18472526290'), true);
+    expect('  and gtag js was initialised', layer.some((e) => e[0] === 'js'), true);
+    // ...but the conversion still must not fire.
+    w.win.sessionStorage.setItem('aiig.conversion.lead', 'lead-y');
+    const before = w.sent.length;
+    const r = withWindow(w.win, () => m.fireConversion());
+    expect('  while the conversion stays blocked', r.reason, 'not-configured');
+    expect('  and sent no event', w.sent.length, before);
+  } finally {
+    fs.unlinkSync(tmp);
+  }
+}
+
+// The live config, pinned. A typo in either half does not throw and does not
+// warn: the tag loads, the event posts, and Google discards it against an
+// action that does not exist. Conversions then read as zero and look like an
+// advertising problem rather than a character. Both halves supplied by Sal on
+// 2026-09-25 as send_to: AW-18472526290/vI8cCOWZlYUdENLDsehE.
+expect('the live conversion id', ads.CONVERSION_ID, 'AW-18472526290');
+expect('the live conversion label', ads.CONVERSION_LABEL, 'vI8cCOWZlYUdENLDsehE');
+expect('  they reassemble to the send_to Sal supplied',
+  `${ads.CONVERSION_ID}/${ads.CONVERSION_LABEL}`, 'AW-18472526290/vI8cCOWZlYUdENLDsehE');
+expect('the tag can load', ads.canLoadTag(), true);
+expect('  and conversions can fire', ads.canFireConversion(), true);
+expect('  so gtag loads and clicks are attributed', /AW-\d{6,}/.test(adsSource), true);
+console.log(`    (conversions ${ads.canFireConversion() ? 'ARE firing' : 'are NOT firing yet — label still a placeholder'})`);
+
+// True whether or not the ids are filled in: a placeholder must never fire.
+{
+  const { win, sent } = makeWindow();
+  win.sessionStorage.setItem('aiig.conversion.lead', 'lead-1');
+  const r = withWindow(win, () => ads.fireConversion());
+  if (!configured) {
+    expect('a placeholder id fires nothing', r.fired, false);
+    expect('  and says why', r.reason, 'not-configured');
+    expect('  no event reached gtag', sent.length, 0);
+  }
+}
+
+// The core rule, exercised through a fake configured module so it is checked
+// now rather than only after the ids are pasted in.
+{
+  // Both are forced to known test values regardless of what the live config
+  // currently holds, so this block keeps testing the same thing as the real
+  // ids get filled in one at a time.
+  const src = fs.readFileSync('src/ads.js', 'utf8')
+    .replace(/CONVERSION_ID = "[^"]*"/, 'CONVERSION_ID = "AW-123456789"')
+    .replace(/CONVERSION_LABEL = "[^"]*"/, 'CONVERSION_LABEL = "TeStLaBeL123"');
+  const tmp = 'src/.ads.undertest.mjs';
+  fs.writeFileSync(tmp, src);
+  // Wrapped: conversion code that throws in a browser takes the thanks page
+  // down with it, and an unhandled throw here killed the whole run and reported
+  // nothing rather than a failure. A crash is a failure, and must read as one.
+  try {
+    const live = await import('../src/.ads.undertest.mjs');
+    expect('with ids filled in, the module reports configured', live.isConfigured(), true);
+
+    // 1. A real submission: one event, carrying the lead id.
+    const a = makeWindow();
+    a.win.sessionStorage.setItem('aiig.conversion.lead', 'lead-abc');
+    const r1 = withWindow(a.win, () => live.fireConversion());
+    expect('a stored lead fires exactly one event', a.sent.length, 1);
+    expect('  the event is a conversion', a.sent[0]?.[1], 'conversion');
+    expect('  transaction_id is the lead id', a.sent[0]?.[2]?.transaction_id, 'lead-abc');
+    expect('  send_to is id/label', a.sent[0]?.[2]?.send_to, 'AW-123456789/TeStLaBeL123');
+    expect('  and it reports what it sent', r1.transaction_id, 'lead-abc');
+
+    // 2. A refresh or revisit in the same tab: nothing more is sent.
+    const r2 = withWindow(a.win, () => live.fireConversion());
+    expect('a second call sends nothing', a.sent.length, 1);
+    expect('  and says it was already sent', r2.reason, 'already-sent');
+
+    // 3. A direct visit to /thanks: no stored id, so no event AT ALL. This is
+    //    the one that matters -- an event with no transaction_id is a
+    //    conversion Google cannot dedupe.
+    const b = makeWindow();
+    const r3 = withWindow(b.win, () => live.fireConversion());
+    expect('no lead id fires nothing', b.sent.length, 0);
+    expect('  and says why', r3.reason, 'no-lead-id');
+
+    // 4. No event may ever be sent without a transaction_id, by construction.
+    const all = [...a.sent, ...b.sent];
+    expect('every event sent carried a transaction_id',
+      all.length > 0 && all.every((e) => !!e[2]?.transaction_id), true);
+  } catch (err) {
+    expect(`the conversion path does not throw (${String(err).split('\n')[0]})`, 'threw', 'did not throw');
+  } finally {
+    fs.unlinkSync(tmp);
+  }
+}
+
+// One home for the two identifiers.
+const adsSrc = fs.readFileSync('src/ads.js', 'utf8');
+const otherFiles = ['src/App.jsx', 'src/lead/LeadForm.jsx', 'src/lead/ThanksPage.jsx',
+  'src/lead/LandingPage.jsx', 'src/home.jsx', 'src/meta.js', 'index.html']
+  .map((f) => fs.readFileSync(f, 'utf8')).join('\n');
+expect('the ids live in src/ads.js', /CONVERSION_ID\s*=/.test(adsSrc) && /CONVERSION_LABEL\s*=/.test(adsSrc), true);
+expect('  and nowhere else', /AW-\d/.test(otherFiles), false);
+expect('  no stray gtag config outside ads.js', /googletagmanager\.com/.test(otherFiles), false);
+expect('gtag loads app-wide, not just on /thanks',
+  fs.readFileSync('src/App.jsx', 'utf8').includes('loadGtag()'), true);
+expect('the thanks page is the only thing firing it',
+  fs.readFileSync('src/lead/ThanksPage.jsx', 'utf8').includes('fireConversion()'), true);
+expect('  the form only records the id, never fires',
+  /fireConversion/.test(fs.readFileSync('src/lead/LeadForm.jsx', 'utf8')), false);
+expect('the id travels in sessionStorage, not the URL',
+  /sessionStorage/.test(adsSrc) && !/location\.search/.test(adsSrc), true);
+
+console.log('\n--- the advertising disclosure matches the tag we actually run');
+// Approved 2026-09-25 and pinned verbatim. It ships with the Google Ads tag:
+// a policy that does not name the advertising partner describes a site we no
+// longer run, and this is the disclosure a regulator or a visitor would be
+// pointed at. Compared with whitespace collapsed, since it wraps across JSX
+// lines and never appears in the file as one run of characters.
+const appFlat = app.replace(/\s+/g, ' ');
+const AD_DISCLOSURE =
+  'We use Google Ads to measure whether our advertising works. When you visit our site after ' +
+  'clicking one of our ads, Google may set cookies that let us see whether that visit led to a ' +
+  'form submission. We do not sell your personal information. You can limit ad personalization ' +
+  'at';
+expect('the disclosure is present verbatim', appFlat.includes(AD_DISCLOSURE), true);
+expect('  under its own heading', app.includes('<LegalH2>Advertising and Analytics</LegalH2>'), true);
+expect('  it names Google Ads', /We use Google Ads/.test(appFlat), true);
+expect('  it states we do not sell personal information',
+  /We do not sell your personal information\./.test(appFlat), true);
+expect('  the opt-out route is given and clickable',
+  appFlat.includes('href="https://adssettings.google.com"') &&
+  appFlat.includes('>adssettings.google.com</a>'), true);
+expect('  and the browser fallback is named',
+  /or block cookies in your browser settings\./.test(appFlat), true);
+
+// The disclosure and the tag ship together or not at all. If one day the tag is
+// removed, this is the reminder that the policy describes it.
+expect('a tag exists for the disclosure to describe',
+  fs.existsSync('src/ads.js') && /googletagmanager/.test(fs.readFileSync('src/ads.js', 'utf8')), true);
+
 console.log('\n--- the Marshall Fire evidence block is the approved wording');
 // The only external research cited on either paid page. Two figures were
 // corrected before approval and one was dropped for want of a primary source;

@@ -8,6 +8,7 @@ import PhoneIcon from "./PhoneIcon";
 import BrandLogo from "./BrandLogo";
 import { applyMeta } from "./meta";
 import { Hero, Ticker, CoverageBoxes } from "./home";
+import { loadGtag } from "./ads";
 
 const NAVY = "#0F2847";
 // The brand navy from the logo artwork. NAVY above is the older page navy,
@@ -114,6 +115,25 @@ function PrivacyPolicy({ onClose }) {
 
       <LegalH2>Cookies and Tracking</LegalH2>
       <LegalP>Our Sites may use cookies and similar tracking technologies to improve your experience and analyze site usage. You can control cookie settings through your browser preferences.</LegalP>
+
+      {/* APPROVED 2026-09-25, Sal's wording, used verbatim. Added alongside the
+          Google Ads conversion tag: the tag sets advertising cookies, and a
+          policy that did not name the advertising partner would have been
+          describing a site we no longer run. Pinned by test.
+
+          The one addition is the anchor around adssettings.google.com -- the
+          text is unchanged, and an opt-out route a reader cannot click is a
+          worse opt-out route. Verified to resolve before shipping; it now
+          redirects to Google's My Ad Center. */}
+      <LegalH2>Advertising and Analytics</LegalH2>
+      <LegalP>
+        We use Google Ads to measure whether our advertising works. When you visit our site after
+        clicking one of our ads, Google may set cookies that let us see whether that visit led to a
+        form submission. We do not sell your personal information. You can limit ad personalization
+        at <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer"
+              style={{ color: NAVY, fontWeight: 600 }}>adssettings.google.com</a>, or block cookies
+        in your browser settings.
+      </LegalP>
 
       <LegalH2>Your Rights</LegalH2>
       <LegalP>Depending on your location, you may have rights regarding your personal information, including the right to access, correct, delete, or restrict processing of your data. To exercise these rights, contact us at sal@theaiinsurancegroup.com.</LegalP>
@@ -1922,6 +1942,11 @@ export default function App() {
   // the homepage's title and description. Keyed on the route so a client-side
   // move between pages updates the head too.
   useEffect(() => { applyMeta(route); }, [route?.kind, route?.variant, route?.slug]);
+
+  // Every page, including the paid landing pages: Google Ads has to see the ad
+  // click land before it can attribute the conversion that follows. Runs once;
+  // a no-op until the conversion id and label are filled in.
+  useEffect(() => { loadGtag(); }, []);
 
   if (route?.kind === "quote") {
     return (

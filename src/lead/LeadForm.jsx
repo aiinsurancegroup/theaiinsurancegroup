@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { captureAttribution, getAttribution } from "./attribution";
+import { rememberLead } from "../ads";
 
 // Step 1 of the lead form.
 //
@@ -164,6 +165,11 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
       }
 
       const result = { ...data, uploaded, uploadError: file && !uploaded };
+
+      // The lead exists, so this is the moment a conversion became real. The id
+      // goes where /thanks can read it; the event itself fires there, on a page
+      // load, not here on a submit.
+      rememberLead(data.lead_id);
 
       // A caller can take over from here. The paid landing pages do, so a
       // conversion is counted on a page load rather than a JavaScript event.
