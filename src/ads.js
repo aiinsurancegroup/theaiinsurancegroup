@@ -9,7 +9,7 @@
 // shown there contains send_to: 'AW-123456789/AbC-D_efGhIjKlMnOp' -- the part
 // before the slash is CONVERSION_ID, the part after is CONVERSION_LABEL.
 export const CONVERSION_ID = "AW-18472526290";
-export const CONVERSION_LABEL = "__________";
+export const CONVERSION_LABEL = "vI8cCOWZlYUdENLDsehE";
 // ===========================================================================
 
 // TWO GUARDS, NOT ONE, because the two identifiers are needed at different

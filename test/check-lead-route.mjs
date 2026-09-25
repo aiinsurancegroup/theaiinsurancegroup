@@ -540,9 +540,17 @@ const configured = ads.isConfigured();
   }
 }
 
-// The live config, whatever state it is in today. These describe reality rather
-// than asserting a fixed value, so they stay meaningful once the label lands.
-expect('the live conversion id is a real AW- id', ads.canLoadTag(), true);
+// The live config, pinned. A typo in either half does not throw and does not
+// warn: the tag loads, the event posts, and Google discards it against an
+// action that does not exist. Conversions then read as zero and look like an
+// advertising problem rather than a character. Both halves supplied by Sal on
+// 2026-09-25 as send_to: AW-18472526290/vI8cCOWZlYUdENLDsehE.
+expect('the live conversion id', ads.CONVERSION_ID, 'AW-18472526290');
+expect('the live conversion label', ads.CONVERSION_LABEL, 'vI8cCOWZlYUdENLDsehE');
+expect('  they reassemble to the send_to Sal supplied',
+  `${ads.CONVERSION_ID}/${ads.CONVERSION_LABEL}`, 'AW-18472526290/vI8cCOWZlYUdENLDsehE');
+expect('the tag can load', ads.canLoadTag(), true);
+expect('  and conversions can fire', ads.canFireConversion(), true);
 expect('  so gtag loads and clicks are attributed', /AW-\d{6,}/.test(adsSource), true);
 console.log(`    (conversions ${ads.canFireConversion() ? 'ARE firing' : 'are NOT firing yet — label still a placeholder'})`);
 
