@@ -60,6 +60,53 @@ export const HOMEOWNERS_CLAIMS = {
   ],
 
   licence: "Licensed in New Jersey, Pennsylvania and Florida · NJ Producer License No. 3004245927",
+
+  // EVIDENCE -- approved 2026-09-24. The only external research cited on either
+  // page, and the first claim here that rests on somebody else's data rather
+  // than on what we do.
+  //
+  // THE STUDY. Cookson and Gallagher (Leeds School of Business, CU Boulder)
+  // with Mulder (UW-Madison), published January 2025: insurance contracts from
+  // 24 insurers covering nearly 5,000 policyholders who filed claims after
+  // Colorado's 2021 Marshall Fire. 74% underinsured; 36% severely, defined as
+  // coverage below 75% of replacement cost. Verified against the CU Boulder
+  // release and the authors' own write-up in The Conversation:
+  //   colorado.edu/today/2025/01/09/study-reveals-widespread-underinsurance-among-homeowners-exposing-risk-wake-devastating
+  //   theconversation.com/many-colorado-homeowners-are-underinsured-heres-what-to-do-before-the-next-fire-263702
+  //
+  // TWO FIGURES WERE CORRECTED BEFORE APPROVAL, and must not drift back:
+  //   "nine in ten had extended coverage"  ->  87%. The authors write
+  //     "Eighty-seven percent of the Marshall Fire policies we studied included
+  //     extended coverage." Nine in ten rounds past what they said.
+  //   "most were still underinsured"  ->  nearly three-quarters. Their words:
+  //     "nearly three-quarters of them still fell short of covering the full
+  //     cost to rebuild." Stronger than "most", and sourced.
+  //
+  // ONE FIGURE WAS DROPPED. A $139,000 average coverage gap is widely repeated
+  // in secondary coverage but appears in neither the CU Boulder release nor the
+  // authors' own article. It is the most quotable number in the whole study,
+  // which is exactly why it is not on a page carrying a producer licence until
+  // someone reads it in the paper. Do not add it back from a news article.
+  //
+  // WHY COLORADO IS NAMED TWICE. The population is homeowners who filed claims
+  // after one catastrophic total-loss fire in one state. It is not a measured
+  // rate for New Jersey, Pennsylvania or Florida, and it is not "74% of
+  // homeowners" -- it is 74% of those claimants. Strip either qualifier and a
+  // real finding becomes an overstatement.
+  evidence: {
+    lede: "This isn't just a theory.",
+    study:
+      "After Colorado's 2021 Marshall Fire, University of Colorado researchers examined " +
+      "insurance contracts from 24 insurers covering nearly 5,000 policyholders who filed " +
+      "claims. They found 74% were underinsured, and 36% were severely underinsured, with " +
+      "coverage limits below 75% of what it would actually cost to rebuild.",
+    extended:
+      "In the Colorado study, 87% of policies included extended replacement coverage, and " +
+      "nearly three-quarters of those homeowners still fell short of the full cost to rebuild.",
+    // Attribution, not a claim. An unattributed statistic on a licensed page is
+    // weaker than a cited one, and this names who to check.
+    source: "Cookson, Gallagher & Mulder, University of Colorado Boulder, 2025",
+  },
 };
 
 // ---------------------------------------------------------------------- auto

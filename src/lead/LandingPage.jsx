@@ -108,6 +108,29 @@ export default function LandingPage({ variant, onLegal }) {
           <ul className="lp-proofs" style={{ color: GRAY, fontSize: 15.5, lineHeight: 1.7, margin: "0 0 20px", paddingLeft: 20 }}>
             {claims.proofs.map((p) => <li key={p} style={{ marginBottom: 6 }}>{p}</li>)}
           </ul>
+
+          {/* Homeowners only -- there is no equivalent study behind the auto
+              page, and an evidence block with nothing in it would be worse than
+              none. Ordered last on a phone so it cannot push the form down. */}
+          {claims.evidence && (
+            <div className="lp-evidence" style={{
+              borderLeft: `3px solid ${GOLD}`, background: WHITE,
+              padding: "16px 18px", borderRadius: 4, margin: "0 0 20px",
+            }}>
+              <p style={{ color: NAVY, fontSize: 15.5, fontWeight: 700, lineHeight: 1.6, margin: "0 0 8px" }}>
+                {claims.evidence.lede}
+              </p>
+              <p style={{ color: GRAY, fontSize: 14.5, lineHeight: 1.65, margin: "0 0 10px" }}>
+                {claims.evidence.study}
+              </p>
+              <p style={{ color: GRAY, fontSize: 14.5, lineHeight: 1.65, margin: "0 0 10px" }}>
+                {claims.evidence.extended}
+              </p>
+              <p style={{ color: GRAY, fontSize: 12.5, lineHeight: 1.5, margin: 0, fontStyle: "italic" }}>
+                {claims.evidence.source}
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="lp-form">
@@ -153,6 +176,7 @@ export default function LandingPage({ variant, onLegal }) {
           .lp-form { order: 3; }
           .lp-sub { order: 4; margin-top: 4px !important; }
           .lp-proofs { order: 5; }
+          .lp-evidence { order: 6; }
         }
       `}</style>
     </div>

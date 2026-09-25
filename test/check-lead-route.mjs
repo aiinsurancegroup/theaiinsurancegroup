@@ -424,6 +424,42 @@ for (const [name, body] of [['landing', landing], ['thanks', thanks], ['question
 }
 expect('the site nav carries it too', app.includes('AGENCY_PHONE_HREF'), true);
 
+console.log('\n--- the Marshall Fire evidence block is the approved wording');
+// The only external research cited on either paid page. Two figures were
+// corrected before approval and one was dropped for want of a primary source;
+// these pin all three so none drifts back in from a news article.
+const { HOMEOWNERS_CLAIMS: HC, AUTO_CLAIMS: AC } = await import('../src/lead/claims.js');
+const ev = HC.evidence;
+expect('the evidence block exists', !!ev, true);
+expect('  lede verbatim', ev.lede, "This isn't just a theory.");
+expect('  study sentence verbatim', ev.study,
+  "After Colorado's 2021 Marshall Fire, University of Colorado researchers examined " +
+  "insurance contracts from 24 insurers covering nearly 5,000 policyholders who filed " +
+  "claims. They found 74% were underinsured, and 36% were severely underinsured, with " +
+  "coverage limits below 75% of what it would actually cost to rebuild.");
+expect('  extended-coverage sentence verbatim', ev.extended,
+  "In the Colorado study, 87% of policies included extended replacement coverage, and " +
+  "nearly three-quarters of those homeowners still fell short of the full cost to rebuild.");
+expect('  it is attributed', /University of Colorado Boulder/.test(ev.source), true);
+
+const evText = `${ev.lede} ${ev.study} ${ev.extended}`;
+// The population qualifier is the difference between a finding and an
+// overstatement: it is 74% of claimants after one fire in one state.
+expect('Colorado is named in both sentences',
+  /Colorado/.test(ev.study) && /Colorado/.test(ev.extended), true);
+expect('  the claimant population is stated', /policyholders who filed\s+claims/.test(ev.study), true);
+expect('  it never says "74% of homeowners"', /74% of homeowners/i.test(evText), false);
+
+// The corrections, held in place.
+expect('extended coverage is 87%, not "nine in ten"',
+  /87% of policies/.test(ev.extended) && !/nine in ten/i.test(evText), true);
+expect('  the shortfall is "nearly three-quarters", not "most"',
+  /nearly three-quarters/.test(ev.extended), true);
+// Dropped: widely repeated in secondary coverage, in no primary source.
+expect('  the unsourced $139,000 figure is absent', /139[,.]?000/.test(evText), false);
+
+expect('the auto page cites no study of its own', !!AC.evidence, false);
+
 console.log('\n--- the hero paragraph is the compliance-approved wording');
 const home = fs.readFileSync('src/home.jsx', 'utf8');
 
