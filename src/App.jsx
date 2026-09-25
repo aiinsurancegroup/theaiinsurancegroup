@@ -8,7 +8,6 @@ import PhoneIcon from "./PhoneIcon";
 import BrandLogo from "./BrandLogo";
 import { applyMeta } from "./meta";
 import { Hero, Ticker, CoverageBoxes } from "./home";
-import { loadGtag } from "./ads";
 
 const NAVY = "#0F2847";
 // The brand navy from the logo artwork. NAVY above is the older page navy,
@@ -1943,10 +1942,11 @@ export default function App() {
   // move between pages updates the head too.
   useEffect(() => { applyMeta(route); }, [route?.kind, route?.variant, route?.slug]);
 
-  // Every page, including the paid landing pages: Google Ads has to see the ad
-  // click land before it can attribute the conversion that follows. Runs once;
-  // a no-op until the conversion id and label are filled in.
-  useEffect(() => { loadGtag(); }, []);
+  // gtag is deliberately NOT loaded here. It is loaded at module scope in
+  // main.jsx, before React mounts. As a parent effect it ran AFTER ThanksPage's
+  // child effect, so every conversion found window.gtag undefined and gave up
+  // silently -- the tag looked healthy a moment later, which is what made the
+  // failure read as "no conversion event" rather than as an error.
 
   if (route?.kind === "quote") {
     return (

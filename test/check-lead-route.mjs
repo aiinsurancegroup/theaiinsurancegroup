@@ -626,8 +626,18 @@ const otherFiles = ['src/App.jsx', 'src/lead/LeadForm.jsx', 'src/lead/ThanksPage
 expect('the ids live in src/ads.js', /CONVERSION_ID\s*=/.test(adsSrc) && /CONVERSION_LABEL\s*=/.test(adsSrc), true);
 expect('  and nowhere else', /AW-\d/.test(otherFiles), false);
 expect('  no stray gtag config outside ads.js', /googletagmanager\.com/.test(otherFiles), false);
-expect('gtag loads app-wide, not just on /thanks',
-  fs.readFileSync('src/App.jsx', 'utf8').includes('loadGtag()'), true);
+// gtag is loaded in main.jsx at module scope, NOT in an App effect. It used to
+// be an effect, and React runs child effects before parent ones, so
+// ThanksPage's fireConversion() ran before window.gtag existed and every
+// conversion was silently dropped. check-conversion-mount.mjs proves the
+// behaviour; this pins the placement so it cannot drift back.
+{
+  const main = fs.readFileSync('src/main.jsx', 'utf8');
+  expect('gtag loads in main.jsx', main.includes('loadGtag()'), true);
+  expect('  before React mounts', main.indexOf('loadGtag()') < main.indexOf('createRoot'), true);
+  expect('  and not from an App effect',
+    /useEffect\([^)]*loadGtag/.test(fs.readFileSync('src/App.jsx', 'utf8')), false);
+}
 expect('the thanks page is the only thing firing it',
   fs.readFileSync('src/lead/ThanksPage.jsx', 'utf8').includes('fireConversion()'), true);
 expect('  the form only records the id, never fires',

@@ -1,2 +1,4 @@
 node_modules/
 dist/
+src/*.__mount.mjs
+src/.ads.*.mjs

@@ -48,6 +48,11 @@ export const isConfigured = () => canFireConversion();
 const LEAD_KEY = "aiig.conversion.lead";
 const SENT_KEY = "aiig.conversion.sent";
 
+// The retry window if gtag is not ready: ~3s, longer than a slow tag and
+// shorter than a visitor reading the page and leaving.
+const RETRY_MS = 300;
+const RETRY_TRIES = 10;
+
 // Every access is wrapped: Safari private mode, blocked site data and a few
 // embedded webviews throw on access rather than returning null, and a thrown
 // storage error in a conversion path would take the thanks page down with it.
@@ -110,13 +115,42 @@ export function fireConversion() {
   const leadId = recallLead();
   if (!leadId) return { fired: false, reason: "no-lead-id" };
   if (readStore(SENT_KEY) === leadId) return { fired: false, reason: "already-sent" };
-  if (typeof window.gtag !== "function") return { fired: false, reason: "gtag-missing" };
 
-  window.gtag("event", "conversion", {
-    send_to: `${CONVERSION_ID}/${CONVERSION_LABEL}`,
-    transaction_id: leadId,
-  });
+  // Send, and mark it sent, in one place -- so the sent-flag is only ever
+  // written when an event actually went out.
+  const send = () => {
+    if (readStore(SENT_KEY) === leadId) return false;   // a retry already won
+    window.gtag("event", "conversion", {
+      send_to: `${CONVERSION_ID}/${CONVERSION_LABEL}`,
+      transaction_id: leadId,
+    });
+    writeStore(SENT_KEY, leadId);
+    return true;
+  };
 
-  writeStore(SENT_KEY, leadId);
-  return { fired: true, transaction_id: leadId };
+  if (typeof window.gtag === "function") {
+    send();
+    return { fired: true, transaction_id: leadId };
+  }
+
+  // gtag is not there yet. It used to give up here, and that lost every real
+  // conversion: main.jsx now loads the tag before React mounts, so this should
+  // not happen -- but "should not" is not a guarantee. A slow network, a
+  // cold cache or an extension that defers third-party scripts all land here,
+  // and a conversion that is dropped is gone rather than late.
+  //
+  // So: poll briefly and fire the moment it appears. RETRY_MS x RETRY_TRIES is
+  // about three seconds, comfortably longer than a slow tag and comfortably
+  // shorter than a visitor reading the page and leaving.
+  let tries = RETRY_TRIES;
+  const timer = setInterval(() => {
+    if (typeof window.gtag === "function") {
+      clearInterval(timer);
+      send();
+      return;
+    }
+    if (--tries <= 0) clearInterval(timer);   // give up quietly; nothing is sent
+  }, RETRY_MS);
+
+  return { fired: false, reason: "gtag-missing", retrying: true };
 }
