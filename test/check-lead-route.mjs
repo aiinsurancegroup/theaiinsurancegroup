@@ -166,9 +166,17 @@ for (const [label, needle] of [
   ['email keyboard', 'inputMode="email"'],
   ['autocomplete on names', 'autoComplete="given-name"'],
   ['autocomplete on postcode', 'autoComplete="postal-code"'],
-  ['camera-friendly accept', 'image/*'],
-  ['a photo is offered explicitly', 'A clear photo of your declarations page works'],
 ]) expect(`  ${label}`, form.includes(needle), true);
+
+// PDF ONLY, until photo upload actually works end to end. The picker used to
+// accept image/* and the copy suggested a photo, but api/analyze.js in the
+// audit tool sends every stored file to the model as media_type
+// application/pdf -- so an image uploaded cleanly and then failed at analysis,
+// on our side, days later, invisibly to the client. Widen these together with
+// the helper line when photos are supported, not before.
+expect('the picker accepts PDF only', form.includes('const ACCEPT = ".pdf,application/pdf"'), true);
+expect('  no image types are advertised', /image\/\*|\.jpe?g|\.png|\.webp/.test(form), false);
+expect('  and the reason is written down', form.includes('media_type'), true);
 
 console.log('\n--- an upload failure never looks like a lost enquiry');
 expect('the PUT is wrapped', /try \{[\s\S]{0,700}signed_url[\s\S]{0,700}\} catch/.test(form), true);
@@ -233,13 +241,17 @@ expect('tells them a link was emailed', form.includes("We've emailed you a secur
 expect('  only when nothing was uploaded', form.includes('const emailedLink = !done.uploaded'), true);
 expect('an upload still ends the flow', form.includes("There's nothing else you need to do"), true);
 
-console.log('\n--- the upload prompt names real places a policy lives');
-expect('phone, email or paper', form.includes('Have it on your phone, in your email, or on paper?'), true);
+console.log('\n--- the upload prompt asks for what the pipeline can read');
+// Approved wording, 2026-09-25. It names PDF because PDF is the only format
+// that survives analysis; the previous line offered a photo, which did not.
+expect('the helper line is the approved wording',
+  form.includes('Upload a PDF of your declarations page. No PDF handy? Answer a few questions instead.'), true);
 expect('  upload is the primary control, in gold with navy text',
   /Upload my policy \(PDF\)/.test(form) && /background: GOLD, color: NAVY/.test(form), true);
 expect('  and the questions path is the outlined secondary',
   /No policy handy\? Answer a few questions/.test(form), true);
-expect('  a photo is the suggested route', form.includes('A clear photo of your declarations page works'), true);
+expect('  photos are not mentioned anywhere on the form',
+  /\bphoto\b/i.test(form.replace(/\/\*[\s\S]*?\*\//g, '').split(/\r?\n/).filter((l) => !/^\s*\/\//.test(l)).join('\n')), false);
 
 
 // --- Path B: the short questionnaire ---------------------------------------

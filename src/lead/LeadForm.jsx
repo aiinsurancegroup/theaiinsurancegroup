@@ -44,7 +44,12 @@ const DOCS_TEXT =
   "I authorize The AI Insurance Group to review the insurance documents I upload, for the purpose of identifying coverage gaps, exclusions and other features of my insurance program. I understand my documents are stored securely, are never sold, and are shared only with the service providers used to carry out this review.";
 
 const MAX_FILE_BYTES = 25 * 1024 * 1024;
-const ACCEPT = ".pdf,.png,.jpg,.jpeg,.webp,application/pdf,image/*";
+// PDF only, matching what the pipeline can actually read: api/analyze.js in
+// the audit tool sends every stored file to the model as media_type
+// application/pdf. An image accepted here uploads without complaint and then
+// fails at analysis -- on our side, days later, invisibly to the client. When
+// photo upload is built, widen this and the helper line together.
+const ACCEPT = ".pdf,application/pdf";
 
 const field = {
   width: "100%", padding: "13px 14px", fontSize: 16, // 16px: anything smaller
@@ -320,12 +325,16 @@ export default function LeadForm({ defaultProduct = "home", compact = false, onS
               </button>
             )}
 
-            {/* Consumer language, deliberately. "Upload your declarations page"
-                asks someone to know a term they have no reason to know. */}
+            {/* This used to avoid the term "declarations page" and offered a
+                photo as an alternative. Both changed on Sal's instruction:
+                photos are not supported end to end -- api/analyze.js sends every
+                stored file to the model as media_type application/pdf, so a photo
+                uploads happily and then cannot be analysed. The copy says PDF
+                because only PDF works. */}
             <p style={{ color: GRAY, fontSize: 12.5, lineHeight: 1.5, margin: "8px 0 0" }}>
               {skipUpload
                 ? "No problem — fill these in and we'll email you a secure link to send it later."
-                : "Have it on your phone, in your email, or on paper? A clear photo of your declarations page works."}
+                : "Upload a PDF of your declarations page. No PDF handy? Answer a few questions instead."}
             </p>
           </>
         )}
