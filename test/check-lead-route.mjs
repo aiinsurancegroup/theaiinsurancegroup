@@ -447,15 +447,22 @@ const makeWindow = () => {
     },
   };
 };
+// Stubs `document` as well as `window`: loadGtag() reaches for the bare global
+// `document`, the way browser code does, so a window-only stub threw.
 const withWindow = (win, fn) => {
-  const had = 'window' in globalThis;
-  const prev = globalThis.window;
+  const hadW = 'window' in globalThis, prevW = globalThis.window;
+  const hadD = 'document' in globalThis, prevD = globalThis.document;
   globalThis.window = win;
-  try { return fn(); } finally { had ? (globalThis.window = prev) : delete globalThis.window; }
+  if (win.document) globalThis.document = win.document;
+  try {
+    return fn();
+  } finally {
+    hadW ? (globalThis.window = prevW) : delete globalThis.window;
+    hadD ? (globalThis.document = prevD) : delete globalThis.document;
+  }
 };
 
 const configured = ads.isConfigured();
-console.log(`    (conversion id ${configured ? 'is set' : 'is still a placeholder'})`);
 
 // Behavioural and deliberately unconditional: the module is rebuilt with ids
 // that are KNOWN BAD and must report itself unconfigured.
@@ -466,19 +473,23 @@ console.log(`    (conversion id ${configured ? 'is set' : 'is still a placeholde
 // the same "green against the file, not the behaviour" failure CLAUDE.md warns
 // about, found by mutation-checking rather than by reading.
 {
-  const badCases = [
-    ['placeholder underscores', '"AW-__________"', '"__________"'],
-    ['label still unset', '"AW-123456789"', '"__________"'],
-    ['id not an AW- id', '"G-ABC123"', '"TeStLaBeL123"'],
+  // [name, id, label, mayLoadTag] -- the tag loader needs only a valid id, so a
+  // missing label must NOT stop attribution while it still stops the event.
+  const cases = [
+    ['both placeholders', '"AW-__________"', '"__________"', false],
+    ['label still unset', '"AW-18472526290"', '"__________"', true],
+    ['id not an AW- id', '"G-ABC123"', '"TeStLaBeL123"', false],
+    ['label empty string', '"AW-18472526290"', '""', true],
   ];
-  for (const [label, id, lbl] of badCases) {
+  for (const [label, id, lbl, mayLoad] of cases) {
     const tmp = 'src/.ads.bad.mjs';
     fs.writeFileSync(tmp, adsSource
-      .replace('"AW-__________"', id)
-      .replace('"__________"', lbl));
+      .replace(/CONVERSION_ID = "[^"]*"/, `CONVERSION_ID = ${id}`)
+      .replace(/CONVERSION_LABEL = "[^"]*"/, `CONVERSION_LABEL = ${lbl}`));
     try {
       const bad = await import(`../src/.ads.bad.mjs?c=${label.replace(/\W/g, '')}`);
-      expect(`unconfigured: ${label}`, bad.isConfigured(), false);
+      expect(`no conversion: ${label}`, bad.canFireConversion(), false);
+      expect(`  tag loader ${mayLoad ? 'still runs' : 'also blocked'}: ${label}`, bad.canLoadTag(), mayLoad);
       const w = makeWindow();
       w.win.sessionStorage.setItem('aiig.conversion.lead', 'lead-x');
       const r = withWindow(w.win, () => bad.fireConversion());
@@ -489,6 +500,51 @@ console.log(`    (conversion id ${configured ? 'is set' : 'is still a placeholde
     }
   }
 }
+
+// loadGtag()'s BEHAVIOUR, not just the predicate it consults. Pointing the
+// loader back at canFireConversion() would silently stop the tag loading while
+// the label is missing -- the regression this split exists to prevent -- and
+// nothing noticed until a mutation check asked.
+{
+  const tmp = 'src/.ads.loader.mjs';
+  fs.writeFileSync(tmp, adsSource
+    .replace(/CONVERSION_ID = "[^"]*"/, 'CONVERSION_ID = "AW-18472526290"')
+    .replace(/CONVERSION_LABEL = "[^"]*"/, 'CONVERSION_LABEL = "__________"'));
+  try {
+    const m = await import('../src/.ads.loader.mjs');
+    const injected = [];
+    const w = makeWindow();
+    w.win.document = {
+      head: { appendChild: (el) => injected.push(el) },
+      createElement: () => ({ set src(v) { this._src = v; }, get src() { return this._src; } }),
+    };
+    const loaded = withWindow(w.win, () => m.loadGtag());
+    expect('a valid id loads the tag even with no label', loaded, true);
+    expect('  a script element was injected', injected.length, 1);
+    expect('  pointing at the real conversion id',
+      /googletagmanager\.com\/gtag\/js\?id=AW-18472526290/.test(injected[0]?.src || ''), true);
+    // loadGtag installs its own window.gtag, which pushes into dataLayer -- so
+    // the config call lands there, not in the stub's array.
+    const layer = [...(w.win.dataLayer || [])].map((a) => Array.from(a));
+    expect('  gtag config was called with the id',
+      layer.some((e) => e[0] === 'config' && e[1] === 'AW-18472526290'), true);
+    expect('  and gtag js was initialised', layer.some((e) => e[0] === 'js'), true);
+    // ...but the conversion still must not fire.
+    w.win.sessionStorage.setItem('aiig.conversion.lead', 'lead-y');
+    const before = w.sent.length;
+    const r = withWindow(w.win, () => m.fireConversion());
+    expect('  while the conversion stays blocked', r.reason, 'not-configured');
+    expect('  and sent no event', w.sent.length, before);
+  } finally {
+    fs.unlinkSync(tmp);
+  }
+}
+
+// The live config, whatever state it is in today. These describe reality rather
+// than asserting a fixed value, so they stay meaningful once the label lands.
+expect('the live conversion id is a real AW- id', ads.canLoadTag(), true);
+expect('  so gtag loads and clicks are attributed', /AW-\d{6,}/.test(adsSource), true);
+console.log(`    (conversions ${ads.canFireConversion() ? 'ARE firing' : 'are NOT firing yet — label still a placeholder'})`);
 
 // True whether or not the ids are filled in: a placeholder must never fire.
 {
@@ -505,9 +561,12 @@ console.log(`    (conversion id ${configured ? 'is set' : 'is still a placeholde
 // The core rule, exercised through a fake configured module so it is checked
 // now rather than only after the ids are pasted in.
 {
+  // Both are forced to known test values regardless of what the live config
+  // currently holds, so this block keeps testing the same thing as the real
+  // ids get filled in one at a time.
   const src = fs.readFileSync('src/ads.js', 'utf8')
-    .replace('"AW-__________"', '"AW-123456789"')
-    .replace('"__________"', '"TeStLaBeL123"');
+    .replace(/CONVERSION_ID = "[^"]*"/, 'CONVERSION_ID = "AW-123456789"')
+    .replace(/CONVERSION_LABEL = "[^"]*"/, 'CONVERSION_LABEL = "TeStLaBeL123"');
   const tmp = 'src/.ads.undertest.mjs';
   fs.writeFileSync(tmp, src);
   // Wrapped: conversion code that throws in a browser takes the thanks page

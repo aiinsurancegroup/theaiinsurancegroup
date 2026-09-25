@@ -8,20 +8,34 @@
 // conversion action, then "Tag setup" > "Install the tag yourself". The snippet
 // shown there contains send_to: 'AW-123456789/AbC-D_efGhIjKlMnOp' -- the part
 // before the slash is CONVERSION_ID, the part after is CONVERSION_LABEL.
-export const CONVERSION_ID = "AW-__________";
+export const CONVERSION_ID = "AW-18472526290";
 export const CONVERSION_LABEL = "__________";
 // ===========================================================================
 
-// Until those are filled in, everything below is a no-op: no script is
-// injected, no request is made, nothing is sent. A placeholder id in a live
-// gtag call would fire requests against a conversion action that does not
-// exist, which produces no data and looks like a working tag -- worse than
-// nothing, because it cannot be told apart from a real tag reporting zero.
+// TWO GUARDS, NOT ONE, because the two identifiers are needed at different
+// moments and only one of them is optional in the meantime:
+//
+//   the tag loader   needs the id alone. It is what reads the gclid off an ad
+//                    click and sets Google's cookie, and it has to run on the
+//                    landing page. A click that lands before the tag exists can
+//                    never be attributed afterwards -- that data is gone, not
+//                    delayed -- so this must not wait on the label.
+//
+//   the conversion   needs both, because send_to is `id/label`. Sending it with
+//                    a placeholder label would post conversions against an
+//                    action that does not exist: no data, and a tag that looks
+//                    live while reporting nothing, which is worse than silence
+//                    because it cannot be told apart from a real zero.
 const PLACEHOLDER = /_{3,}/;
-export const isConfigured = () =>
-  !PLACEHOLDER.test(CONVERSION_ID) &&
-  !PLACEHOLDER.test(CONVERSION_LABEL) &&
-  /^AW-\d+$/.test(CONVERSION_ID);
+
+export const canLoadTag = () =>
+  !PLACEHOLDER.test(CONVERSION_ID) && /^AW-\d+$/.test(CONVERSION_ID);
+
+export const canFireConversion = () =>
+  canLoadTag() && !PLACEHOLDER.test(CONVERSION_LABEL) && CONVERSION_LABEL.length > 0;
+
+// Kept as the name the rest of the app asks about when it means "fully set up".
+export const isConfigured = () => canFireConversion();
 
 // Where the lead id travels between the form and the thanks page.
 //
@@ -57,7 +71,7 @@ export function recallLead() {
 // cookie. A tag that only ran on the conversion page would record conversions
 // it could not attribute to a campaign.
 export function loadGtag() {
-  if (typeof window === "undefined" || !isConfigured()) return false;
+  if (typeof window === "undefined" || !canLoadTag()) return false;
   if (window.__aiigGtagLoaded) return true;
   window.__aiigGtagLoaded = true;
 
@@ -91,7 +105,7 @@ export function loadGtag() {
 //                   transaction_id would be an undedupable conversion, which is
 //                   exactly how a conversion count inflates.
 export function fireConversion() {
-  if (typeof window === "undefined" || !isConfigured()) return { fired: false, reason: "not-configured" };
+  if (typeof window === "undefined" || !canFireConversion()) return { fired: false, reason: "not-configured" };
 
   const leadId = recallLead();
   if (!leadId) return { fired: false, reason: "no-lead-id" };
